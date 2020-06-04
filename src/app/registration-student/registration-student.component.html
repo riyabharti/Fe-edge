@@ -1,0 +1,140 @@
+<div class="container" >
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <h2 class="text-warning text-center fontS">Registration</h2>
+            <h4 class="text-success text-center fontS">Open Till {{deadline}}</h4>
+            <br>
+            <form #registerForm="ngForm" (submit)="register($event.target)" novalidate>
+                <br>
+                <h3 class="text-info fontS">Personal Details:</h3>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p>
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Full Name:</mat-label>
+                                <input matInput type="text" placeholder="Your Full Name" name="name" [(ngModel)]="user.name" required />
+                            </mat-form-field>
+                        </p>
+                    </div>
+                    <div class="col-sm-6">
+                        <div>
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Your Email ID:</mat-label>
+                                <input
+                                 matInput type="email" 
+                                 placeholder="Email ID"
+                                 name="email" 
+                                 #contactemail="ngModel"
+                                 [(ngModel)]="user.email"
+                                 required 
+                                 pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                                />
+                                <mat-hint class="text-danger" *ngIf="errors.email"> This Email is taken </mat-hint>
+                                <mat-hint class="text-danger" *ngIf="contactemail.errors && contactemail.errors.pattern"> Invalid email </mat-hint>
+                            </mat-form-field>
+                        </div>
+                        <p>
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Your Contact Number:</mat-label>
+                                <input matInput type="tel" placeholder="Contact Number" name="contact" [(ngModel)]="user.contact" required />
+                            </mat-form-field>
+                        </p>
+                    </div>
+                </div>
+                <br>
+                <h3 class="text-info fontS">Institute Details</h3>
+                <hr>
+                <div class="row">
+                        <div class="col-sm-6">
+                            <p>
+                                <mat-form-field appearance="outline" style="width: 100%;">
+                                    <mat-label>Choose Your Year:</mat-label>
+                                    <mat-select [(ngModel)]="user.year" name="year" [required]>
+                                        <mat-option value=""> Your Year </mat-option>
+                                        <mat-option value="1st"> 1st </mat-option>
+                                        <mat-option value="2nd"> 2nd </mat-option>
+                                        <mat-option value="3rd"> 3rd </mat-option>
+                                        <mat-option value="4th"> 4th </mat-option>
+                                        <mat-option value="Other"> Other </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </p>
+                            <p>
+                                <mat-form-field appearance="outline" style="width: 100%;">
+                                    <mat-label>Your Stream:</mat-label>
+                                    <input matInput type="text" placeholder="Your Stream" name="stream" [(ngModel)]="user.stream" [required]/>
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p>
+                                <mat-form-field appearance="outline" style="width: 100%;">
+                                    <mat-label>Your College Name:</mat-label>
+                                    <input matInput type="text" placeholder="College Name" name="college" [(ngModel)]="user.instituteName" [required] />
+                                </mat-form-field>
+                            </p>
+                        </div>
+                    </div>
+                <br>
+                <h3 class="text-info fontS">Photo and Identity Card:</h3>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p>Upload Your Recent Photo:</p>
+                        <label class="btn btn-outline-success" for="fileInput" style="width: 100%">{{ photo ? "Choose Other File" : "Choose File" }}
+                            <input type="file" hidden id="fileInput" accept=".jpg"
+                                (change)="fileRead($event.target.files,true)" required>
+                        </label>
+                        <p>{{ photo ? 'File Chosen: ' + photo.name : "No File Chosen" }}</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p>Upload College ID Card:</p>
+                        <label class="btn btn-outline-success" for="fileInput2" style="width: 100%">{{ idcard ? "Choose Other File" : "Choose File" }}
+                            <input type="file" hidden id="fileInput2" accept=".jpg"
+                                (change)="fileRead($event.target.files,false)" required>
+                        </label>
+                        <p>{{ idcard ? 'File Chosen: ' + idcard.name : "No File Chosen" }}</p>
+                    </div>
+                </div>
+                <br>
+                <h3 class="text-info fontS">Account Creation:</h3>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p>
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Type in Your New Account Password:</mat-label>
+                                <input matInput type="password" placeholder="Password" name="password" (input)="compare()" [(ngModel)]="user.password" required />
+                            </mat-form-field>
+                        </p>
+                        <p>
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Re-type New Account Password:</mat-label>
+                                <input matInput type="password" placeholder="Password Once Again" name="password2" (input)="compare()" [(ngModel)]="temp2" required />
+                                <mat-hint *ngIf="errors.password"> Passwords do not match </mat-hint>
+                            </mat-form-field>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <button mat-raised-button color="primary" type="submit"
+                            [disabled]="registerForm.form.invalid || errors.password || errors.email ">Register</button>
+                    </div>
+                    <div class="col-8">
+                        <p class="fontS text-center">Already Registered! <button mat-raised-button color="accent" routerLink="/home">Login</button></p>
+                    </div>
+                </div>
+                <br>
+            </form>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+</div>
+
+
+<div class="loader-holder" *ngIf="!loading">
+    <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+</div>
