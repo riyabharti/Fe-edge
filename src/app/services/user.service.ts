@@ -24,7 +24,6 @@ export class UserService {
   }
 
   login(user: {username, password}) {
-    console.log('Login backend to be made' + user.username + user.password);
     return this.http.post<any>(this.url + '/login', user);
   }
 

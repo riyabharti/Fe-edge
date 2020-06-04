@@ -12,9 +12,18 @@
         <form #loginForm="ngForm" (submit)="login($event.target)" novalidate>
             <p>
                 <mat-form-field appearance="outline" style="width: 100%;">
-                    <mat-label>Username:</mat-label>
-                    <input matInput type="text" placeholder="Registered Username" name="username" [(ngModel)]="username"
-                        required />
+                    <mat-label>Email:</mat-label>
+                    <input
+                     matInput 
+                     type="text" 
+                     placeholder="Registered Email" 
+                     name="username"
+                     #contactemail="ngModel"
+                     [(ngModel)]="username"
+                     pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                     required 
+                    />
+                    <mat-hint class="text-danger" *ngIf="contactemail.errors && contactemail.errors.pattern"> Invalid email </mat-hint>
                 </mat-form-field>
             </p>
             <p>

@@ -3,6 +3,7 @@ import { UserService } from '../services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+import { CommonService } from '../services/common.service';
 
 @Component({
   selector: 'app-home',
@@ -11,10 +12,17 @@ import { Title } from '@angular/platform-browser';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private userS: UserService, private sB: MatSnackBar, private router: Router, private tS: Title)
+  constructor(
+    private userS: UserService,
+    private sB: MatSnackBar,
+    private router: Router,
+    private tS: Title,
+    private commonS: CommonService
+  )
   {
-    tS.setTitle('E-Edge');
+    tS.setTitle('E-Edge | Home');
   }
+
 
   username: string;
   password: string;
@@ -31,7 +39,9 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     if (localStorage.getItem('token')) {
-      this.router.navigateByUrl('events');
+      this.commonS.doLogout();
+      this.loading = false;
+      // this.router.navigateByUrl('events');
     }
     else{
       this.loading = false;
