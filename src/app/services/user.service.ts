@@ -27,4 +27,8 @@ export class UserService {
     return this.http.post<any>(this.url + '/login', user);
   }
 
+  fetchEmails() {
+    return this.http.get<any>(this.url + '/fetchEmails');
+  }
+
 }

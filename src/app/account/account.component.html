@@ -1,0 +1,43 @@
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <br>
+            <h4 class="text-center text-warning fontS">Registration Info</h4>
+            <br>
+            <div class="row fontS">
+                <div class="col-sm-4 text-info"><h5>Name:</h5></div>
+                <div class="col-sm-8"><h5> {{userData.name}} </h5></div>
+            </div>
+            <br>
+            <div class="row fontS">
+                <div class="col-sm-4 text-info"><h5>Email ID:</h5></div>
+                <div class="col-sm-8"><h5> {{userData.email}} </h5></div>
+            </div>
+            <br>
+            <div class="row fontS">
+                <div class="col-sm-4 text-info"><h5>Stream:</h5></div>
+                <div class="col-sm-8"><h5> {{userData.stream}} </h5></div>
+            </div>
+            <br>
+            <div class="row fontS">
+                <div class="col-sm-4 text-info"><h5>'Year':</h5></div>
+                <div class="col-sm-8"><h5> {{userData.year}} </h5></div>
+            </div>
+            <br>
+            <div class="row fontS">
+                <div class="col-sm-4 text-info"><h5>Contact Number:</h5></div>
+                <div class="col-sm-8"><h5> {{userData.contact}} </h5></div>
+            </div>
+            <br>
+            <div class="row fontS">
+                <div class="col-sm-4 text-info"><h5>College Name:</h5></div>
+                <div class="col-sm-8"><h5> {{userData.instituteName}} </h5></div>
+            </div>
+            <br>
+        </div>
+    </div>
+</div>
+<div class="loader-holder" *ngIf="loading">
+  <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+</div>

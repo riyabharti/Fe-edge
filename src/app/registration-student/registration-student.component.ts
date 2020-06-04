@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { UserService } from '../services/user.service';
+import { CommonService } from '../services/common.service';
 
 @Component({
   selector: 'app-registration-student',
@@ -20,7 +21,6 @@ export class RegistrationStudentComponent implements OnInit {
     password: false
   };
   checkEmail = [];
-  checkUsername = [];
   temp = '';
   temp2 = '';
   deadline = '';
@@ -28,12 +28,46 @@ export class RegistrationStudentComponent implements OnInit {
   idcard: File = undefined;
   registration = false;
 
-  constructor(private router: Router, private sB: MatSnackBar, private tS: Title, private userS: UserService)
+  constructor(
+    private router: Router,
+    private sB: MatSnackBar,
+    private tS: Title,
+    private userS: UserService,
+    private commonS: CommonService
+  )
   {
     tS.setTitle('E-Edge2020 | Register');
   }
 
   ngOnInit(): void {
+    if (this.commonS.isLoggedIn()) {
+      this.loading = false;
+      this.router.navigateByUrl('account');
+    }
+    else{
+      this.userS.fetchEmails().subscribe(
+        result => {
+          this.loading = false;
+          console.log(result);
+          if (result.status) {
+            // tslint:disable-next-line: prefer-for-of
+            for (let i = 0; i < result.user.length; i++)
+            {
+              this.checkEmail.push(result.user[i].email);
+            }
+          }
+          else {
+            this.sB.open(result.message);
+          }
+        },
+        problem => {
+          this.loading = false;
+          console.log(problem.error);
+          this.sB.open(problem.error instanceof ProgressEvent ? 'Failed Connecting the Server. Check your Internet Connection or Try again later' : problem.error.message+' | Try reloading the page.');
+          this.router.navigateByUrl('/home');
+        }
+      );
+    }
   }
 
   register(e: any) {
@@ -75,6 +109,10 @@ export class RegistrationStudentComponent implements OnInit {
     else {
       this.errors.password = false;
     }
+  }
+
+  isEmailRedundant() {
+    this.errors.email = this.checkEmail.indexOf(this.user.email) !== -1;
   }
 
 }

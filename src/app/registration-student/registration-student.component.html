@@ -30,6 +30,7 @@
                                  [(ngModel)]="user.email"
                                  required 
                                  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                                 (input) = "isEmailRedundant()"
                                 />
                                 <mat-hint class="text-danger" *ngIf="errors.email"> This Email is taken </mat-hint>
                                 <mat-hint class="text-danger" *ngIf="contactemail.errors && contactemail.errors.pattern"> Invalid email </mat-hint>
@@ -135,6 +136,6 @@
 </div>
 
 
-<div class="loader-holder" *ngIf="!loading">
+<div class="loader-holder" *ngIf="loading">
     <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
 </div>

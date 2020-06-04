@@ -38,10 +38,9 @@ export class HomeComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    if (localStorage.getItem('token')) {
-      this.commonS.doLogout();
+    if (this.commonS.isLoggedIn()) {
       this.loading = false;
-      // this.router.navigateByUrl('events');
+      this.router.navigateByUrl('account');
     }
     else{
       this.loading = false;
@@ -63,7 +62,7 @@ export class HomeComponent implements OnInit {
           delete result.user.admin;
           delete result.user.password;
           localStorage.setItem('user', JSON.stringify(result.user));
-          this.router.navigateByUrl('mysubmission');
+          // this.router.navigateByUrl('mysubmission');
         }
         else {
           this.sB.open(result.message);
