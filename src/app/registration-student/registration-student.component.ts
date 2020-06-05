@@ -20,6 +20,7 @@ export class RegistrationStudentComponent implements OnInit {
     email: false,
     password: false
   };
+  // stores previous registered emails
   checkEmail = [];
   temp = '';
   temp2 = '';
@@ -63,7 +64,7 @@ export class RegistrationStudentComponent implements OnInit {
         problem => {
           this.loading = false;
           console.log(problem.error);
-          this.sB.open(problem.error instanceof ProgressEvent ? 'Failed Connecting the Server. Check your Internet Connection or Try again later' : problem.error.message+' | Try reloading the page.');
+          this.sB.open(problem.error instanceof ProgressEvent ? 'Failed Connecting the Server. Check your Internet Connection or Try again later' : problem.error.message + ' | Try reloading the page.');
           this.router.navigateByUrl('/home');
         }
       );
@@ -103,7 +104,7 @@ export class RegistrationStudentComponent implements OnInit {
   }
 
   compare() {
-    if (this.temp2 != this.user.password && this.temp2 != '') {
+    if (this.temp2 !== this.user.password && this.temp2 !== '') {
       this.errors.password = true;
     }
     else {

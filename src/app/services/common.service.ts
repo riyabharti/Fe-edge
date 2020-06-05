@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
+import {environment} from 'src/environments/environment';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommonService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
+
+  eventUrl = environment.apiURL + '/events';
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
@@ -20,6 +24,10 @@ export class CommonService {
     localStorage.removeItem('user');
     localStorage.removeItem('admin');
     return true;
+  }
+
+  fetchEvents() {
+    return this.http.get<any>(this.eventUrl);
   }
 
 }

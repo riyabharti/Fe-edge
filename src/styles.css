@@ -34,7 +34,7 @@ body {
 }
 
 hr {
-    border-color: lightgray;
+    border-color: lightgray !important;
 }
 
 .loader-holder {

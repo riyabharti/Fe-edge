@@ -62,7 +62,7 @@ export class HomeComponent implements OnInit {
           delete result.user.admin;
           delete result.user.password;
           localStorage.setItem('user', JSON.stringify(result.user));
-          // this.router.navigateByUrl('mysubmission');
+          this.router.navigateByUrl('account');
         }
         else {
           this.sB.open(result.message);

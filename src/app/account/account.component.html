@@ -38,6 +38,62 @@
         </div>
     </div>
 </div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <br>
+            <h4 class="text-center text-warning fontS">Event Info</h4>
+            <br>
+            <div class="row" *ngFor="let categoryData of categoryDatas; let i=index">
+                <br><hr>
+                <div class="col-sm-4">
+                    <div class="row fontS">
+                        <div class="col-sm-6 text-info"><h5>Category:</h5></div>
+                        <div class="col-sm-6"><h5> {{categoryData.category}} </h5></div>
+                    </div>
+                    <br>
+                    <div class="row fontS">
+                        <div class="col-sm-6 text-info"><h5>Description:</h5></div>
+                        <div class="col-sm-6"><h5> {{categoryData.description}} </h5></div>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+
+                        <div class="text-info"><h5>Events in this category:</h5></div>
+                        <div class="row fontS">
+                            <div class="col-sm-2 text-info"><h5>S.No</h5></div>
+                            <div class="col-sm-4 text-info"><h5> Name </h5></div>
+                            <div class="col-sm-4 text-info"><h5> Description </h5></div>
+                            <div class="col-sm-1 text-info"><h5> Fees </h5></div>
+                            <div class="col-sm-1"></div>
+                        </div>
+                        <div class="row" *ngFor="let event of categoryData.events; let i=index">
+                            <br>
+                                <div class="col-sm-2"><h5>{{i+1}}:</h5></div>
+                                <div class="col-sm-4"><h5> {{event.name}} </h5></div>
+                                <div class="col-sm-4"><h5> {{event.description}} </h5></div>
+                                <div class="col-sm-1"><h5> {{event.fees}} </h5></div>
+                                <div class="col-sm-1">
+                                    <mat-checkbox color="warn" (click)="eventRegistration(categoryData._id,event)">Register</mat-checkbox>
+                                </div>
+                        </div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<hr>
+<br>
+<div class="container">
+    <div class="row">
+        <br>
+            <div class="col-sm-4 text-info"><h5>Total Amount:</h5></div>
+            <div class="col-sm-4"><h5> {{total}} </h5></div>
+            <button mat-raised-button color="secondary" (click)="eventPayment()">Register for events</button>
+    </div>
+</div>
 <div class="loader-holder" *ngIf="loading">
   <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
 </div>
