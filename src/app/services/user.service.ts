@@ -31,4 +31,8 @@ export class UserService {
     return this.http.get<any>(this.url + '/fetchEmails');
   }
 
+  eventRegister(event: {total: number, registerEvents: object} ) {
+    return this.http.post<any>(this.url + '/eventRegister', event);
+  }
+
 }

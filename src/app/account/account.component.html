@@ -64,7 +64,7 @@
                             <div class="col-sm-2 text-info"><h5>S.No</h5></div>
                             <div class="col-sm-4 text-info"><h5> Name </h5></div>
                             <div class="col-sm-4 text-info"><h5> Description </h5></div>
-                            <div class="col-sm-1 text-info"><h5> Fees </h5></div>
+                            <div class="col-sm-1 text-info" *ngIf="!eventRegistered"><h5> Fees </h5></div>
                             <div class="col-sm-1"></div>
                         </div>
                         <div class="row" *ngFor="let event of categoryData.events; let i=index">
@@ -72,8 +72,8 @@
                                 <div class="col-sm-2"><h5>{{i+1}}:</h5></div>
                                 <div class="col-sm-4"><h5> {{event.name}} </h5></div>
                                 <div class="col-sm-4"><h5> {{event.description}} </h5></div>
-                                <div class="col-sm-1"><h5> {{event.fees}} </h5></div>
-                                <div class="col-sm-1">
+                                <div class="col-sm-1" *ngIf="!eventRegistered"><h5> {{event.fees}} </h5></div>
+                                <div class="col-sm-1" *ngIf="!eventRegistered">
                                     <mat-checkbox color="warn" (click)="eventRegistration(categoryData._id,event)">Register</mat-checkbox>
                                 </div>
                         </div>
@@ -87,12 +87,13 @@
 <hr>
 <br>
 <div class="container">
-    <div class="row">
+    <div class="row" *ngIf="!eventRegistered">
         <br>
-            <div class="col-sm-4 text-info"><h5>Total Amount:</h5></div>
-            <div class="col-sm-4"><h5> {{total}} </h5></div>
-            <button mat-raised-button color="secondary" (click)="eventPayment()">Register for events</button>
+        <div class="col-sm-4 text-info"><h5>Total Amount:</h5></div>
+        <div class="col-sm-4"><h5> {{total}} </h5></div>
+        <button mat-raised-button color="secondary" (click)="eventPayment()">Register for events</button>
     </div>
+    <div class="col-sm-4 text-info"><h5>You are already registered!</h5></div>
 </div>
 <div class="loader-holder" *ngIf="loading">
   <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
