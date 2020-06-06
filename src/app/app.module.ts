@@ -25,6 +25,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { HomeComponent } from './home/home.component';
 import { AccountComponent } from './account/account.component';
@@ -61,7 +62,8 @@ import { TokenizeService } from './services/tokenize.service';
     MatSnackBarModule,
     MatRadioModule,
     MatCardModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatChipsModule
   ],
   providers: [
     UserService, CommonService, {provide: HTTP_INTERCEPTORS, useClass: TokenizeService, multi: true},

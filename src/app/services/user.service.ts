@@ -31,8 +31,14 @@ export class UserService {
     return this.http.get<any>(this.url + '/fetchEmails');
   }
 
-  eventRegister(event: {total: number, registerEvents: object} ) {
-    return this.http.post<any>(this.url + '/eventRegister', event);
+  eventRegister(event: {total: number, registerEvents: object} , paymentReceipt: File) {
+    const formData = new FormData();
+    formData.append('files[]', paymentReceipt, paymentReceipt.name);
+    const keys = Object.keys(event);
+    keys.forEach(key => {
+      formData.append(key, event[key]);
+    });
+    return this.http.post<any>(this.url + '/eventRegister', formData);
   }
 
 }

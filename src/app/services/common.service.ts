@@ -35,4 +35,8 @@ export class CommonService {
     return this.http.get<any>(this.commonUrl + '/getSettings');
   }
 
+  getCoupon() {
+    return this.http.get<any>(this.eventUrl + '/getCoupon');
+  }
+
 }
