@@ -127,7 +127,7 @@
             <button mat-raised-button color="warn" (click)="remove()" *ngIf="temp != 0">Remove Coupon</button>
         </div>
         <div class="col-sm-3">
-            <button mat-raised-button color="primary" (click)="eventPayment()" [disabled]="total == 0">Register for events</button>
+            <button mat-raised-button color="primary" (click)="eventPayment()" [disabled]="totalC + totalO == 0">Register for events</button>
         </div>
     </div>
 <!-- </div> -->
