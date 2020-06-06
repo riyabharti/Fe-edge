@@ -49,7 +49,7 @@ export class HomeComponent implements OnInit {
 
   login(e: any) {
     this.loading = true;
-    this.userS.login({ username: this.username, password: this.password }).subscribe(
+    this.userS.login({ email: this.username, password: this.password }).subscribe(
       result => {
         this.loading = false;
         if (result.status) {

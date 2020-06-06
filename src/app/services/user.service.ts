@@ -23,7 +23,7 @@ export class UserService {
     return this.http.post<any>(this.url + '/register', data);
   }
 
-  login(user: {username, password}) {
+  login(user: {email, password}) {
     return this.http.post<any>(this.url + '/login', user);
   }
 

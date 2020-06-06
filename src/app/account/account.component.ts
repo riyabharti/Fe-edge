@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { User } from '../User';
 import { CommonService } from '../services/common.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -17,10 +17,17 @@ export class AccountComponent implements OnInit {
     '_id': '',
     'category': '',
     'description': '',
-    'events': []
+    'events': [{
+      '_id': '',
+      'name': '',
+      'description': '',
+      'couponApplicable': boolean
+    }]
   }];
 
-  total = 0;
+  temp = 0;
+  totalC = 0;
+  totalO = 0;
   eventRegistered = false;
 
   constructor(
@@ -32,19 +39,25 @@ export class AccountComponent implements OnInit {
   loading = true;
   newPassword: string;
   confirmNewPassword: string;
+  cCode = "";
+  coupon = {
+    "code": "XYZ20",
+    "discount": 20
+  }
 
   ngOnInit(): void {
     this.userData = JSON.parse(localStorage.getItem('user'));
     this.isEventRegister();
     this.commonS.fetchEvents().subscribe(
       result => {
-        this.loading = false;
         if (result.status)
         {
           this.categoryDatas = result.data;
+          this.loading = false;
         }
         else
         {
+          this.loading = false;
           this.sB.open(result.message);
         }
       },
@@ -60,39 +73,65 @@ export class AccountComponent implements OnInit {
     return this.commonS.isLoggedIn();
   }
 
+  apply() {
+    if(this.coupon.code == this.cCode) {
+      if(this.totalC > this.coupon.discount) {
+        this.totalC -= this.coupon.discount;
+        this.temp = this.coupon.discount;
+      }
+      else {
+        this.temp = this.totalC;
+        this.totalC = 0;
+      }
+    } else
+      alert('The Coupon is Invalid!!!');
+  }
+
+  remove() {
+    this.totalC += this.temp;
+    this.temp = 0;
+    this.cCode = "";
+  }
+
   eventRegistration(categoryId, event) {
     if (this.eventReg.hasOwnProperty(categoryId))
     {
       if (this.eventReg[categoryId].indexOf(event._id) === -1)
       {
         this.eventReg[categoryId] = [...this.eventReg[categoryId], event._id];
-        this.total = this.total + event.fees;
+        if(event.couponApplicable)
+          this.totalC += event.fees;
+        else
+          this.totalO += event.fees;
       }
       else
       {
         this.eventReg[categoryId] = this.eventReg[categoryId].filter(
           (value, index, arr) => value !== event._id
         );
-        this.total = this.total - event.fees;
+        if(event.couponApplicable)
+          this.totalC -= event.fees;
+        else
+          this.totalO -= event.fees;
       }
     }
     else
     {
       this.eventReg[categoryId] = [event._id];
-      this.total += event.fees;
+      if(event.couponApplicable)
+        this.totalC += event.fees;
+      else
+        this.totalO += event.fees;
     }
+    if(this.totalC < 0)
+      this.remove();
   }
 
   eventPayment() {
     console.log(this.eventReg);
-    if (this.total === 0)
-    {
-      this.sB.open('Select an event to register');
-      return;
-    }
     if (confirm('Sure For Payment?')) {
       this.loading = true;
-      this.userS.eventRegister({total: this.total, registerEvents: this.eventReg}).subscribe(
+      this.userS.eventRegister({total: this.totalC + this.totalO, registerEvents: this.eventReg}).subscribe(
         result => {
           if (result.status)
           {
