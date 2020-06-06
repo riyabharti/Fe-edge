@@ -10,6 +10,7 @@ export class CommonService {
   constructor(private http: HttpClient) { }
 
   eventUrl = environment.apiURL + '/events';
+  commonUrl = environment.apiURL + '/common';
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
@@ -28,6 +29,10 @@ export class CommonService {
 
   fetchEvents() {
     return this.http.get<any>(this.eventUrl);
+  }
+
+  getSettings() {
+    return this.http.get<any>(this.commonUrl + '/getSettings');
   }
 
 }

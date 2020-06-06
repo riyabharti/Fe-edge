@@ -27,6 +27,7 @@ export class RegistrationStudentComponent implements OnInit {
   deadline = '';
   photo: File = undefined;
   idcard: File = undefined;
+  paymentReceipt: File = undefined;
   registration = false;
 
   constructor(
@@ -49,7 +50,6 @@ export class RegistrationStudentComponent implements OnInit {
       this.userS.fetchEmails().subscribe(
         result => {
           this.loading = false;
-          console.log(result);
           if (result.status) {
             // tslint:disable-next-line: prefer-for-of
             for (let i = 0; i < result.user.length; i++)
@@ -94,12 +94,46 @@ export class RegistrationStudentComponent implements OnInit {
   }
 
 
-  fileRead(e: FileList, type: boolean) {
-    if (type) {
-      this.photo = e.item(0);
+  fileRead(e: FileList, type: boolean, receipt: boolean) {
+    const temp: File = e.item(0);
+    if (!receipt)
+    {
+      if (temp && temp.type.split('/')[1] !== 'jpg' && temp.type.split('/')[1] !== 'jpeg' && temp.type.split('/')[1] !== 'png') {
+        this.sB.open('Sorry, only .jpg, .jpeg and .png extension is allowed');
+        if (type) {
+          this.photo = null;
+        }
+        else {
+          this.idcard = null;
+        }
+      }
+      else
+      {
+        if (type) {
+          this.photo = temp;
+        }
+        else {
+          this.idcard = temp;
+        }
+      }
     }
-    else {
-      this.idcard = e.item(0);
+    else
+    {
+      if (
+        temp &&
+        temp.type.split('/')[1] !== 'jpg' &&
+        temp.type.split('/')[1] !== 'jpeg' &&
+        temp.type.split('/')[1] !== 'png' &&
+        (temp.type.split('/')[1] !== 'pdf'
+      ))
+      {
+        this.sB.open('Sorry, only image .jpg, .jpeg ,.png and .pdf extension is allowed');
+        this.paymentReceipt = null;
+      }
+      else
+      {
+        this.paymentReceipt = temp;
+      }
     }
   }
 

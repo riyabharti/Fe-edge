@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { CommonService } from '../services/common.service';
+import {environment} from 'src/environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -24,7 +25,7 @@ export class HomeComponent implements OnInit {
   }
 
 
-  username: string;
+  email: string;
   password: string;
   loading = true;
   registration = false;
@@ -43,13 +44,33 @@ export class HomeComponent implements OnInit {
       this.router.navigateByUrl('account');
     }
     else{
-      this.loading = false;
+      this.commonS.getSettings().subscribe(
+        result => {
+          this.loading = false;
+          if (!result.status) {
+            this.sB.open('Strokes details could not be fetched.. Try reloading the page :/');
+            return;
+          }
+          this.settings.title = result.data.title;
+          this.settings.description = result.data.description;
+          this.settings.banner = result.data.banner === 'NA' ? 'Cannot Fetch INFO' : environment.apiURL + '/common/getBanner';
+          this.settings.startTime = new Date(result.data.startTime).toString();
+          this.settings.endTime = new Date(result.data.endTime).toString();
+          this.settings.registration_ends = new Date(result.data.registration_ends).toString();
+          this.registration = new Date(result.data.registration_ends).getTime() >= new Date(result.serverDate).getTime();
+        },
+        problem => {
+          this.loading = false;
+          console.log(problem.error);
+          this.sB.open(problem.error instanceof ProgressEvent ? 'Failed Connecting the Server. Check your Internet Connection or Try again later' : problem.error.message);
+        }
+      );
     }
   }
 
   login(e: any) {
     this.loading = true;
-    this.userS.login({ username: this.username, password: this.password }).subscribe(
+    this.userS.login({ email: this.email, password: this.password }).subscribe(
       result => {
         this.loading = false;
         if (result.status) {

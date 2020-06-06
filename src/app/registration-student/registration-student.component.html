@@ -82,21 +82,29 @@
                 <h3 class="text-info fontS">Photo and Identity Card:</h3>
                 <hr>
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         <p>Upload Your Recent Photo:</p>
                         <label class="btn btn-outline-success" for="fileInput" style="width: 100%">{{ photo ? "Choose Other File" : "Choose File" }}
-                            <input type="file" hidden id="fileInput" accept=".jpg"
-                                (change)="fileRead($event.target.files,true)" required>
+                            <input type="file" hidden id="fileInput" accept="image/*"
+                                (change)="fileRead($event.target.files,true,false)" required>
                         </label>
                         <p>{{ photo ? 'File Chosen: ' + photo.name : "No File Chosen" }}</p>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         <p>Upload College ID Card:</p>
                         <label class="btn btn-outline-success" for="fileInput2" style="width: 100%">{{ idcard ? "Choose Other File" : "Choose File" }}
-                            <input type="file" hidden id="fileInput2" accept=".jpg"
-                                (change)="fileRead($event.target.files,false)" required>
+                            <input type="file" hidden id="fileInput2" accept="image/*"
+                                (change)="fileRead($event.target.files,false,false)" required>
                         </label>
                         <p>{{ idcard ? 'File Chosen: ' + idcard.name : "No File Chosen" }}</p>
+                    </div>
+                    <div class="col-sm-4">
+                        <p>Upload Payment Receipt:</p>
+                        <label class="btn btn-outline-success" for="fileInput3" style="width: 100%">{{ paymentReceipt ? "Choose Other File" : "Choose File" }}
+                            <input type="file" hidden id="fileInput3" accept="image/*, .pdf"
+                                (change)="fileRead($event.target.files,false,true)" required>
+                        </label>
+                        <p>{{ paymentReceipt ? 'File Chosen: ' + paymentReceipt.name : "No File Chosen" }}</p>
                     </div>
                 </div>
                 <br>
@@ -124,7 +132,7 @@
                 <div class="row">
                     <div class="col-4">
                         <button mat-raised-button color="primary" type="submit"
-                            [disabled]="registerForm.form.invalid || errors.password || errors.email ">Register</button>
+                            [disabled]="registerForm.form.invalid || errors.password || errors.email || !photo || !idcard || !paymentReceipt">Register</button>
                     </div>
                     <div class="col-8">
                         <p class="fontS text-center">Already Registered! <button mat-raised-button color="accent" routerLink="/home">Login</button></p>
