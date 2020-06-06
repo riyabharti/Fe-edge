@@ -28,6 +28,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { HomeComponent } from './home/home.component';
 import { AccountComponent } from './account/account.component';
+import { UserService } from './services/user.service';
+import { CommonService } from './services/common.service';
+import { TokenizeService } from './services/tokenize.service';
 
 @NgModule({
   declarations: [
@@ -61,6 +64,7 @@ import { AccountComponent } from './account/account.component';
     MatExpansionModule
   ],
   providers: [
+    UserService, CommonService, {provide: HTTP_INTERCEPTORS, useClass: TokenizeService, multi: true},
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000, panelClass: ['blackySnack'] } }],
   bootstrap: [AppComponent]
 })

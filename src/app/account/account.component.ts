@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../User';
 import { CommonService } from '../services/common.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-account',
@@ -11,19 +12,21 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class AccountComponent implements OnInit {
 
   userData: User;
-  eventReg: Object = {};
+  eventReg: object = {};
   categoryDatas: [{
     '_id': '',
     'category': '',
     'description': '',
     'events': []
   }];
-  total: number = 0;
-  eventRegistered: false;
+
+  total = 0;
+  eventRegistered = false;
 
   constructor(
     private commonS: CommonService,
-    private sB: MatSnackBar
+    private sB: MatSnackBar,
+    private userS: UserService
   ) { }
 
   loading = true;
@@ -32,6 +35,7 @@ export class AccountComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = JSON.parse(localStorage.getItem('user'));
+    this.isEventRegister();
     this.commonS.fetchEvents().subscribe(
       result => {
         this.loading = false;
@@ -86,8 +90,43 @@ export class AccountComponent implements OnInit {
       this.sB.open('Select an event to register');
       return;
     }
-    if (confirm('Sure to Register?')) {
-      console.log(this.total);
+    if (confirm('Sure For Payment?')) {
+      this.loading = true;
+      this.userS.eventRegister({total: this.total, registerEvents: this.eventReg}).subscribe(
+        result => {
+          if (result.status)
+          {
+            this.eventRegistered = true;
+            this.loading = false;
+            this.sB.open(result.message);
+            delete result.user.admin;
+            delete result.user.password;
+            localStorage.setItem('user', JSON.stringify(result.user));
+          }
+          else
+          {
+            this.loading = false;
+            this.sB.open(result.message);
+          }
+        },
+        problem => {
+          this.loading = false;
+          console.log(problem.error);
+          this.sB.open(problem.error instanceof ProgressEvent ? 'Failed Connecting the Server. Check your Internet Connection or Try again later' : problem.error.message);
+        }
+      );
+    }
+  }
+
+  isEventRegister() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user.total > 0)
+    {
+      this.eventRegistered = true;
+    }
+    else
+    {
+      this.eventRegistered = false;
     }
   }
 

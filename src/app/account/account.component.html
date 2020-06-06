@@ -90,7 +90,7 @@
                             <div class="col-sm-2 text-info"><h5>S.No</h5></div>
                             <div class="col-sm-4 text-info"><h5> Name </h5></div>
                             <div class="col-sm-4 text-info"><h5> Description </h5></div>
-                            <div class="col-sm-1 text-info"><h5> Fees </h5></div>
+                            <div class="col-sm-1 text-info" *ngIf="!eventRegistered"><h5> Fees </h5></div>
                             <div class="col-sm-1"></div>
                         </div>
                         <div class="row" *ngFor="let event of categoryData.events; let i=index">
@@ -98,9 +98,9 @@
                                 <div class="col-sm-2"><h5>{{i+1}}:</h5></div>
                                 <div class="col-sm-4"><h5> {{event.name}} </h5></div>
                                 <div class="col-sm-4"><h5> {{event.description}} </h5></div>
-                                <div class="col-sm-1"><h5> {{event.fees}} </h5></div>
-                                <div class="col-sm-1">
-                                    <mat-checkbox color="warn" (click)="eventRegistration(categoryData._id,event)"> {{event.name}} </mat-checkbox>
+                                <div class="col-sm-1" *ngIf="!eventRegistered"><h5> {{event.fees}} </h5></div>
+                                <div class="col-sm-1" *ngIf="!eventRegistered">
+                                    <mat-checkbox color="warn" (click)="eventRegistration(categoryData._id,event)">Register</mat-checkbox>
                                 </div>
                         </div>
 
