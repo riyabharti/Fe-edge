@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import {environment} from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommonService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
-  eventUrl = environment.apiURL + '/events';
-  commonUrl = environment.apiURL + '/common';
+  url = environment.apiURL + '/common';
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
@@ -24,19 +24,20 @@ export class CommonService {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     localStorage.removeItem('admin');
+    this.router.navigateByUrl('/');
     return true;
   }
 
   fetchEvents() {
-    return this.http.get<any>(this.eventUrl);
+    return this.http.get<any>(this.url + '/getAllEvents');
   }
 
   getSettings() {
-    return this.http.get<any>(this.commonUrl + '/getSettings');
+    return this.http.get<any>(this.url + '/getSettings');
   }
 
   getCoupon() {
-    return this.http.get<any>(this.eventUrl + '/getCoupon');
+    return this.http.get<any>(this.url + '/getCoupon');
   }
 
 }

@@ -1,0 +1,90 @@
+<br>
+<h5 class="text-center text-warning fontS">Showing the checked Columns: (Check/Uncheck to show/hide any column)</h5>
+<br>
+<div class="row" style="margin: 0 5%;">
+    <div class="col-md-1"></div>
+    <div class="col-md-2">
+        <mat-checkbox color="warn" (click)="toggle('b')" [(ngModel)]="show[0]">Name</mat-checkbox>
+    </div>
+    <div class="col-md-2">
+        <mat-checkbox color="warn" (click)="toggle('d')" [(ngModel)]="show[2]">Email ID</mat-checkbox>
+    </div>
+    <div class="col-md-2">
+        <mat-checkbox color="primary" (click)="toggle('e')" [(ngModel)]="show[3]">Stream</mat-checkbox>
+    </div>
+    <div class="col-md-2">
+        <mat-checkbox color="warn" (click)="toggle('f')" [(ngModel)]="show[4]">Year</mat-checkbox>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+<div class="row" style="margin: 0 5%;">
+    <div class="col-md-1"></div>
+    <div class="col-md-2">
+        <mat-checkbox color="primary" (click)="toggle('g')" [(ngModel)]="show[5]">Contact#</mat-checkbox>
+    </div>
+    <div class="col-md-2">
+        <mat-checkbox color="primary" (click)="toggle('i')" [(ngModel)]="show[7]">Institution Name</mat-checkbox>
+    </div>
+    <div class="col-md-2">
+        <mat-checkbox color="primary" (click)="toggle('j')" [(ngModel)]="show[8]">Registered On</mat-checkbox>
+    </div>
+    <div class="col-md-2">
+        <mat-checkbox color="warn" (click)="toggle('k')" [(ngModel)]="show[9]">Action</mat-checkbox>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+<br>
+<div class="mat-elevation-z8" style="margin: 0 5%;" *ngIf="!loading">
+    <mat-form-field>
+    <input matInput (input)="applyFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field>
+    <table mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="a">
+        <th mat-header-cell *matHeaderCellDef> # </th>
+        <td mat-cell *matCellDef="let user; let i=index"> {{i+1}} </td>
+    </ng-container>
+    <ng-container matColumnDef="b">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let user"> {{user.name}} </td>
+    </ng-container>
+    <ng-container matColumnDef="d">
+        <th mat-header-cell *matHeaderCellDef> Email ID </th>
+        <td mat-cell *matCellDef="let user"> {{user.email}} </td>
+    </ng-container>
+    <ng-container matColumnDef="e">
+        <th mat-header-cell *matHeaderCellDef> Stream </th>
+        <td mat-cell *matCellDef="let user"> {{user.stream}} </td>
+    </ng-container>
+    <ng-container matColumnDef="f">
+        <th mat-header-cell *matHeaderCellDef> Year </th>
+        <td mat-cell *matCellDef="let user"> {{user.year}} </td>
+    </ng-container>
+    <ng-container matColumnDef="g">
+        <th mat-header-cell *matHeaderCellDef> Contact# </th>
+        <td mat-cell *matCellDef="let user"> {{user.contact}} </td>
+    </ng-container>
+    <ng-container matColumnDef="i">
+        <th mat-header-cell *matHeaderCellDef> Institution Name </th>
+        <td mat-cell *matCellDef="let user"> {{user.instituteName}} </td>
+    </ng-container>
+    <ng-container matColumnDef="j">
+        <th mat-header-cell *matHeaderCellDef> Registered On </th>
+        <td mat-cell *matCellDef="let user"> {{user.createdAt}} </td>
+    </ng-container>
+    <ng-container matColumnDef="k">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+        <td mat-cell *matCellDef="let user"> 
+            <button mat-icon-button (click)="deleteUser(user.username)"><mat-icon color="warn">delete</mat-icon></button>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator #paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+</div>
+<br>
+<div class="loader-holder" *ngIf="loading">
+<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+</div>

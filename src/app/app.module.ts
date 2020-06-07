@@ -32,13 +32,18 @@ import { AccountComponent } from './account/account.component';
 import { UserService } from './services/user.service';
 import { CommonService } from './services/common.service';
 import { TokenizeService } from './services/tokenize.service';
+import { ErrorPageComponent } from './error-page/error-page.component';
+import { AdminService } from './services/admin.service';
+import { UserListComponent } from './user-list/user-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegistrationStudentComponent,
     HomeComponent,
-    AccountComponent
+    AccountComponent,
+    ErrorPageComponent,
+    UserListComponent
   ],
   imports: [
     BrowserModule,
@@ -66,7 +71,7 @@ import { TokenizeService } from './services/tokenize.service';
     MatChipsModule
   ],
   providers: [
-    UserService, CommonService, {provide: HTTP_INTERCEPTORS, useClass: TokenizeService, multi: true},
+    UserService, CommonService, AdminService, {provide: HTTP_INTERCEPTORS, useClass: TokenizeService, multi: true},
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000, panelClass: ['blackySnack'] } }],
   bootstrap: [AppComponent]
 })

@@ -3,13 +3,19 @@ import { Routes, RouterModule } from '@angular/router';
 import { RegistrationStudentComponent } from './registration-student/registration-student.component';
 import { HomeComponent } from './home/home.component';
 import { AccountComponent } from './account/account.component';
+import { UserGuard } from './guards/user.guard';
+import { ErrorPageComponent } from './error-page/error-page.component';
+import { AdminGuard } from './guards/admin.guard';
+import { UserListComponent } from './user-list/user-list.component';
 
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'register', component: RegistrationStudentComponent },
-  { path: 'account', component: AccountComponent}
+  { path: 'account', component: AccountComponent, canActivate: [UserGuard]},
+  { path: 'userlist', component: UserListComponent, canActivate: [AdminGuard]},
+  {path: '**', component: ErrorPageComponent}
 ];
 
 @NgModule({

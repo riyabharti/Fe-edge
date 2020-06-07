@@ -4,11 +4,11 @@
         <mat-menu #menu="matMenu">
             <button mat-menu-item (click)="navigator('account')">My Account</button>
             <button mat-menu-item (click)="navigator('userlist')" *ngIf="isAdmin()">User List</button>
-            <button mat-menu-item (click)="navigator('userfiles')" *ngIf="isAdmin()">User Files</button>
+            <!-- <button mat-menu-item (click)="navigator('userfiles')" *ngIf="isAdmin()">User Files</button>
             <button mat-menu-item (click)="navigator('settings')" *ngIf="isAdmin()">Settings</button>
             <button mat-menu-item (click)="navigator('resetpassword')" *ngIf="isAdmin()">Reset Password</button>
             <button mat-menu-item (click)="navigator('downloadsection')" *ngIf="isAdmin()">Download Section</button>
-            <button mat-menu-item (click)="navigator('certificate')" *ngIf="isAdmin()">Upload Certificates</button>
+            <button mat-menu-item (click)="navigator('certificate')" *ngIf="isAdmin()">Upload Certificates</button> -->
         </mat-menu>
         <span class="fontS">{{userdata.name}}</span>
         <span class="example-spacer"></span>
