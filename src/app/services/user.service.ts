@@ -31,9 +31,9 @@ export class UserService {
     return this.http.get<any>(this.url + '/fetchEmails');
   }
 
-  eventRegister(event: {total: number, registerEvents: object} , paymentReceipt: File) {
+  eventRegister(event: {total: number, registerEvents: string} , paymentReceipt: File) {
     const formData = new FormData();
-    formData.append('files[]', paymentReceipt, paymentReceipt.name);
+    formData.append('file', paymentReceipt, paymentReceipt.name);
     const keys = Object.keys(event);
     keys.forEach(key => {
       formData.append(key, event[key]);
