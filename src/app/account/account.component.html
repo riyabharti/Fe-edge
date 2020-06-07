@@ -1,10 +1,10 @@
 <br>
 <div class="container">
+    <br>
+    <h4 class="text-center text-warning fontS">Registration Info</h4>
+    <br>
     <div class="row">
         <div class="col-sm-6">
-            <br>
-            <h4 class="text-center text-warning fontS">Registration Info</h4>
-            <br>
             <div class="row fontS">
                 <div class="col-sm-4 text-info"><h5>Name:</h5></div>
                 <div class="col-sm-8"><h5> {{userData.name}} </h5></div>
@@ -35,10 +35,28 @@
                 <div class="col-sm-8"><h5> {{userData.instituteName}} </h5></div>
             </div>
             <br>
+            <div class="row fontS">
+                <div class="col-sm-4 text-info"><h5>Event Registration:</h5></div>
+                <div class="col-sm-8 text-success" *ngIf="eventRegistered"><h5>Complete<br><a [href]="baseUrl + 'receipt.jpg'">Download Receipt</a></h5></div>
+                <div class="col-sm-8 text-danger" *ngIf="!eventRegistered"><h5>Pending...</h5></div>
+            </div>
+            <br>
+            <div class="row fontS" *ngIf="eventRegistered">
+                <div class="col-sm-4 text-info"><h5>Registration Verification:</h5></div>
+                <div class="col-sm-8 text-success" *ngIf="userData.verified "><h5>Complete</h5></div>
+                <div class="col-sm-8 text-danger" *ngIf="!userData.verified "><h5>Pending...</h5></div>
+            </div>
+            <br>
+        </div>
+        <div class="col-sm-6 text-center">
+            <img [src]="baseUrl+'photo.jpg'" style="width: 50%;" />
+            <br>
+            <br>
+            <img [src]="baseUrl+'idcard.jpg'" style="width: 50%;" />
         </div>
     </div>
 </div>
-<div class="container">
+<div class="container" *ngIf="!eventRegistered">
     <div class="row">
         <div class="col-sm-12">
             <br>
@@ -114,7 +132,7 @@
 </div>
 <br><br><br><br><br><br>
 <!-- <div class="container" style="width: 100% !important;"> -->
-    <div class="row text-center fontS" *ngIf="coupon.couponCode" style="position: fixed; width: 100% !important; bottom: 0; background: #404040; padding: 1% 1% 0% 1% !important;">
+    <div class="row text-center fontS" *ngIf="coupon.couponCode && !eventRegistered" style="position: fixed; width: 100% !important; bottom: 0; background: #404040; padding: 1% 1% 0% 1% !important;">
         <div class="col-sm-3"><h5>Total Amount (INR): {{totalO}} + <span *ngIf="temp == 0">{{totalC}}</span><span *ngIf="temp != 0"><s>{{totalC + temp}}</s> {{totalC}} </span> = {{totalC + totalO}}/- </h5></div>
         <div class="col-sm-2">
             <mat-form-field appearance="legacy" style="width: 100%;" *ngIf="temp == 0">
@@ -139,7 +157,7 @@
             <button mat-raised-button color="primary" (click)="eventPayment()" [disabled]="totalC + totalO == 0 || !paymentReceipt">Register for events</button>
         </div>
     </div>
-    <div class="row text-center fontS" *ngIf="!coupon.couponCode && !loading" style="position: fixed; width: 100% !important; bottom: 0; background: #404040; padding: 1% 1% 0% 1% !important;">
+    <div class="row text-center fontS" *ngIf="!coupon.couponCode && !loading && !eventRegistered" style="position: fixed; width: 100% !important; bottom: 0; background: #404040; padding: 1% 1% 0% 1% !important;">
         <div class="col-sm-3"><h5>Total Amount (INR): {{totalO + totalC}}  </h5></div>
         <div class="col-sm-3">
             <p>Upload Payment Receipt:</p>

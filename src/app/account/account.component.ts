@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { User } from '../User';
+import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../services/common.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserService } from '../services/user.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-account',
@@ -11,7 +11,7 @@ import { UserService } from '../services/user.service';
 })
 export class AccountComponent implements OnInit {
 
-  userData: User;
+  userData;
   eventReg: object = {};
   categoryDatas: [{
     '_id': '',
@@ -48,9 +48,11 @@ export class AccountComponent implements OnInit {
     email: ''
   };
   paymentReceipt: File = undefined;
+  baseUrl = environment.apiURL + '/common/getFile/';
 
   ngOnInit(): void {
     this.userData = JSON.parse(localStorage.getItem('user'));
+    this.baseUrl += this.userData._id + '/';
     this.isEventRegister();
     this.commonS.fetchEvents().subscribe(
       result => {
@@ -187,21 +189,22 @@ export class AccountComponent implements OnInit {
     console.log(this.eventReg);
     if (confirm('Sure For Payment?')) {
       this.loading = true;
-      this.userS.eventRegister({total: this.totalC + this.totalO, registerEvents: this.eventReg}, this.paymentReceipt).subscribe(
+      this.userS.eventRegister({total: this.totalC + this.totalO, registerEvents: JSON.stringify(this.eventReg)}, this.paymentReceipt).subscribe(
         result => {
           if (result.status)
           {
-            this.eventRegistered = true;
             this.loading = false;
             this.sB.open(result.message);
             delete result.user.admin;
             delete result.user.password;
             localStorage.setItem('user', JSON.stringify(result.user));
+            this.ngOnInit();
           }
           else
           {
             this.loading = false;
             this.sB.open(result.message);
+            console.log(result.error);
           }
         },
         problem => {
