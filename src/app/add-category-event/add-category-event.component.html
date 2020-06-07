@@ -60,10 +60,10 @@
                 <div class="row fontS">
                     <div class="col-sm-2 text-info"><h5>S.No</h5></div>
                     <div class="col-sm-3 text-info"><h5> Name </h5></div>
-                    <div class="col-sm-4 text-info"><h5> Description </h5></div>
+                    <div class="col-sm-3 text-info"><h5> Description </h5></div>
                     <div class="col-sm-1 text-info"><h5> Fees </h5></div>
                     <div class="col-sm-1 text-info"><h5> Coupon Applicable </h5></div>
-                    <div class="col-sm-1"></div>
+                    <div class="col-sm-2"></div>
                 </div>
                 <div class="row" *ngFor="let event of categoryDatas[categoryId].events; let i=index">
                     <br>
@@ -73,7 +73,7 @@
                     <div class="col-sm-1"><h5> {{event.fees}} </h5></div>
                     <div class="col-sm-1"><h5> {{event.couponApplicable}} </h5></div>
                     <div class="col-sm-2">
-                        <button mat-raised-button color="warn" (click)="deleteEvent(event)">Delete Event</button>
+                        <button mat-raised-button color="warn" (click)="deleteEvent(event,i)">Delete Event</button>
                     </div>
                 </div>
                 <br>

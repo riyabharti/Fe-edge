@@ -82,34 +82,74 @@ export class UserListComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  deleteUser(username: string) {
+  // deleteUser(email: string) {
+  //   if (this.commonS.isAdmin()) {
+  //     if (confirm('Sure to Delete User with email ' + email + '?')) {
+  //       alert('Delete User to be created');
+  //       // this.loading = true;
+  //       // this.adminS.deleteUser(username).subscribe(
+  //       //   result => {
+  //       //     if (result.status) {
+  //       //       this.sB.open(result.message);
+  //       //       this.getUsers();
+  //       //     }
+  //       //     else {
+  //       //       this.loading = false;
+  //       //       this.sB.open(result.message);
+  //       //     }
+  //       //   },
+  //       //   problem => {
+  //       //     this.loading = false;
+  //       //     if (problem.error.error && problem.error.error.message && problem.error.error.message == 'jwt expired') {
+  //       //       this.sB.open('Your session has expired !!! Please log in again :)');
+  //       //       this.commonS.doLogout();
+  //       //     }
+  //       //     else {
+  //       //       console.log(problem.error);
+  //       //       this.sB.open(problem.error instanceof ProgressEvent ? 'Failed Connecting the Server. Check your Internet Connection or Try again later' : problem.error.message);
+  //       //     }
+  //       //   }
+  //       // );
+  //     }
+  //   }
+  //   else {
+  //     this.sB.open('Some problem occurred :/ Please log in again');
+  //     this.commonS.doLogout();
+  //   }
+  // }
+
+  deleteUser(user) {
     if (this.commonS.isAdmin()) {
-      if (confirm('Sure to Delete User with username ' + username + '?')) {
-        alert('Delete User to be created');
-        // this.loading = true;
-        // this.adminS.deleteUser(username).subscribe(
-        //   result => {
-        //     if (result.status) {
-        //       this.sB.open(result.message);
-        //       this.getUsers();
-        //     }
-        //     else {
-        //       this.loading = false;
-        //       this.sB.open(result.message);
-        //     }
-        //   },
-        //   problem => {
-        //     this.loading = false;
-        //     if (problem.error.error && problem.error.error.message && problem.error.error.message == 'jwt expired') {
-        //       this.sB.open('Your session has expired !!! Please log in again :)');
-        //       this.commonS.doLogout();
-        //     }
-        //     else {
-        //       console.log(problem.error);
-        //       this.sB.open(problem.error instanceof ProgressEvent ? 'Failed Connecting the Server. Check your Internet Connection or Try again later' : problem.error.message);
-        //     }
-        //   }
-        // );
+      if (user.admin)
+      {
+        this.sB.open('You cannot delete an admin user!');
+        return;
+      }
+      if (confirm('Sure to Delete User with email ' + user.email + '?')) {
+        this.loading = true;
+        this.adminS.deleteUser(user._id).subscribe(
+          result => {
+            if (result.status) {
+              this.sB.open(result.message);
+              this.getUsers();
+            }
+            else {
+              this.loading = false;
+              this.sB.open(result.message);
+            }
+          },
+          problem => {
+            this.loading = false;
+            if (problem.error.error && problem.error.error.message && problem.error.error.message === 'jwt expired') {
+              this.sB.open('Your session has expired !!! Please log in again :)');
+              this.commonS.doLogout();
+            }
+            else {
+              console.log(problem.error);
+              this.sB.open(problem.error instanceof ProgressEvent ? 'Failed Connecting the Server. Check your Internet Connection or Try again later' : problem.error.message);
+            }
+          }
+        );
       }
     }
     else {

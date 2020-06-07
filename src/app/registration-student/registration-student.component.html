@@ -39,7 +39,18 @@
                         <p>
                             <mat-form-field appearance="outline" style="width: 100%;">
                                 <mat-label>Your Contact Number:</mat-label>
-                                <input matInput type="tel" placeholder="Contact Number" name="contact" [(ngModel)]="user.contact" required />
+                                <input 
+                                 matInput 
+                                 type="tel" 
+                                 placeholder="Contact Number" 
+                                 name="contact"
+                                 #contactno="ngModel"
+                                 [(ngModel)]="user.contact"
+                                 pattern="[6-9]{1}[0-9]{9}"
+                                 (input) = "isContactRedundant()" 
+                                 required />
+                                <mat-hint class="text-danger" *ngIf="errors.contact"> This Contact is taken </mat-hint>
+                                <mat-hint class="text-danger" *ngIf="contactno.errors && contactno.errors.pattern"> Invalid Contact No </mat-hint>
                             </mat-form-field>
                         </p>
                     </div>
@@ -82,22 +93,22 @@
                 <h3 class="text-info fontS">Photo and Identity Card:</h3>
                 <hr>
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-12">
                         <p>Upload Your Recent Photo:</p>
                         <label class="btn btn-outline-success" for="fileInput" style="width: 100%">{{ photo ? "Choose Other File" : "Choose File" }}
                             <input type="file" hidden id="fileInput" accept="image/*"
-                                (change)="fileRead($event.target.files,true)" required>
+                                (change)="fileRead($event.target.files)" required>
                         </label>
                         <p>{{ photo ? 'File Chosen: ' + photo.name : "No File Chosen" }}</p>
                     </div>
-                    <div class="col-sm-6">
+                    <!-- <div class="col-sm-6">
                         <p>Upload College ID Card:</p>
                         <label class="btn btn-outline-success" for="fileInput2" style="width: 100%">{{ idcard ? "Choose Other File" : "Choose File" }}
                             <input type="file" hidden id="fileInput2" accept="image/*"
                                 (change)="fileRead($event.target.files,false)" required>
                         </label>
                         <p>{{ idcard ? 'File Chosen: ' + idcard.name : "No File Chosen" }}</p>
-                    </div>
+                    </div> -->
                 </div>
                 <br>
                 <h3 class="text-info fontS">Account Creation:</h3>
@@ -124,7 +135,7 @@
                 <div class="row">
                     <div class="col-4">
                         <button mat-raised-button color="primary" type="submit"
-                            [disabled]="registerForm.form.invalid || errors.password || errors.email || !photo || !idcard">Register</button>
+                            [disabled]="registerForm.form.invalid || errors.password || errors.email || errors.contact || !photo ">Register</button>
                     </div>
                     <div class="col-8">
                         <p class="fontS text-center">Already Registered! <button mat-raised-button color="accent" routerLink="/home">Login</button></p>

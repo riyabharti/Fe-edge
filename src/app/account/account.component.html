@@ -37,7 +37,7 @@
             <br>
             <div class="row fontS">
                 <div class="col-sm-4 text-info"><h5>Event Registration:</h5></div>
-                <div class="col-sm-8 text-success" *ngIf="eventRegistered"><h5>Complete<br><a [href]="baseUrl + 'receipt.jpg'">Download Receipt</a></h5></div>
+                <div class="col-sm-8 text-success" *ngIf="eventRegistered"><h5>Complete<br><a [href]="receiptUrl">Download Receipt</a></h5></div>
                 <div class="col-sm-8 text-danger" *ngIf="!eventRegistered"><h5>Pending...</h5></div>
             </div>
             <br>
@@ -49,10 +49,8 @@
             <br>
         </div>
         <div class="col-sm-6 text-center">
-            <img [src]="baseUrl+'photo.jpg'" style="width: 50%;" />
+            <img [src]="photoUrl" style="width: 50%;" />
             <br>
-            <br>
-            <img [src]="baseUrl+'idcard.jpg'" style="width: 50%;" />
         </div>
     </div>
 </div>

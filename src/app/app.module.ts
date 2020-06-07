@@ -73,7 +73,7 @@ import { AddCategoryEventComponent } from './add-category-event/add-category-eve
     MatChipsModule
   ],
   providers: [
-    UserService, CommonService, AdminService, {provide: HTTP_INTERCEPTORS, useClass: TokenizeService, multi: true},
+    UserService, CommonService, AdminService, AccountComponent, {provide: HTTP_INTERCEPTORS, useClass: TokenizeService, multi: true},
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000, panelClass: ['blackySnack'] } }],
   bootstrap: [AppComponent]
 })

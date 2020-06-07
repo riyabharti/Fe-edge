@@ -35,4 +35,8 @@ export class AdminService {
   {
     return this.http.post<any>(this.url + '/deleteEvent', eventData);
   }
+
+  deleteUser(uid: string) {
+    return this.http.get<any>(this.url + '/deleteUser/' + uid);
+  }
 }

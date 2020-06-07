@@ -18,15 +18,16 @@ export class RegistrationStudentComponent implements OnInit {
   user = new User();
   errors = {
     email: false,
-    password: false
+    password: false,
+    contact: false
   };
   // stores previous registered emails
   checkEmail = [];
+  checkContact = [];
   temp = '';
   temp2 = '';
   deadline = '';
   photo: File = undefined;
-  idcard: File = undefined;
   registration = false;
 
   constructor(
@@ -46,7 +47,7 @@ export class RegistrationStudentComponent implements OnInit {
       this.router.navigateByUrl('account');
     }
     else{
-      this.userS.fetchEmails().subscribe(
+      this.userS.fetchEmailsContacts().subscribe(
         result => {
           this.loading = false;
           if (result.status) {
@@ -54,6 +55,7 @@ export class RegistrationStudentComponent implements OnInit {
             for (let i = 0; i < result.user.length; i++)
             {
               this.checkEmail.push(result.user[i].email);
+              this.checkContact.push(result.user[i].contact);
             }
           }
           else {
@@ -74,7 +76,7 @@ export class RegistrationStudentComponent implements OnInit {
     if (confirm('Sure to Register?')) {
       console.log(this.user);
       this.loading = true;
-      this.userS.register(this.user, this.photo, this.idcard).subscribe(
+      this.userS.register(this.user, this.photo).subscribe(
         result => {
           this.loading = false;
           if (result.status) {
@@ -93,26 +95,16 @@ export class RegistrationStudentComponent implements OnInit {
   }
 
 
-  fileRead(e: FileList, type: boolean) {
+  fileRead(e: FileList) {
     const temp: File = e.item(0);
     if (temp && temp.type.split('/')[1] !== 'jpg' && temp.type.split('/')[1] !== 'jpeg' && temp.type.split('/')[1] !== 'png')
     {
       this.sB.open('Sorry, only .jpg, .jpeg and .png extension is allowed');
-      if (type) {
-        this.photo = null;
-      }
-      else {
-        this.idcard = null;
-      }
+      this.photo = null;
     }
     else
     {
-      if (type) {
-        this.photo = temp;
-      }
-      else {
-        this.idcard = temp;
-      }
+      this.photo = temp;
     }
   }
 
@@ -127,6 +119,10 @@ export class RegistrationStudentComponent implements OnInit {
 
   isEmailRedundant() {
     this.errors.email = this.checkEmail.indexOf(this.user.email) !== -1;
+  }
+
+  isContactRedundant() {
+    this.errors.contact = this.checkContact.indexOf(this.user.contact) !== -1;
   }
 
 }

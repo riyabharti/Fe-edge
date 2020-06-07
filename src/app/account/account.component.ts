@@ -48,11 +48,13 @@ export class AccountComponent implements OnInit {
     email: ''
   };
   paymentReceipt: File = undefined;
-  baseUrl = environment.apiURL + '/common/getFile/';
+  photoUrl = environment.apiURL + '/common/getFile/';
+  receiptUrl = environment.apiURL + '/common/getFile/';
 
   ngOnInit(): void {
     this.userData = JSON.parse(localStorage.getItem('user'));
-    this.baseUrl += this.userData._id + '/';
+    this.photoUrl = environment.apiURL + '/common/getFile/' + this.userData._id + '/photo.' + this.userData.photo;
+    this.receiptUrl = environment.apiURL + '/common/getFile/' + this.userData._id + '/receipt.' + this.userData.receipt;
     this.isEventRegister();
     this.commonS.fetchEvents().subscribe(
       result => {

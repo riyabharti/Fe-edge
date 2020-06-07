@@ -90,28 +90,120 @@ export class AddCategoryEventComponent implements OnInit {
     }
   }
 
-  deleteEvent(event)
+  deleteEvent(event, eIndex)
   {
-    alert('Delete event called!');
+    if (confirm('Sure For Deleting Event ' + event.name))
+    {
+      this.loading = true;
+      this.adminS.deleteEvent({category: this.categoryDatas[this.categoryId].category, eventName: event.name, index: eIndex}).subscribe(
+        result => {
+          if (result.status)
+          {
+            this.loading = false;
+            this.sB.open(result.message);
+            this.ngOnInit();
+          }
+          else
+          {
+            this.loading = false;
+            this.sB.open(result.message);
+            this.categoryId = -1;
+          }
+        },
+        problem => {
+          this.loading = false;
+          if (problem.error.error && problem.error.error.message && problem.error.error.message === 'jwt expired') {
+            this.sB.open('Your session has expired !!! Please log in again :)');
+            this.commonS.doLogout();
+          }
+          else {
+            console.log(problem.error);
+            this.sB.open(problem.error instanceof ProgressEvent ? 'Failed Connecting the Server. Check your Internet Connection or Try again later' : problem.error.message);
+          }
+        }
+      );
+    }
   }
 
   deleteCategory(cIndex)
   {
-    alert('Delete category called!');
+    if (confirm('Sure For Deleting Category ' + this.categoryDatas[cIndex].category))
+    {
+      this.loading = true;
+      this.adminS.deleteCategory({category: this.categoryDatas[cIndex].category}).subscribe(
+        result => {
+          if (result.status)
+          {
+            this.loading = false;
+            this.sB.open(result.message);
+            this.ngOnInit();
+          }
+          else
+          {
+            this.loading = false;
+            this.sB.open(result.message);
+            this.categoryId = -1;
+          }
+        },
+        problem => {
+          this.loading = false;
+          if (problem.error.error && problem.error.error.message && problem.error.error.message === 'jwt expired') {
+            this.sB.open('Your session has expired !!! Please log in again :)');
+            this.commonS.doLogout();
+          }
+          else {
+            console.log(problem.error);
+            this.sB.open(problem.error instanceof ProgressEvent ? 'Failed Connecting the Server. Check your Internet Connection or Try again later' : problem.error.message);
+          }
+        }
+      );
+    }
   }
 
   addEvent()
   {
-    console.log(this.newEventName, this.newEventDescription, this.newEventFees, this.newEventCoupon);
-    // this.adminS.addEvent({category: this.categoryDatas[this.categoryId].category, events: []}).subscribe(
-
-    // )
+    if (confirm('Sure For Additing Event?'))
+    {
+      this.loading = true;
+      this.adminS.addEvent({category: this.categoryDatas[this.categoryId].category, events: [{
+        name: this.newEventName,
+        description: this.newEventDescription,
+        fees: this.newEventFees,
+        couponApplicable: this.newEventCoupon
+      }]}).subscribe(
+        result => {
+          if (result.status)
+          {
+            this.loading = false;
+            this.sB.open(result.message);
+            this.ngOnInit();
+          }
+          else
+          {
+            this.loading = false;
+            this.sB.open(result.message);
+            this.categoryId = -1;
+          }
+        },
+        problem => {
+          this.loading = false;
+          if (problem.error.error && problem.error.error.message && problem.error.error.message === 'jwt expired') {
+            this.sB.open('Your session has expired !!! Please log in again :)');
+            this.commonS.doLogout();
+          }
+          else {
+            console.log(problem.error);
+            this.sB.open(problem.error instanceof ProgressEvent ? 'Failed Connecting the Server. Check your Internet Connection or Try again later' : problem.error.message);
+          }
+        }
+      );
+    }
   }
 
   addCategory()
   {
     console.log(this.categoryName, this.categoryDescription);
-    if (confirm('Sure For Additing Category?'))
+    if (confirm('Sure For Adding Category?'))
     {
       this.loading = true;
       this.adminS.addCategory({category: this.categoryName, description: this.categoryDescription}).subscribe(
@@ -151,7 +243,7 @@ export class AddCategoryEventComponent implements OnInit {
 
   isCategoryRedundant()
   {
-    this.errors.category = !!this.categoryDatas.find(e=> e.category === this.categoryName);
+    this.errors.category = !!this.categoryDatas.find(e => e.category === this.categoryName);
     console.log(this.errors);
   }
 
