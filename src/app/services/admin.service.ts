@@ -15,4 +15,24 @@ export class AdminService {
   {
     return this.http.get<any>(this.url + '/fetchUsers');
   }
+
+  addCategory(categoryData: {category, description})
+  {
+    return this.http.post<any>(this.url + '/addCategory', categoryData);
+  }
+
+  addEvent(categoryEventData)
+  {
+    return this.http.post<any>(this.url + '/addEvent', categoryEventData);
+  }
+
+  deleteCategory(categoryData: {category})
+  {
+    return this.http.post<any>(this.url + '/deleteCategory', categoryData);
+  }
+
+  deleteEvent(eventData: {category, eventName, index})
+  {
+    return this.http.post<any>(this.url + '/deleteEvent', eventData);
+  }
 }

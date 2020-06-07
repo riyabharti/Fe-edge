@@ -35,6 +35,7 @@ import { TokenizeService } from './services/tokenize.service';
 import { ErrorPageComponent } from './error-page/error-page.component';
 import { AdminService } from './services/admin.service';
 import { UserListComponent } from './user-list/user-list.component';
+import { AddCategoryEventComponent } from './add-category-event/add-category-event.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { UserListComponent } from './user-list/user-list.component';
     HomeComponent,
     AccountComponent,
     ErrorPageComponent,
-    UserListComponent
+    UserListComponent,
+    AddCategoryEventComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,131 @@
+<br>
+<div class="container"> 
+        <div class="col-sm-6" *ngFor="let categoryData of categoryDatas; let i=index">
+            <br>
+            <div class="row">
+                <div class="fontS col-sm-4">
+                    <div class="col-sm-6 text-info"><h5>Category:</h5></div>
+                    <div class="col-sm-6"><h5> {{categoryData.category}} </h5></div>
+                </div>
+                <br>
+                <div class="fontS col-sm-4">
+                    <div class="col-sm-6 text-info"><h5>Description:</h5></div>
+                    <div class="col-sm-6"><h5> {{categoryData.description}} </h5></div>
+                </div>
+                <div class="col-sm-2">
+                    <button mat-raised-button color="accent" *ngIf="categoryId != i" (click)="selectCategory(i)">Select</button>
+                    <button mat-raised-button color="accent" *ngIf="categoryId == i" (click)="selectCategory(i)">Deselect</button>
+                </div>
+                <div class="col-sm-2">
+                    <button mat-raised-button color="warn" (click)="deleteCategory(i)">Delete</button>
+                </div>
+            </div>
+            <br>
+        </div>
+        <form #categoryForm="ngForm" novalidate>
+            <h3 class="text-info fontS">Add Event Category:</h3>
+            <div class="row">
+                <div class="col-sm-6">
+                    <p>
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Category Name:</mat-label>
+                            <input matInput type="text" 
+                             placeholder="Category Name" 
+                             name="categoryName" 
+                             [(ngModel)]="categoryName"
+                             (input) = "isCategoryRedundant()"
+                             required />
+                            <mat-hint class="text-danger" *ngIf="errors.category"> This Category is taken </mat-hint>
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-sm-6">
+                    <p>
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Category Description:</mat-label>
+                            <input matInput type="text" placeholder="Category Description" name="categoryDescription" [(ngModel)]="categoryDescription" required />
+                        </mat-form-field>
+                    </p>
+                    <div>
+                        <button mat-raised-button color="primary" type="submit"
+                            [disabled]="categoryForm.form.invalid || errors.category" (click)="addCategory()">Add Category</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <hr>
+        <div *ngIf="categoryId != -1">
+            <div class="col-sm-12">
+                <div class="text-info"><h5>Events in this category:</h5></div>
+                <div class="row fontS">
+                    <div class="col-sm-2 text-info"><h5>S.No</h5></div>
+                    <div class="col-sm-3 text-info"><h5> Name </h5></div>
+                    <div class="col-sm-4 text-info"><h5> Description </h5></div>
+                    <div class="col-sm-1 text-info"><h5> Fees </h5></div>
+                    <div class="col-sm-1 text-info"><h5> Coupon Applicable </h5></div>
+                    <div class="col-sm-1"></div>
+                </div>
+                <div class="row" *ngFor="let event of categoryDatas[categoryId].events; let i=index">
+                    <br>
+                    <div class="col-sm-2"><h5>{{i+1}}:</h5></div>
+                    <div class="col-sm-3"><h5> {{event.name}} </h5></div>
+                    <div class="col-sm-3"><h5> {{event.description}} </h5></div>
+                    <div class="col-sm-1"><h5> {{event.fees}} </h5></div>
+                    <div class="col-sm-1"><h5> {{event.couponApplicable}} </h5></div>
+                    <div class="col-sm-2">
+                        <button mat-raised-button color="warn" (click)="deleteEvent(event)">Delete Event</button>
+                    </div>
+                </div>
+                <br>
+            </div>
+            <form #eventForm="ngForm" novalidate>
+                <h3 class="text-info fontS">Add Events in the selected Category:</h3>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p>
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Event Name:</mat-label>
+                                <input matInput type="text"
+                                 placeholder="Event Name" 
+                                 name="newEventName" 
+                                 [(ngModel)]="newEventName"
+                                 (input) = "isEventRedundant()"
+                                 required />
+                                 <mat-hint class="text-danger" *ngIf="errors.event"> This Event is taken </mat-hint>
+                            </mat-form-field>
+                        </p>
+                        <p>
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Event Description:</mat-label>
+                                <input matInput type="text" placeholder="Event Description" name="newEventDescription" [(ngModel)]="newEventDescription" required />
+                            </mat-form-field>
+                        </p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p>
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Event Fees:</mat-label>
+                                <input matInput type="text" placeholder="Event Fees" name="newEventFees" [(ngModel)]="newEventFees" required />
+                            </mat-form-field>
+                        </p>
+                        <p>
+                            <!-- <mat-form-field appearance="outline" style="width: 100%;"> -->
+                                <!-- <mat-label>Coupon Applicable:</mat-label> -->
+                                <mat-checkbox name="newEventCoupon" [(ngModel)]="newEventCoupon">Coupon Applicable</mat-checkbox>
+                                <!-- <mat-checkbox name="newEventCoupon" [(ngModel)]="newEventCoupon"></mat-checkbox> -->
+                            <!-- </mat-form-field> -->
+                        </p>
+                        <div>
+                            <button mat-raised-button color="primary"
+                                [disabled]="eventForm.form.invalid || errors.event" (click)="addEvent()">Add Event</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+</div>
+
+<div class="loader-holder" *ngIf="loading">
+    <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+</div>
+

@@ -7,6 +7,8 @@ import { UserGuard } from './guards/user.guard';
 import { ErrorPageComponent } from './error-page/error-page.component';
 import { AdminGuard } from './guards/admin.guard';
 import { UserListComponent } from './user-list/user-list.component';
+import { AddCategoryEventComponent } from './add-category-event/add-category-event.component';
+
 
 
 const routes: Routes = [
@@ -15,6 +17,7 @@ const routes: Routes = [
   { path: 'register', component: RegistrationStudentComponent },
   { path: 'account', component: AccountComponent, canActivate: [UserGuard]},
   { path: 'userlist', component: UserListComponent, canActivate: [AdminGuard]},
+  { path: 'addcategoryevent', component: AddCategoryEventComponent , canActivate: [AdminGuard]},
   {path: '**', component: ErrorPageComponent}
 ];
 

@@ -62,9 +62,10 @@ export class AccountComponent implements OnInit {
             couponResult => {
               if (couponResult.status)
               {
-                if(couponResult.coupon != null)
+                if (couponResult.coupon != null) {
                   this.coupon = couponResult.coupon;
-                console.log(this.coupon)
+                }
+                console.log(this.coupon);
                 this.loading = false;
               }
               else
@@ -169,12 +170,12 @@ export class AccountComponent implements OnInit {
         this.totalO += event.fees;
       }
     }
-    if(this.totalC < 0) {
+    if (this.totalC < 0) {
       this.temp += this.totalC;
       this.totalC = 0;
     }
-    if(this.totalC + this.temp > this.coupon.discountValue && this.couponApplied) {
-      let d = this.coupon.discountValue - this.temp;
+    if (this.totalC + this.temp > this.coupon.discountValue && this.couponApplied) {
+      const d = this.coupon.discountValue - this.temp;
       this.temp += d;
       this.totalC -= d;
     }
