@@ -38,12 +38,13 @@ export class AccountComponent implements OnInit {
   ) { }
 
   loading = true;
+  couponApplied = false;
   newPassword: string;
   confirmNewPassword: string;
   cCode = '';
   coupon = {
     couponCode: '',
-    discount: 0,
+    discountValue: 0,
     email: ''
   };
   paymentReceipt: File = undefined;
@@ -61,20 +62,27 @@ export class AccountComponent implements OnInit {
             couponResult => {
               if (couponResult.status)
               {
-                this.coupon = couponResult.coupon;
-                // console.log(this.coupon.couponCode);
+                if(couponResult.coupon != null)
+                  this.coupon = couponResult.coupon;
+                console.log(this.coupon)
                 this.loading = false;
               }
               else
               {
-                this.loading = false;
                 this.sB.open(result.message);
+                this.loading = false;
               }
             },
             couponProblem => {
               this.loading = false;
-              console.log(couponProblem.error);
-              this.sB.open(couponProblem.error instanceof ProgressEvent ? 'Failed Connecting the Server. Check your Internet Connection or Try again later' : couponProblem.error.message);
+              if (couponProblem.error.error && couponProblem.error.error.message && couponProblem.error.error.message === 'jwt expired') {
+                this.sB.open('Your session has expired !!! Please log in again :)');
+                this.commonS.doLogout();
+              }
+              else {
+                console.log(couponProblem.error);
+                this.sB.open(couponProblem.error instanceof ProgressEvent ? 'Failed Connecting the Server. Check your Internet Connection or Try again later' : couponProblem.error.message);
+              }
             }
           );
         }
@@ -86,8 +94,14 @@ export class AccountComponent implements OnInit {
       },
       problem => {
         this.loading = false;
-        console.log(problem.error);
-        this.sB.open(problem.error instanceof ProgressEvent ? 'Failed Connecting the Server. Check your Internet Connection or Try again later' : problem.error.message);
+        if (problem.error.error && problem.error.error.message && problem.error.error.message === 'jwt expired') {
+          this.sB.open('Your session has expired !!! Please log in again :)');
+          this.commonS.doLogout();
+        }
+        else {
+          console.log(problem.error);
+          this.sB.open(problem.error instanceof ProgressEvent ? 'Failed Connecting the Server. Check your Internet Connection or Try again later' : problem.error.message);
+        }
       }
     );
   }
@@ -98,9 +112,9 @@ export class AccountComponent implements OnInit {
 
   apply() {
     if (this.coupon.couponCode === this.cCode) {
-      if (this.totalC > this.coupon.discount) {
-        this.totalC -= this.coupon.discount;
-        this.temp = this.coupon.discount;
+      if (this.totalC > this.coupon.discountValue) {
+        this.totalC -= this.coupon.discountValue;
+        this.temp = this.coupon.discountValue;
       }
       else {
         this.temp = this.totalC;
@@ -109,12 +123,14 @@ export class AccountComponent implements OnInit {
     } else {
       this.sB.open('Invalid Coupon Code!');
     }
+    this.couponApplied = true;
   }
 
   remove() {
     this.totalC += this.temp;
     this.temp = 0;
     this.cCode = '';
+    this.couponApplied = false;
   }
 
   eventRegistration(categoryId, event) {
@@ -153,7 +169,16 @@ export class AccountComponent implements OnInit {
         this.totalO += event.fees;
       }
     }
-    if (this.totalC < 0) {
+    if(this.totalC < 0) {
+      this.temp += this.totalC;
+      this.totalC = 0;
+    }
+    if(this.totalC + this.temp > this.coupon.discountValue && this.couponApplied) {
+      let d = this.coupon.discountValue - this.temp;
+      this.temp += d;
+      this.totalC -= d;
+    }
+    if (this.totalC < 0 && this.temp == 0) {
       this.remove();
     }
   }
@@ -181,8 +206,14 @@ export class AccountComponent implements OnInit {
         },
         problem => {
           this.loading = false;
-          console.log(problem.error);
-          this.sB.open(problem.error instanceof ProgressEvent ? 'Failed Connecting the Server. Check your Internet Connection or Try again later' : problem.error.message);
+          if (problem.error.error && problem.error.error.message && problem.error.error.message === 'jwt expired') {
+            this.sB.open('Your session has expired !!! Please log in again :)');
+            this.commonS.doLogout();
+          }
+          else {
+            console.log(problem.error);
+            this.sB.open(problem.error instanceof ProgressEvent ? 'Failed Connecting the Server. Check your Internet Connection or Try again later' : problem.error.message);
+          }
         }
       );
     }

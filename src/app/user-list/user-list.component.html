@@ -2,9 +2,9 @@
 <h5 class="text-center text-warning fontS">Showing the checked Columns: (Check/Uncheck to show/hide any column)</h5>
 <br>
 <div class="row" style="margin: 0 5%;">
-    <div class="col-md-1"></div>
+    <div class="col-md-2"></div>
     <div class="col-md-2">
-        <mat-checkbox color="warn" (click)="toggle('b')" [(ngModel)]="show[0]">Name</mat-checkbox>
+        <mat-checkbox color="primary" (click)="toggle('b')" [(ngModel)]="show[1]">Name</mat-checkbox>
     </div>
     <div class="col-md-2">
         <mat-checkbox color="warn" (click)="toggle('d')" [(ngModel)]="show[2]">Email ID</mat-checkbox>
@@ -15,37 +15,37 @@
     <div class="col-md-2">
         <mat-checkbox color="warn" (click)="toggle('f')" [(ngModel)]="show[4]">Year</mat-checkbox>
     </div>
-    <div class="col-md-1"></div>
+    <div class="col-md-2"></div>
 </div>
 <div class="row" style="margin: 0 5%;">
-    <div class="col-md-1"></div>
+    <div class="col-md-2"></div>
     <div class="col-md-2">
-        <mat-checkbox color="primary" (click)="toggle('g')" [(ngModel)]="show[5]">Contact#</mat-checkbox>
+        <mat-checkbox color="warn" (click)="toggle('g')" [(ngModel)]="show[5]">Contact#</mat-checkbox>
     </div>
     <div class="col-md-2">
-        <mat-checkbox color="primary" (click)="toggle('i')" [(ngModel)]="show[7]">Institution Name</mat-checkbox>
+        <mat-checkbox color="primary" (click)="toggle('i')" [(ngModel)]="show[6]">Institution Name</mat-checkbox>
     </div>
     <div class="col-md-2">
-        <mat-checkbox color="primary" (click)="toggle('j')" [(ngModel)]="show[8]">Registered On</mat-checkbox>
+        <mat-checkbox color="warn" (click)="toggle('j')" [(ngModel)]="show[7]">Registered On</mat-checkbox>
     </div>
     <div class="col-md-2">
-        <mat-checkbox color="warn" (click)="toggle('k')" [(ngModel)]="show[9]">Action</mat-checkbox>
+        <mat-checkbox color="primary" (click)="toggle('k')" [(ngModel)]="show[8]">Action</mat-checkbox>
     </div>
-    <div class="col-md-1"></div>
+    <div class="col-md-2"></div>
 </div>
 <br>
 <div class="mat-elevation-z8" style="margin: 0 5%;" *ngIf="!loading">
-    <mat-form-field>
+    <mat-form-field style="width: 100%;">
     <input matInput (input)="applyFilter($event.target.value)" placeholder="Filter">
     </mat-form-field>
-    <table mat-table [dataSource]="dataSource">
+    <table mat-table [dataSource]="dataSource" style="width: 100%;">
     <ng-container matColumnDef="a">
         <th mat-header-cell *matHeaderCellDef> # </th>
         <td mat-cell *matCellDef="let user; let i=index"> {{i+1}} </td>
     </ng-container>
     <ng-container matColumnDef="b">
         <th mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let user"> {{user.name}} </td>
+        <td mat-cell *matCellDef="let user"> {{user.name}} <mat-chip-list *ngIf="user.admin" style="display: inline-block;"><mat-chip style="background: orange;">Admin</mat-chip></mat-chip-list> </td>
     </ng-container>
     <ng-container matColumnDef="d">
         <th mat-header-cell *matHeaderCellDef> Email ID </th>

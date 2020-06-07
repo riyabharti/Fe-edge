@@ -24,7 +24,7 @@ export class UserListComponent implements OnInit {
   displayedColumns: string[] = ['a', 'b', 'd', 'e', 'f', 'g', 'i', 'j'];
   dataSource: MatTableDataSource<User>;
   usersData = [];
-  show = [true, true, true, true, true, true, true, true, true, false];
+  show = [true, true, true, true, true, true, true, true, false];
   userData;
 
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
