@@ -8,6 +8,7 @@ import { ErrorPageComponent } from './error-page/error-page.component';
 import { AdminGuard } from './guards/admin.guard';
 import { UserListComponent } from './user-list/user-list.component';
 import { AddCategoryEventComponent } from './add-category-event/add-category-event.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 
 
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'account', component: AccountComponent, canActivate: [UserGuard]},
   { path: 'userlist', component: UserListComponent, canActivate: [AdminGuard]},
   { path: 'addcategoryevent', component: AddCategoryEventComponent , canActivate: [AdminGuard]},
+  { path: 'resetpassword', component: ResetPasswordComponent, canActivate: [AdminGuard]},
   {path: '**', component: ErrorPageComponent}
 ];
 

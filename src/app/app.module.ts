@@ -36,6 +36,7 @@ import { ErrorPageComponent } from './error-page/error-page.component';
 import { AdminService } from './services/admin.service';
 import { UserListComponent } from './user-list/user-list.component';
 import { AddCategoryEventComponent } from './add-category-event/add-category-event.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { AddCategoryEventComponent } from './add-category-event/add-category-eve
     AccountComponent,
     ErrorPageComponent,
     UserListComponent,
-    AddCategoryEventComponent
+    AddCategoryEventComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,

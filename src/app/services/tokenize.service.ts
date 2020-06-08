@@ -7,7 +7,11 @@ import { HttpInterceptor } from '@angular/common/http';
 export class TokenizeService implements HttpInterceptor {
   intercept(req, next) {
     const interceptApis = [
-      'eventRegister', 'addEvent', 'getAllEvents', 'getAllCoupons', 'getCoupon', 'addCoupon', 'getCoupon', 'fetchUsers', 'admin', 'getFile'
+      'eventRegister', 'addEvent',
+      'getAllEvents', 'getAllCoupons',
+      'getCoupon', 'addCoupon', 'getCoupon',
+      'fetchUsers', 'admin', 'getFile',
+      'resetPassword'
     ];
     const parts = req.url.split('/');
     if (

@@ -6,6 +6,7 @@ import { User } from '../User';
 import { AdminService } from '../services/admin.service';
 import { CommonService } from '../services/common.service';
 import { Title } from '@angular/platform-browser';
+import {environment} from 'src/environments/environment';
 
 @Component({
   selector: 'app-user-list',
@@ -21,11 +22,13 @@ export class UserListComponent implements OnInit {
     private title: Title
   ) { title.setTitle('E-Edge | UserList'); }
 
-  displayedColumns: string[] = ['a', 'b', 'd', 'e', 'f', 'g', 'i', 'j'];
+  displayedColumns: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'i', 'j', 'k', 'l'];
   dataSource: MatTableDataSource<User>;
   usersData = [];
-  show = [true, true, true, true, true, true, true, true, false];
+  show = [true, true, true, true, true, true, true, true, true, true, true, true];
   userData;
+
+  url = environment.apiURL + '/common/getFile/';
 
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   loading = true;
@@ -82,41 +85,43 @@ export class UserListComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  // deleteUser(email: string) {
-  //   if (this.commonS.isAdmin()) {
-  //     if (confirm('Sure to Delete User with email ' + email + '?')) {
-  //       alert('Delete User to be created');
-  //       // this.loading = true;
-  //       // this.adminS.deleteUser(username).subscribe(
-  //       //   result => {
-  //       //     if (result.status) {
-  //       //       this.sB.open(result.message);
-  //       //       this.getUsers();
-  //       //     }
-  //       //     else {
-  //       //       this.loading = false;
-  //       //       this.sB.open(result.message);
-  //       //     }
-  //       //   },
-  //       //   problem => {
-  //       //     this.loading = false;
-  //       //     if (problem.error.error && problem.error.error.message && problem.error.error.message == 'jwt expired') {
-  //       //       this.sB.open('Your session has expired !!! Please log in again :)');
-  //       //       this.commonS.doLogout();
-  //       //     }
-  //       //     else {
-  //       //       console.log(problem.error);
-  //       //       this.sB.open(problem.error instanceof ProgressEvent ? 'Failed Connecting the Server. Check your Internet Connection or Try again later' : problem.error.message);
-  //       //     }
-  //       //   }
-  //       // );
-  //     }
-  //   }
-  //   else {
-  //     this.sB.open('Some problem occurred :/ Please log in again');
-  //     this.commonS.doLogout();
-  //   }
-  // }
+  verifyUser(user)
+  {
+    if (user.verified === true)
+    {
+      alert('User is already verified');
+      return;
+    }
+    if (confirm('Sure to Verify User with Name: ' + user.name + '?'))
+    {
+      this.loading = true;
+      this.adminS.verifyUser(user._id).subscribe(
+        result => {
+          if (result.status)
+          {
+            this.loading = false;
+            this.sB.open(result.message);
+            this.getUsers();
+          }
+          else {
+            this.loading = false;
+            this.sB.open(result.message);
+          }
+        },
+        problem => {
+          this.loading = false;
+          if (problem.error.error && problem.error.error.message && problem.error.error.message === 'jwt expired') {
+            this.sB.open('Your session has expired !!! Please log in again :)');
+            this.commonS.doLogout();
+          }
+          else {
+            console.log(problem.error);
+            this.sB.open(problem.error instanceof ProgressEvent ? 'Failed Connecting the Server. Check your Internet Connection or Try again later' : problem.error.message);
+          }
+        }
+      );
+    }
+  }
 
   deleteUser(user) {
     if (this.commonS.isAdmin()) {
@@ -130,6 +135,7 @@ export class UserListComponent implements OnInit {
         this.adminS.deleteUser(user._id).subscribe(
           result => {
             if (result.status) {
+              this.loading = false;
               this.sB.open(result.message);
               this.getUsers();
             }

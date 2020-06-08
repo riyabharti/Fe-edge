@@ -39,4 +39,14 @@ export class AdminService {
   deleteUser(uid: string) {
     return this.http.get<any>(this.url + '/deleteUser/' + uid);
   }
+
+  resetPassword(user: {id, password})
+  {
+    return this.http.post<any>(this.url + '/resetPassword', user);
+  }
+
+  verifyUser(uid: string)
+  {
+    return this.http.get<any>(this.url + '/verifyUser/' + uid);
+  }
 }
