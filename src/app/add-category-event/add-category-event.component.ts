@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../services/common.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AdminService } from '../services/admin.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-add-category-event',
@@ -38,15 +39,27 @@ export class AddCategoryEventComponent implements OnInit {
   constructor(
     private commonS: CommonService,
     private sB: MatSnackBar,
-    private adminS: AdminService
-  ) { }
+    private adminS: AdminService,
+    private title: Title
+  ) { title.setTitle('E-Edge | Add Events')}
 
   loading = true;
   eventLoading = true;
 
   ngOnInit(): void {
-    this.categoryId = -1;
+    this.changeToDefault();
     this.getCategories();
+  }
+
+  changeToDefault()
+  {
+    this.newEventName = '';
+    this.newEventDescription = '';
+    this.newEventFees = 0;
+    this.newEventCoupon = false;
+    this.categoryName = '';
+    this.categoryDescription = '';
+    this.categoryId = -1;
   }
 
   getCategories() {

@@ -3,6 +3,7 @@ import { CommonService } from '../services/common.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserService } from '../services/user.service';
 import { environment } from '../../environments/environment';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-account',
@@ -34,8 +35,9 @@ export class AccountComponent implements OnInit {
   constructor(
     private commonS: CommonService,
     private sB: MatSnackBar,
-    private userS: UserService
-  ) { }
+    private userS: UserService,
+    private title: Title
+  ) { title.setTitle('E-Edge | Account'); }
 
   loading = true;
   couponApplied = false;
