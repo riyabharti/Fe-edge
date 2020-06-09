@@ -3,7 +3,6 @@
         <div class="col-sm-2"></div>
         <div class="col-sm-8">
             <h2 class="text-warning text-center fontS">Registration</h2>
-            <h4 class="text-success text-center fontS">Open Till {{deadline}}</h4>
             <br>
             <form #registerForm="ngForm" (submit)="register($event.target)" novalidate>
                 <br>
@@ -90,11 +89,11 @@
                     </div>
                 </div>
                 <br>
-                <h3 class="text-info fontS">Photo and Identity Card:</h3>
+                <h3 class="text-info fontS">Photo:</h3>
                 <hr>
                 <div class="row">
                     <div class="col-sm-12">
-                        <p>Upload Your Recent Photo:</p>
+                        <p>Upload Your Recent Photo (.jpg, .jpeg, .png extensions are allowed):</p>
                         <label class="btn btn-outline-success" for="fileInput" style="width: 100%">{{ photo ? "Choose Other File" : "Choose File" }}
                             <input type="file" hidden id="fileInput" accept="image/*"
                                 (change)="fileRead($event.target.files)" required>

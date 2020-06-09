@@ -17,11 +17,12 @@
     <div class="col-md-2">
         <mat-checkbox color="warn" (click)="toggle('f')" [(ngModel)]="show[5]">Contact#</mat-checkbox>
     </div>
+    <div class="col-md-2"></div>
+</div>
+<div class="row" style="margin: 0 5%;">
     <div class="col-md-2">
         <mat-checkbox color="primary" (click)="toggle('g')" [(ngModel)]="show[6]">Institution Name</mat-checkbox>
     </div>
-</div>
-<div class="row" style="margin: 0 5%;">
     <div class="col-md-2">
         <mat-checkbox color="warn" (click)="toggle('h')" [(ngModel)]="show[7]">Registered On</mat-checkbox>
     </div>
@@ -32,10 +33,7 @@
         <mat-checkbox color="primary" (click)="toggle('j')" [(ngModel)]="show[9]">Photo</mat-checkbox>
     </div>
     <div class="col-md-2">
-        <mat-checkbox color="primary" (click)="toggle('k')" [(ngModel)]="show[10]">Verify User</mat-checkbox>
-    </div>
-    <div class="col-md-2">
-        <mat-checkbox color="primary" (click)="toggle('l')" [(ngModel)]="show[11]">Action</mat-checkbox>
+        <mat-checkbox color="primary" (click)="toggle('k')" [(ngModel)]="show[10]">Action</mat-checkbox>
     </div>
     <div class="col-md-2"></div>
 </div>
@@ -96,18 +94,13 @@
         </td>
     </ng-container>
     <ng-container matColumnDef="k">
-        <th mat-header-cell *matHeaderCellDef> Verify User </th>
+        <th mat-header-cell *matHeaderCellDef> Action </th>
         <td mat-cell *matCellDef="let user"> 
             <button mat-icon-button
              (click)="verifyUser(user)"
              *ngIf = "!user.verified"
             ><mat-icon color="accent">check_circle</mat-icon></button>
             <mat-icon class="text-success" *ngIf="user.verified">verified_user</mat-icon>
-        </td>
-    </ng-container>
-    <ng-container matColumnDef="l">
-        <th mat-header-cell *matHeaderCellDef> Action </th>
-        <td mat-cell *matCellDef="let user"> 
             <button mat-icon-button (click)="deleteUser(user)"><mat-icon color="warn">delete</mat-icon></button>
         </td>
     </ng-container>

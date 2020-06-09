@@ -118,7 +118,7 @@ export class AccountComponent implements OnInit {
   }
 
   apply() {
-    if (this.coupon.couponCode === this.cCode) {
+    if (this.coupon.couponCode.toLocaleLowerCase() === this.cCode.toLocaleLowerCase()) {
       if (this.totalC > this.coupon.discountValue) {
         this.totalC -= this.coupon.discountValue;
         this.temp = this.coupon.discountValue;

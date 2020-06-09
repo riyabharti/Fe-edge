@@ -7,7 +7,7 @@ html, body {
     height: 100%;
     overflow-x: hidden;
     color: white;
-    background: #263238;
+    background: #151515;
 }
 
 body {
@@ -17,6 +17,14 @@ body {
 
 .mat-tab-body-content {
     overflow: hidden !important;
+}
+
+.mat-chip-list-wrapper {
+    display: block !important;
+}
+
+.mat-card-header-text {
+    margin: 0px !important;
 }
 
 .example-spacer {

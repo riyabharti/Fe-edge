@@ -7,7 +7,7 @@
     </div>
     <div class="col-sm-4" style="padding: 2% 5%;">
         <br />
-        <h3 class="text-center text-success fontS">Login</h3>
+        <h3 class="text-center text-danger fontS">Login</h3>
         <br>
         <form #loginForm="ngForm" (submit)="login($event.target)" novalidate>
             <p>
@@ -34,19 +34,19 @@
                 </mat-form-field>
             </p>
             <p>
-                <button mat-raised-button color="primary" type="submit"
+                <button mat-raised-button type="submit"
                     [disabled]="loginForm.form.invalid">Login</button>
             </p>
         </form>
         <br>
         <p class="fontS text-center">Not Registered Yet!
-            <button mat-raised-button color="primary" routerLink="/register">Register</button>
+            <button mat-raised-button color="warn" routerLink="/register">Register</button>
         </p>
         <hr>
         <br>
-        <h4 *ngIf="registration && !loading" class="fontS text-warning text-center">Registration Ends:<br><span class="text-success">{{settings.registration_ends}}</span></h4>
-        <h4 *ngIf="!registration && !loading" class="fontS text-warning text-center">Competition Starts:<br><span class="text-success">{{settings.startTime}}</span></h4>
-        <h4 *ngIf="!registration && !loading" class="fontS text-warning text-center">Competition Ends:<br><span class="text-success">{{settings.endTime}}</span></h4>
+        <h4 *ngIf="registration && !loading" class="fontS text-secondary text-center">Registration Ends:<br><span class="text-danger">{{settings.registration_ends}}</span></h4>
+        <h4 *ngIf="!registration && !loading" class="fontS text-secondary text-center">Competition Starts:<br><span class="text-danger">{{settings.startTime}}</span></h4>
+        <h4 *ngIf="!registration && !loading" class="fontS text-secondary text-center">Competition Ends:<br><span class="text-danger">{{settings.endTime}}</span></h4>
     </div>
 </div>
 

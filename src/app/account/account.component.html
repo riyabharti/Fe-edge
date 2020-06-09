@@ -1,49 +1,49 @@
 <br>
 <div class="container">
     <br>
-    <h4 class="text-center text-warning fontS">Registration Info</h4>
+    <h4 class="text-center text-danger fontS">Registration Info</h4>
     <br>
     <div class="row">
         <div class="col-sm-6">
             <div class="row fontS">
-                <div class="col-sm-4 text-info"><h5>Name:</h5></div>
+                <div class="col-sm-4 text-secondary"><h5>Name:</h5></div>
                 <div class="col-sm-8"><h5> {{userData.name}} </h5></div>
             </div>
             <br>
             <div class="row fontS">
-                <div class="col-sm-4 text-info"><h5>Email ID:</h5></div>
+                <div class="col-sm-4 text-secondary"><h5>Email ID:</h5></div>
                 <div class="col-sm-8"><h5> {{userData.email}} </h5></div>
             </div>
             <br>
             <div class="row fontS">
-                <div class="col-sm-4 text-info"><h5>Stream:</h5></div>
+                <div class="col-sm-4 text-secondary"><h5>Stream:</h5></div>
                 <div class="col-sm-8"><h5> {{userData.stream}} </h5></div>
             </div>
             <br>
             <div class="row fontS">
-                <div class="col-sm-4 text-info"><h5>Year:</h5></div>
+                <div class="col-sm-4 text-secondary"><h5>Year:</h5></div>
                 <div class="col-sm-8"><h5> {{userData.year}} </h5></div>
             </div>
             <br>
             <div class="row fontS">
-                <div class="col-sm-4 text-info"><h5>Contact Number:</h5></div>
+                <div class="col-sm-4 text-secondary"><h5>Contact Number:</h5></div>
                 <div class="col-sm-8"><h5> {{userData.contact}} </h5></div>
             </div>
             <br>
             <div class="row fontS">
-                <div class="col-sm-4 text-info"><h5>College Name:</h5></div>
+                <div class="col-sm-4 text-secondary"><h5>College Name:</h5></div>
                 <div class="col-sm-8"><h5> {{userData.instituteName}} </h5></div>
             </div>
             <br>
             <div class="row fontS">
-                <div class="col-sm-4 text-info"><h5>Event Registration:</h5></div>
-                <div class="col-sm-8 text-success" *ngIf="eventRegistered"><h5>Complete<br><a [href]="receiptUrl">Download Receipt</a></h5></div>
+                <div class="col-sm-4 text-secondary"><h5>Event Registration:</h5></div>
+                <div class="col-sm-8" *ngIf="eventRegistered"><h5>Complete, Paid INR {{userData.total}}/- <br><a [href]="receiptUrl">Download Receipt</a></h5></div>
                 <div class="col-sm-8 text-danger" *ngIf="!eventRegistered"><h5>Pending...</h5></div>
             </div>
             <br>
             <div class="row fontS" *ngIf="eventRegistered">
-                <div class="col-sm-4 text-info"><h5>Registration Verification:</h5></div>
-                <div class="col-sm-8 text-success" *ngIf="userData.verified "><h5>Complete</h5></div>
+                <div class="col-sm-4 text-secondary"><h5>Registration Verification:</h5></div>
+                <div class="col-sm-8" *ngIf="userData.verified "><h5>Complete</h5></div>
                 <div class="col-sm-8 text-danger" *ngIf="!userData.verified "><h5>Pending...</h5></div>
             </div>
             <br>
@@ -58,8 +58,8 @@
     <div class="row">
         <div class="col-sm-12">
             <br>
-            <h4 class="text-center text-warning fontS">Event Info</h4>
-            <small class="text-success text-center">The events which are marked <mat-icon class="text-success">check_circle</mat-icon> will be eligible for discount when a valid coupon code is applied.</small>
+            <h4 class="text-center text-danger fontS">Event Info</h4>
+            <small class="text-secondary text-center">The events which are marked <mat-icon class="text-danger">check_circle</mat-icon> will be eligible for discount when a valid coupon code is applied.</small>
             <br><br>
             <mat-accordion class="example-headers-align mat-elevation-z8" multi>
             <mat-expansion-panel *ngFor="let categoryData of categoryDatas; let i=index">
@@ -75,13 +75,12 @@
                 <mat-card class="col-sm-4 example-card mat-elevation-z8" style="display: inline-block;" *ngFor="let event of categoryData.events; let i=index">
                     <mat-card-header>
                         <mat-card-title><mat-checkbox color="warn" (click)="eventRegistration(categoryData._id,event)">
-                            <span class="text-primary"> {{event.name}} @ INR {{event.fees}}/- </span>
-                            <mat-icon class="text-success" *ngIf="event.couponApplicable">check_circle</mat-icon>
+                            {{event.name}} @ INR {{event.fees}}/- <mat-icon class="text-danger" *ngIf="event.couponApplicable">check_circle</mat-icon>
                         </mat-checkbox></mat-card-title>
                         <mat-card-subtitle></mat-card-subtitle>
                     </mat-card-header>
                     <mat-card-content>
-                        <p> {{event.description}} </p>
+                        <p style="color: rgba(255,255,255,.7);"> {{event.description}} </p>
                     </mat-card-content>
                     <!-- <mat-card-actions>
                     </mat-card-actions> -->
@@ -94,22 +93,22 @@
                 <br><hr>
                 <div class="col-sm-4">
                     <div class="row fontS">
-                        <div class="col-sm-6 text-info"><h5>Category:</h5></div>
+                        <div class="col-sm-6 text-secondary"><h5>Category:</h5></div>
                         <div class="col-sm-6"><h5> {{categoryData.category}} </h5></div>
                     </div>
                     <br>
                     <div class="row fontS">
-                        <div class="col-sm-6 text-info"><h5>Description:</h5></div>
+                        <div class="col-sm-6 text-secondary"><h5>Description:</h5></div>
                         <div class="col-sm-6"><h5> {{categoryData.description}} </h5></div>
                     </div>
                 </div>
                 <div class="col-sm-8">
-                        <div class="text-info"><h5>Events in this category:</h5></div>
+                        <div class="text-secondary"><h5>Events in this category:</h5></div>
                         <div class="row fontS">
-                            <div class="col-sm-2 text-info"><h5>S.No</h5></div>
-                            <div class="col-sm-4 text-info"><h5> Name </h5></div>
-                            <div class="col-sm-4 text-info"><h5> Description </h5></div>
-                            <div class="col-sm-1 text-info" *ngIf="!eventRegistered"><h5> Fees </h5></div>
+                            <div class="col-sm-2 text-secondary"><h5>S.No</h5></div>
+                            <div class="col-sm-4 text-secondary"><h5> Name </h5></div>
+                            <div class="col-sm-4 text-secondary"><h5> Description </h5></div>
+                            <div class="col-sm-1 text-secondary" *ngIf="!eventRegistered"><h5> Fees </h5></div>
                             <div class="col-sm-1"></div>
                         </div>
                         <div class="row" *ngFor="let event of categoryData.events; let i=index">
@@ -128,49 +127,53 @@
         </div>
     </div>
 </div>
-<br><br><br><br><br><br>
+<br><br>
 <!-- <div class="container" style="width: 100% !important;"> -->
-    <div class="row text-center fontS" *ngIf="coupon.couponCode && !eventRegistered" style="position: fixed; width: 100% !important; bottom: 0; background: #404040; padding: 1% 1% 0% 1% !important;">
-        <div class="col-sm-3"><h5>Total Amount (INR): {{totalO}} + <span *ngIf="temp == 0">{{totalC}}</span><span *ngIf="temp != 0"><s>{{totalC + temp}}</s> {{totalC}} </span> = {{totalC + totalO}}/- </h5></div>
-        <div class="col-sm-2">
-            <mat-form-field appearance="legacy" style="width: 100%;" *ngIf="temp == 0">
-                <mat-label>Enter Coupon Code here</mat-label>
-                <input matInput type="text" placeholder="Coupon Code Please" name="cc" [(ngModel)]="cCode" />
-            </mat-form-field>
-            <mat-chip-list *ngIf="temp != 0">Coupon Applied:<mat-chip style="background: orange; color: black; font-weight: bold;">{{cCode}}</mat-chip><br><br></mat-chip-list>
-        </div>
-        <div class="col-sm-2">
-            <button mat-raised-button color="accent" (click)="apply()" *ngIf="temp == 0" [disabled]="totalC == 0 || cCode == ''">Apply Coupon</button>
-            <button mat-raised-button color="warn" (click)="remove()" *ngIf="temp != 0">Remove Coupon</button>
-        </div>
-        <div class="col-sm-3">
-            <p>Upload Payment Receipt:</p>
-            <label class="btn btn-outline-success" for="fileInput3" style="width: 100%">{{ paymentReceipt ? "Choose Other File" : "Choose File" }}
-                <input type="file" hidden id="fileInput3" accept="image/*, .pdf"
-                    (change)="fileRead($event.target.files)" required>
-            </label>
-            <p>{{ paymentReceipt ? 'File Chosen: ' + paymentReceipt.name : "No File Chosen" }}</p>
-        </div>
-        <div class="col-sm-2">
-            <button mat-raised-button color="primary" (click)="eventPayment()" [disabled]="totalC + totalO == 0 || !paymentReceipt">Register for events</button>
-        </div>
+<div class="row text-center fontS" *ngIf="coupon.couponCode && !eventRegistered" style="background: #202020; padding: 1% 1% 0% 1% !important;">
+    <div class="col-sm-3 text-center">
+        <mat-form-field appearance="legacy" style="width: 80%;" *ngIf="temp == 0">
+            <mat-label>Enter Coupon Code here</mat-label>
+            <input matInput type="text" placeholder="Coupon Code Please" name="cc" [(ngModel)]="cCode" />
+        </mat-form-field>
+        <mat-chip-list class="text-center" *ngIf="temp != 0">Coupon Applied:<mat-chip style="background: #dc3545; color: white; font-weight: bold;">{{cCode}}</mat-chip><br><br></mat-chip-list>
     </div>
-    <div class="row text-center fontS" *ngIf="!coupon.couponCode && !loading && !eventRegistered" style="position: fixed; width: 100% !important; bottom: 0; background: #404040; padding: 1% 1% 0% 1% !important;">
-        <div class="col-sm-3"><h5>Total Amount (INR): {{totalO + totalC}}  </h5></div>
-        <div class="col-sm-3">
-            <p>Upload Payment Receipt:</p>
-            <label class="btn btn-outline-success" for="fileInput3" style="width: 100%">{{ paymentReceipt ? "Choose Other File" : "Choose File" }}
-                <input type="file" hidden id="fileInput3" accept="image/*, .pdf"
-                    (change)="fileRead($event.target.files)" required>
-            </label>
-            <p>{{ paymentReceipt ? 'File Chosen: ' + paymentReceipt.name : "No File Chosen" }}</p>
-        </div>
-        <div class="col-sm-3">
-            <button mat-raised-button color="primary" (click)="eventPayment()" [disabled]="totalC + totalO == 0 || !paymentReceipt">Register for events</button>
-        </div>
-        <div class="col-sm-3">
-            <h5>You do not have any coupons. Contact admin for any issue.</h5>
-        </div>
+    <div class="col-sm-3">
+        <button mat-raised-button (click)="apply()" *ngIf="temp == 0" [disabled]="totalC == 0 || cCode == ''">Apply Coupon</button>
+        <button mat-raised-button color="warn" (click)="remove()" *ngIf="temp != 0">Remove Coupon</button>
+    </div>
+    <div class="col-sm-3">
+        <p>Upload Payment Receipt:</p>
+        <label class="btn btn-outline-danger" for="fileInput3" style="width: 100%">{{ paymentReceipt ? "Choose Other File" : "Choose File" }}
+            <input type="file" hidden id="fileInput3" accept="image/*, .pdf"
+                (change)="fileRead($event.target.files)" required>
+        </label>
+        <p>{{ paymentReceipt ? 'File Chosen: ' + paymentReceipt.name : "No File Chosen" }}</p>
+    </div>
+    <div class="col-sm-3">
+        <button mat-raised-button (click)="eventPayment()" [disabled]="totalC + totalO == 0 || !paymentReceipt">Register for events</button>
+    </div>
+</div>
+<div class="row text-center fontS" *ngIf="!coupon.couponCode && !loading && !eventRegistered" style="background: #202020; padding: 1% 1% 0% 1% !important;">
+    <div class="col-sm-4">
+        <p>Upload Payment Receipt (.jpg, .jpeg, .png, .pdf extensions are allowed):</p>
+        <label class="btn btn-outline-danger" for="fileInput3" style="width: 100%">{{ paymentReceipt ? "Choose Other File" : "Choose File" }}
+            <input type="file" hidden id="fileInput3" accept="image/*, .pdf"
+                (change)="fileRead($event.target.files)" required>
+        </label>
+        <p>{{ paymentReceipt ? 'File Chosen: ' + paymentReceipt.name : "No File Chosen" }}</p>
+    </div>
+    <div class="col-sm-4">
+        <button mat-raised-button (click)="eventPayment()" [disabled]="totalC + totalO == 0 || !paymentReceipt">Register for events</button>
+    </div>
+    <div class="col-sm-4 text-danger">
+        <h6>You do not have any coupon. Contact admin for any issue.</h6>
+    </div>
+</div>
+<br><br>
+<!-- <div class="container" style="width: 100% !important;"> -->
+    <div class="text-center fontS" style="position: fixed; width: 100% !important; bottom: 0; background: #202020; padding: 1% !important;">
+        <h5 *ngIf="coupon.couponCode && !eventRegistered">Total Amount (INR): {{totalO}} + <span *ngIf="temp == 0">{{totalC}}</span><span *ngIf="temp != 0"><s>{{totalC + temp}}</s> {{totalC}} </span> = {{totalC + totalO}}/- </h5>
+        <h5 *ngIf="!coupon.couponCode && !loading && !eventRegistered">Total Amount (INR): {{totalO + totalC}}  </h5>
     </div>
 <!-- </div> -->
 <div class="loader-holder" *ngIf="loading">

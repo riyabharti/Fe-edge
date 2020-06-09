@@ -25,7 +25,7 @@ export class UserListComponent implements OnInit {
   displayedColumns: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'i', 'j'];
   dataSource: MatTableDataSource<User>;
   usersData = [];
-  show = [true, true, true, true, true, true, true, true, true, true, false, false];
+  show = [true, true, true, true, true, true, true, true, true, true, false];
   userData;
 
   url = environment.apiURL + '/common/getFile/';
@@ -92,7 +92,7 @@ export class UserListComponent implements OnInit {
       alert('User is already verified');
       return;
     }
-    if (confirm('Sure to Verify User with Name: ' + user.name + '?'))
+    if (confirm('Sure to Verify User with Name: ' + user.name + '? This action can\'t be undone!!!'))
     {
       this.loading = true;
       this.adminS.verifyUser(user._id).subscribe(
@@ -130,7 +130,7 @@ export class UserListComponent implements OnInit {
         this.sB.open('You cannot delete an admin user!');
         return;
       }
-      if (confirm('Sure to Delete User with email ' + user.email + '?')) {
+      if (confirm('Sure to Delete User with email ' + user.email + '? This action can\'t be undone!!!')) {
         this.loading = true;
         this.adminS.deleteUser(user._id).subscribe(
           result => {
