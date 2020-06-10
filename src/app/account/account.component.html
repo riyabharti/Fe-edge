@@ -58,7 +58,7 @@
     <div class="row">
         <div class="col-sm-12">
             <br>
-            <h4 class="text-center text-danger fontS">Event Info</h4>
+            <h4 class="text-center text-danger fontS">Event Info </h4>
             <small class="text-secondary text-center">The events which are marked <mat-icon class="text-danger">check_circle</mat-icon> will be eligible for discount when a valid coupon code is applied.</small>
             <br><br>
             <mat-accordion class="example-headers-align mat-elevation-z8" multi>
@@ -80,7 +80,13 @@
                         <mat-card-subtitle></mat-card-subtitle>
                     </mat-card-header>
                     <mat-card-content>
-                        <p style="color: rgba(255,255,255,.7);"> {{event.description}} </p>
+                        <p style="color: rgba(255,255,255,.7);"> 
+                            {{event.description}}
+                        </p>
+                        <p *ngIf="event.extra">
+                            Add extra money, before selecting event
+                        </p>
+                        <input matInput *ngIf="event.extra" type="number" min="0" placeholder="Extra money" name="extraMoney" [(ngModel)]="event.extraMoney" />
                     </mat-card-content>
                     <!-- <mat-card-actions>
                     </mat-card-actions> -->

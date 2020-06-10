@@ -58,21 +58,29 @@
             <div class="col-sm-12">
                 <div class="text-info"><h5>Events in this category:</h5></div>
                 <div class="row fontS">
-                    <div class="col-sm-2 text-info"><h5>S.No</h5></div>
+                    <div class="col-sm-1 text-info"><h5>S.No</h5></div>
                     <div class="col-sm-3 text-info"><h5> Name </h5></div>
                     <div class="col-sm-3 text-info"><h5> Description </h5></div>
                     <div class="col-sm-1 text-info"><h5> Fees </h5></div>
-                    <div class="col-sm-1 text-info"><h5> Coupon Applicable </h5></div>
-                    <div class="col-sm-2"></div>
+                    <div class="col-sm-2 text-info"><h5> Coupon Applicable </h5></div>
+                    <div class="col-sm-1 text-info"><h5> Extra Money Required </h5></div>
+                    <div class="col-sm-1"></div>
                 </div>
                 <div class="row" *ngFor="let event of categoryDatas[categoryId].events; let i=index">
                     <br>
-                    <div class="col-sm-2"><h5>{{i+1}}:</h5></div>
+                    <div class="col-sm-1"><h5>{{i+1}}:</h5></div>
                     <div class="col-sm-3"><h5> {{event.name}} </h5></div>
                     <div class="col-sm-3"><h5> {{event.description}} </h5></div>
                     <div class="col-sm-1"><h5> {{event.fees}} </h5></div>
-                    <div class="col-sm-1"><h5> {{event.couponApplicable}} </h5></div>
                     <div class="col-sm-2">
+                        <mat-icon class="text-success" *ngIf="event.couponApplicable">check_circle</mat-icon>
+                        <mat-icon class="text-danger" *ngIf="!event.couponApplicable">not_interested</mat-icon>
+                    </div>
+                    <div class="col-sm-1">
+                        <mat-icon class="text-success" *ngIf="event.extra">check_circle</mat-icon>
+                        <mat-icon class="text-danger" *ngIf="!event.extra">not_interested</mat-icon>
+                    </div>
+                    <div class="col-sm-1">
                         <button mat-raised-button color="warn" (click)="deleteEvent(event,i)">Delete Event</button>
                     </div>
                 </div>
@@ -109,11 +117,10 @@
                             </mat-form-field>
                         </p>
                         <p>
-                            <!-- <mat-form-field appearance="outline" style="width: 100%;"> -->
-                                <!-- <mat-label>Coupon Applicable:</mat-label> -->
-                                <mat-checkbox name="newEventCoupon" [(ngModel)]="newEventCoupon">Coupon Applicable</mat-checkbox>
-                                <!-- <mat-checkbox name="newEventCoupon" [(ngModel)]="newEventCoupon"></mat-checkbox> -->
-                            <!-- </mat-form-field> -->
+                            <mat-checkbox name="newEventCoupon" [(ngModel)]="newEventCoupon">Coupon Applicable</mat-checkbox>
+                        </p>
+                        <p>
+                            <mat-checkbox name="newEventExtra" [(ngModel)]="newEventExtra">Extra money required</mat-checkbox>
                         </p>
                         <div>
                             <button mat-raised-button color="primary"
