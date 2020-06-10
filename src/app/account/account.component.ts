@@ -23,7 +23,9 @@ export class AccountComponent implements OnInit {
       'name': '',
       'fees': 0,
       'description': '',
-      'couponApplicable': boolean
+      'couponApplicable': boolean,
+      'extra': boolean,
+      'extraMoney': number
     }]
   }];
 
@@ -57,60 +59,66 @@ export class AccountComponent implements OnInit {
     this.userData = JSON.parse(localStorage.getItem('user'));
     this.photoUrl = environment.apiURL + '/common/getFile/' + this.userData._id + '/photo.' + this.userData.photo;
     this.receiptUrl = environment.apiURL + '/common/getFile/' + this.userData._id + '/receipt.' + this.userData.receipt;
-    this.isEventRegister();
-    this.commonS.fetchEvents().subscribe(
-      result => {
-        if (result.status)
-        {
-          this.categoryDatas = result.data;
-          // this.loading = false;
-          this.commonS.getCoupon().subscribe(
-            couponResult => {
-              if (couponResult.status)
-              {
-                if (couponResult.coupon != null) {
-                  this.coupon = couponResult.coupon;
+    if (!this.isEventRegister())
+    {
+      this.commonS.fetchEvents().subscribe(
+        result => {
+          if (result.status)
+          {
+            this.categoryDatas = result.data;
+            // this.loading = false;
+            this.commonS.getCoupon().subscribe(
+              couponResult => {
+                if (couponResult.status)
+                {
+                  if (couponResult.coupon != null) {
+                    this.coupon = couponResult.coupon;
+                  }
+                  console.log(this.coupon);
+                  this.loading = false;
                 }
-                console.log(this.coupon);
+                else
+                {
+                  this.sB.open(result.message);
+                  this.loading = false;
+                }
+              },
+              couponProblem => {
                 this.loading = false;
+                if (couponProblem.error.error && couponProblem.error.error.message && couponProblem.error.error.message === 'jwt expired') {
+                  this.sB.open('Your session has expired !!! Please log in again :)');
+                  this.commonS.doLogout();
+                }
+                else {
+                  console.log(couponProblem.error);
+                  this.sB.open(couponProblem.error instanceof ProgressEvent ? 'Failed Connecting the Server. Check your Internet Connection or Try again later' : couponProblem.error.message);
+                }
               }
-              else
-              {
-                this.sB.open(result.message);
-                this.loading = false;
-              }
-            },
-            couponProblem => {
-              this.loading = false;
-              if (couponProblem.error.error && couponProblem.error.error.message && couponProblem.error.error.message === 'jwt expired') {
-                this.sB.open('Your session has expired !!! Please log in again :)');
-                this.commonS.doLogout();
-              }
-              else {
-                console.log(couponProblem.error);
-                this.sB.open(couponProblem.error instanceof ProgressEvent ? 'Failed Connecting the Server. Check your Internet Connection or Try again later' : couponProblem.error.message);
-              }
-            }
-          );
-        }
-        else
-        {
+            );
+          }
+          else
+          {
+            this.loading = false;
+            this.sB.open(result.message);
+          }
+        },
+        problem => {
           this.loading = false;
-          this.sB.open(result.message);
+          if (problem.error.error && problem.error.error.message && problem.error.error.message === 'jwt expired') {
+            this.sB.open('Your session has expired !!! Please log in again :)');
+            this.commonS.doLogout();
+          }
+          else {
+            console.log(problem.error);
+            this.sB.open(problem.error instanceof ProgressEvent ? 'Failed Connecting the Server. Check your Internet Connection or Try again later' : problem.error.message);
+          }
         }
-      },
-      problem => {
-        this.loading = false;
-        if (problem.error.error && problem.error.error.message && problem.error.error.message === 'jwt expired') {
-          this.sB.open('Your session has expired !!! Please log in again :)');
-          this.commonS.doLogout();
-        }
-        else {
-          console.log(problem.error);
-          this.sB.open(problem.error instanceof ProgressEvent ? 'Failed Connecting the Server. Check your Internet Connection or Try again later' : problem.error.message);
-        }
-      }
-    );
+      );
+    }
+    else
+    {
+      this.loading = false;
+    }
   }
 
   isAdmin(): boolean {
@@ -141,39 +149,72 @@ export class AccountComponent implements OnInit {
   }
 
   eventRegistration(categoryId, event) {
+    let addedExtraMoney = 0;
     if (this.eventReg.hasOwnProperty(categoryId))
     {
-      if (this.eventReg[categoryId].indexOf(event._id) === -1)
+      if ( this.eventReg[categoryId].find(e => e.split('_')[0] === event._id) === undefined)
+      // if (this.eventReg[categoryId].indexOf(event._id) === -1)
       {
-        this.eventReg[categoryId] = [...this.eventReg[categoryId], event._id];
+        if (event.extraMoney === undefined)
+        {
+          event.extraMoney = 0;
+          this.eventReg[categoryId] = [...this.eventReg[categoryId], event._id];
+        }
+        else
+        {
+          this.eventReg[categoryId] = [...this.eventReg[categoryId], event._id + '_' + event.extraMoney];
+        }
         if (event.couponApplicable) {
-          this.totalC += event.fees;
+          this.totalC += event.fees + event.extraMoney;
         }
         else {
-          this.totalO += event.fees;
+          this.totalO += event.fees + event.extraMoney;
         }
       }
       else
       {
         this.eventReg[categoryId] = this.eventReg[categoryId].filter(
-          (value, index, arr) => value !== event._id
+          (value, index, arr) =>
+          {
+            if (value.split('_')[0] !== event._id)
+            {
+              return value;
+            }
+            else
+            {
+              addedExtraMoney = value.split('_')[1];
+              console.log(addedExtraMoney);
+              if (addedExtraMoney === undefined)
+              {
+                addedExtraMoney = 0;
+              }
+            }
+          }
         );
         if (event.couponApplicable) {
-          this.totalC -= event.fees;
+          this.totalC = this.totalC - event.fees - addedExtraMoney ;
         }
         else {
-          this.totalO -= event.fees;
+          this.totalO = this.totalO - event.fees - addedExtraMoney;
         }
       }
     }
     else
     {
-      this.eventReg[categoryId] = [event._id];
+      if (event.extraMoney === undefined )
+      {
+        event.extraMoney = 0;
+        this.eventReg[categoryId] = [event._id];
+      }
+      else
+      {
+        this.eventReg[categoryId] = [event._id + '_' + event.extraMoney];
+      }
       if (event.couponApplicable) {
-        this.totalC += event.fees;
+        this.totalC += event.fees + event.extraMoney;
       }
       else {
-        this.totalO += event.fees;
+        this.totalO += event.fees + event.extraMoney;
       }
     }
     if (this.totalC < 0) {
@@ -185,7 +226,7 @@ export class AccountComponent implements OnInit {
       this.temp += d;
       this.totalC -= d;
     }
-    if (this.totalC < 0 && this.temp == 0) {
+    if (this.totalC < 0 && this.temp === 0) {
       this.remove();
     }
   }
@@ -194,7 +235,9 @@ export class AccountComponent implements OnInit {
     console.log(this.eventReg);
     if (confirm('Sure For Payment?')) {
       this.loading = true;
-      this.userS.eventRegister({total: this.totalC + this.totalO, registerEvents: JSON.stringify(this.eventReg)}, this.paymentReceipt).subscribe(
+      this.userS.eventRegister(
+        {total: this.totalC + this.totalO, couponApplied: this.couponApplied, registerEvents: JSON.stringify(this.eventReg)},
+      this.paymentReceipt).subscribe(
         result => {
           if (result.status)
           {
@@ -232,10 +275,12 @@ export class AccountComponent implements OnInit {
     if (user.total > 0)
     {
       this.eventRegistered = true;
+      return true;
     }
     else
     {
       this.eventRegistered = false;
+      return false;
     }
   }
 

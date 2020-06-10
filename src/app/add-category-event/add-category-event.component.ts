@@ -20,13 +20,15 @@ export class AddCategoryEventComponent implements OnInit {
       'name': '',
       'fees': 0,
       'description': '',
-      'couponApplicable': boolean
+      'couponApplicable': boolean,
+      'extra': boolean
     }]
   }];
   newEventName = '';
   newEventDescription = '';
   newEventFees = 0;
   newEventCoupon = false;
+  newEventExtra = false;
   errors = {
     event: false,
     category: false
@@ -57,6 +59,7 @@ export class AddCategoryEventComponent implements OnInit {
     this.newEventDescription = '';
     this.newEventFees = 0;
     this.newEventCoupon = false;
+    this.newEventExtra = false;
     this.categoryName = '';
     this.categoryDescription = '';
     this.categoryId = -1;
@@ -182,7 +185,8 @@ export class AddCategoryEventComponent implements OnInit {
         name: this.newEventName,
         description: this.newEventDescription,
         fees: this.newEventFees,
-        couponApplicable: this.newEventCoupon
+        couponApplicable: this.newEventCoupon,
+        extra: this.newEventExtra
       }]}).subscribe(
         result => {
           if (result.status)
