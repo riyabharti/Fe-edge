@@ -57,7 +57,7 @@
         <div class="col-sm-12">
             
             <br>
-            <h4 class="text-center text-danger header">Event Info {{eventReg | json}}</h4>
+            <h4 class="text-center text-danger header">Event Info</h4>
             <small class="text-secondary text-center">The events which are marked <mat-icon class="text-danger">check_circle</mat-icon> will be eligible for discount when a valid coupon code is applied.</small>
             <br><br>
             <mat-accordion class="example-headers-align mat-elevation-z8" multi>
@@ -82,10 +82,15 @@
                         <p style="color: rgba(255,255,255,.7);"> 
                             {{event.description}}
                         </p>
-                        <mat-form-field appearance="outline" style="width: 100%;" *ngIf="event.extra && event.show">
-                            <mat-label>Add extra amount(Price:{{event.extraMoney}}), before selecting event:</mat-label>
-                            <input matInput type="number" min="0" placeholder="Extra Amount" (input)="addAmount(categoryData._id,event)" name="extraAmount" [(ngModel)]="event.extraAmount" />
-                        </mat-form-field>
+                        <ng-container *ngIf="event.extra && event.show">
+                            <mat-form-field style="width: 60%;">
+                                <mat-label>Extra Amount:</mat-label>
+                                <span matPrefix>INR &nbsp;&nbsp;</span>
+                                <input matInput type="number" min="0" placeholder="Extra Amount" (input)="addAmount(categoryData._id,event)" name="extraAmount" [(ngModel)]="event.extraAmount" />
+                                <span matSuffix> &nbsp;&nbsp;&times; {{event.extraMoney}}/-</span>
+                            </mat-form-field>
+                            
+                        </ng-container>
                     </mat-card-content>
                     <!-- <mat-card-actions>
                     </mat-card-actions> -->
