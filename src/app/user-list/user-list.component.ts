@@ -22,10 +22,10 @@ export class UserListComponent implements OnInit {
     private title: Title
   ) { title.setTitle('E-Edge | UserList'); }
 
-  displayedColumns: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'i', 'j'];
+  displayedColumns: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'i'];
   dataSource: MatTableDataSource<User>;
   usersData = [];
-  show = [true, true, true, true, true, true, true, true, true, true, false];
+  show = [true, true, true, true, true, true, true, true, true, false];
   userData;
 
   url = environment.apiURL + '/common/getFile/';

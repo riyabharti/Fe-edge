@@ -23,6 +23,14 @@ button {
     overflow: hidden !important;
 }
 
+.mat-card {
+    vertical-align: top !important;
+}
+
+.mat-checkbox-label {
+    white-space: normal;
+}
+
 .mat-chip-list-wrapper {
     display: block !important;
 }

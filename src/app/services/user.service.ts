@@ -12,14 +12,8 @@ export class UserService {
 
   url = environment.apiURL + '/users';
 
-  register(data: User, photo: File) {
-    const formData = new FormData();
-    formData.append('file', photo, photo.name);
-    const keys = Object.keys(data);
-    keys.forEach(key => {
-      formData.append(key, data[key]);
-    });
-    return this.http.post<any>(this.url + '/register', formData);
+  register(data: User) {
+    return this.http.post<any>(this.url + '/register', data);
   }
 
   login(user: {email, password}) {

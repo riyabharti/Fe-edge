@@ -27,7 +27,6 @@ export class RegistrationStudentComponent implements OnInit {
   temp = '';
   temp2 = '';
   deadline = '';
-  photo: File = undefined;
   registration = false;
 
   constructor(
@@ -76,7 +75,7 @@ export class RegistrationStudentComponent implements OnInit {
     if (confirm('Sure to Register?')) {
       console.log(this.user);
       this.loading = true;
-      this.userS.register(this.user, this.photo).subscribe(
+      this.userS.register(this.user).subscribe(
         result => {
           this.loading = false;
           if (result.status) {
@@ -91,20 +90,6 @@ export class RegistrationStudentComponent implements OnInit {
           this.sB.open(problem.error instanceof ProgressEvent ? 'Failed Connecting the Server. Check your Internet Connection or Try again later' : problem.error.message);
         }
       );
-    }
-  }
-
-
-  fileRead(e: FileList) {
-    const temp: File = e.item(0);
-    if (temp && temp.type.split('/')[1] !== 'jpg' && temp.type.split('/')[1] !== 'jpeg' && temp.type.split('/')[1] !== 'png')
-    {
-      this.sB.open('Sorry, only .jpg, .jpeg and .png extension is allowed');
-      this.photo = null;
-    }
-    else
-    {
-      this.photo = temp;
     }
   }
 

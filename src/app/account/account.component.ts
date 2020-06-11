@@ -43,6 +43,7 @@ export class AccountComponent implements OnInit {
 
   loading = true;
   couponApplied = false;
+  couponApplicable = 0;
   newPassword: string;
   confirmNewPassword: string;
   cCode = '';
@@ -127,14 +128,8 @@ export class AccountComponent implements OnInit {
 
   apply() {
     if (this.coupon.couponCode.toLocaleLowerCase() === this.cCode.toLocaleLowerCase()) {
-      if (this.totalC > this.coupon.discountValue) {
-        this.totalC -= this.coupon.discountValue;
-        this.temp = this.coupon.discountValue;
-      }
-      else {
-        this.temp = this.totalC;
-        this.totalC = 0;
-      }
+      this.cCode = this.coupon.couponCode;
+      this.workOnCoupon();
     } else {
       this.sB.open('Invalid Coupon Code!');
     }
@@ -153,8 +148,9 @@ export class AccountComponent implements OnInit {
     if (this.eventReg.hasOwnProperty(categoryId))
     {
       if ( this.eventReg[categoryId].find(e => e.split('_')[0] === event._id) === undefined)
-      // if (this.eventReg[categoryId].indexOf(event._id) === -1)
       {
+        if(event.fees >= this.coupon.discountValue)
+          this.couponApplicable++;
         if (event.extraMoney === undefined)
         {
           event.extraMoney = 0;
@@ -173,6 +169,8 @@ export class AccountComponent implements OnInit {
       }
       else
       {
+        if(event.fees >= this.coupon.discountValue)
+          this.couponApplicable--;
         this.eventReg[categoryId] = this.eventReg[categoryId].filter(
           (value, index, arr) =>
           {
@@ -201,6 +199,8 @@ export class AccountComponent implements OnInit {
     }
     else
     {
+      if(event.fees >= this.coupon.discountValue)
+        this.couponApplicable++;
       if (event.extraMoney === undefined )
       {
         event.extraMoney = 0;
@@ -217,17 +217,39 @@ export class AccountComponent implements OnInit {
         this.totalO += event.fees + event.extraMoney;
       }
     }
+    if(this.couponApplied)
+      this.workOnCoupon();
     if (this.totalC < 0) {
-      this.temp += this.totalC;
-      this.totalC = 0;
-    }
-    if (this.totalC + this.temp > this.coupon.discountValue && this.couponApplied) {
-      const d = this.coupon.discountValue - this.temp;
-      this.temp += d;
-      this.totalC -= d;
-    }
-    if (this.totalC < 0 && this.temp === 0) {
       this.remove();
+    }
+  }
+
+  workOnCoupon() {
+    switch(this.temp) {
+      case 0:
+        this.temp += this.couponApplicable*this.coupon.discountValue;
+        this.totalC -= this.temp;
+        break;
+      case this.coupon.discountValue:
+        if(this.couponApplicable >= 2) {
+          this.temp += this.coupon.discountValue;
+          this.totalC -= this.coupon.discountValue;
+        }
+        if(this.couponApplicable == 0) {
+          this.totalC += this.temp;
+          this.temp = 0;
+        }
+        break;
+      case this.coupon.discountValue*2:
+        if(this.couponApplicable == 0) {
+          this.totalC += this.temp;
+          this.temp = 0;
+        }
+        if(this.couponApplicable == 1) {
+          this.totalC += this.coupon.discountValue;
+          this.temp -= this.coupon.discountValue;
+        }
+        break;
     }
   }
 
