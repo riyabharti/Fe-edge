@@ -77,8 +77,10 @@
                         <mat-icon class="text-danger" *ngIf="!event.couponApplicable">not_interested</mat-icon>
                     </div>
                     <div class="col-sm-1">
-                        <mat-icon class="text-success" *ngIf="event.extra">check_circle</mat-icon>
                         <mat-icon class="text-danger" *ngIf="!event.extra">not_interested</mat-icon>
+                        <small class="text-secondary text-center" *ngIf="event.extra">
+                            <mat-icon class="text-success">check_circle</mat-icon> {{event.extraMoney}}
+                        </small>
                     </div>
                     <div class="col-sm-1">
                         <button mat-raised-button color="warn" (click)="deleteEvent(event,i)">Delete Event</button>
@@ -122,9 +124,15 @@
                         <p>
                             <mat-checkbox name="newEventExtra" [(ngModel)]="newEventExtra">Extra money required</mat-checkbox>
                         </p>
+                        <p *ngIf="newEventExtra">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Event Extra Money:</mat-label>
+                                <input matInput type="text" placeholder="Event Extra Money Amount" name="newEventExtraMoney" [(ngModel)]="newEventExtraMoney" required />
+                            </mat-form-field>
+                        </p>
                         <div>
                             <button mat-raised-button color="primary"
-                                [disabled]="eventForm.form.invalid || errors.event" (click)="addEvent()">Add Event</button>
+                                [disabled]="eventForm.form.invalid || errors.event || !(!newEventExtra || newEventExtraMoney>0)" (click)="addEvent()">Add Event</button>
                         </div>
                     </div>
                 </div>

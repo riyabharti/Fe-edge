@@ -26,6 +26,7 @@ export class AccountComponent implements OnInit {
       'couponApplicable': boolean,
       'extra': boolean,
       'extraMoney': number
+      'extraAmount': number
     }]
   }];
 
@@ -144,33 +145,36 @@ export class AccountComponent implements OnInit {
   }
 
   eventRegistration(categoryId, event) {
-    let addedExtraMoney = 0;
+    let addedextraAmount = 0;
     if (this.eventReg.hasOwnProperty(categoryId))
     {
       if ( this.eventReg[categoryId].find(e => e.split('_')[0] === event._id) === undefined)
       {
-        if(event.fees >= this.coupon.discountValue)
+        if (event.fees >= this.coupon.discountValue) {
           this.couponApplicable++;
-        if (event.extraMoney === undefined)
+        }
+        console.log(event.extraAmount);
+        if (event.extraAmount === undefined)
         {
-          event.extraMoney = 0;
+          event.extraAmount = 0;
           this.eventReg[categoryId] = [...this.eventReg[categoryId], event._id];
         }
         else
         {
-          this.eventReg[categoryId] = [...this.eventReg[categoryId], event._id + '_' + event.extraMoney];
+          this.eventReg[categoryId] = [...this.eventReg[categoryId], event._id + '_' + event.extraAmount];
         }
         if (event.couponApplicable) {
-          this.totalC += event.fees + event.extraMoney;
+          this.totalC += event.fees + (event.extraMoney * event.extraAmount);
         }
         else {
-          this.totalO += event.fees + event.extraMoney;
+          this.totalO += event.fees + (event.extraMoney * event.extraAmount);
         }
       }
       else
       {
-        if(event.fees >= this.coupon.discountValue)
+        if (event.fees >= this.coupon.discountValue) {
           this.couponApplicable--;
+        }
         this.eventReg[categoryId] = this.eventReg[categoryId].filter(
           (value, index, arr) =>
           {
@@ -180,72 +184,73 @@ export class AccountComponent implements OnInit {
             }
             else
             {
-              addedExtraMoney = value.split('_')[1];
-              console.log(addedExtraMoney);
-              if (addedExtraMoney === undefined)
+              addedextraAmount = value.split('_')[1];
+              if (addedextraAmount === undefined)
               {
-                addedExtraMoney = 0;
+                addedextraAmount = 0;
               }
             }
           }
         );
         if (event.couponApplicable) {
-          this.totalC = this.totalC - event.fees - addedExtraMoney ;
+          this.totalC = this.totalC - event.fees - addedextraAmount * event.extraMoney ;
         }
         else {
-          this.totalO = this.totalO - event.fees - addedExtraMoney;
+          this.totalO = this.totalO - event.fees - addedextraAmount * event.extraMoney;
         }
       }
     }
     else
     {
-      if(event.fees >= this.coupon.discountValue)
+      if (event.fees >= this.coupon.discountValue) {
         this.couponApplicable++;
-      if (event.extraMoney === undefined )
+      }
+      if (event.extraAmount === undefined )
       {
-        event.extraMoney = 0;
+        event.extraAmount = 0;
         this.eventReg[categoryId] = [event._id];
       }
       else
       {
-        this.eventReg[categoryId] = [event._id + '_' + event.extraMoney];
+        this.eventReg[categoryId] = [event._id + '_' + event.extraAmount];
       }
       if (event.couponApplicable) {
-        this.totalC += event.fees + event.extraMoney;
+        this.totalC += event.fees + (event.extraMoney * event.extraAmount);
       }
       else {
-        this.totalO += event.fees + event.extraMoney;
+        this.totalO += event.fees + (event.extraMoney * event.extraAmount);
       }
     }
-    if(this.couponApplied)
+    if (this.couponApplied) {
       this.workOnCoupon();
+    }
     if (this.totalC < 0) {
       this.remove();
     }
   }
 
   workOnCoupon() {
-    switch(this.temp) {
+    switch (this.temp) {
       case 0:
-        this.temp += this.couponApplicable*this.coupon.discountValue;
+        this.temp += this.couponApplicable * this.coupon.discountValue;
         this.totalC -= this.temp;
         break;
       case this.coupon.discountValue:
-        if(this.couponApplicable >= 2) {
+        if (this.couponApplicable >= 2) {
           this.temp += this.coupon.discountValue;
           this.totalC -= this.coupon.discountValue;
         }
-        if(this.couponApplicable == 0) {
+        if (this.couponApplicable === 0) {
           this.totalC += this.temp;
           this.temp = 0;
         }
         break;
-      case this.coupon.discountValue*2:
-        if(this.couponApplicable == 0) {
+      case this.coupon.discountValue * 2:
+        if (this.couponApplicable === 0) {
           this.totalC += this.temp;
           this.temp = 0;
         }
-        if(this.couponApplicable == 1) {
+        if (this.couponApplicable === 1) {
           this.totalC += this.coupon.discountValue;
           this.temp -= this.coupon.discountValue;
         }
