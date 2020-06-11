@@ -26,7 +26,8 @@ export class AccountComponent implements OnInit {
       'couponApplicable': boolean,
       'extra': boolean,
       'extraMoney': number
-      'extraAmount': number
+      'extraAmount': number,
+      'show': boolean
     }]
   }];
 
@@ -145,6 +146,11 @@ export class AccountComponent implements OnInit {
   }
 
   eventRegistration(categoryId, event) {
+    if (event.show === true)
+    {
+      event.extraAmount = 0;
+    }
+    event.show = !event.show;
     let addedextraAmount = 0;
     if (this.eventReg.hasOwnProperty(categoryId))
     {
@@ -153,21 +159,22 @@ export class AccountComponent implements OnInit {
         if (event.fees >= this.coupon.discountValue) {
           this.couponApplicable++;
         }
-        console.log(event.extraAmount);
-        if (event.extraAmount === undefined)
-        {
-          event.extraAmount = 0;
-          this.eventReg[categoryId] = [...this.eventReg[categoryId], event._id];
-        }
-        else
-        {
-          this.eventReg[categoryId] = [...this.eventReg[categoryId], event._id + '_' + event.extraAmount];
-        }
+        this.eventReg[categoryId] = [...this.eventReg[categoryId], event._id];
+        // console.log(event.extraAmount);
+        // if (event.extraAmount === undefined)
+        // {
+        //   event.extraAmount = 0;
+        //   this.eventReg[categoryId] = [...this.eventReg[categoryId], event._id];
+        // }
+        // else
+        // {
+        //   this.eventReg[categoryId] = [...this.eventReg[categoryId], event._id + '_' + event.extraAmount];
+        // }
         if (event.couponApplicable) {
-          this.totalC += event.fees + (event.extraMoney * event.extraAmount);
+          this.totalC += event.fees;
         }
         else {
-          this.totalO += event.fees + (event.extraMoney * event.extraAmount);
+          this.totalO += event.fees;
         }
       }
       else
@@ -205,20 +212,21 @@ export class AccountComponent implements OnInit {
       if (event.fees >= this.coupon.discountValue) {
         this.couponApplicable++;
       }
-      if (event.extraAmount === undefined )
-      {
-        event.extraAmount = 0;
-        this.eventReg[categoryId] = [event._id];
-      }
-      else
-      {
-        this.eventReg[categoryId] = [event._id + '_' + event.extraAmount];
-      }
+      this.eventReg[categoryId] = [event._id];
+      // if (event.extraAmount === undefined )
+      // {
+      //   event.extraAmount = 0;
+      //   this.eventReg[categoryId] = [event._id];
+      // }
+      // else
+      // {
+      //   this.eventReg[categoryId] = [event._id + '_' + event.extraAmount];
+      // }
       if (event.couponApplicable) {
-        this.totalC += event.fees + (event.extraMoney * event.extraAmount);
+        this.totalC += event.fees;
       }
       else {
-        this.totalO += event.fees + (event.extraMoney * event.extraAmount);
+        this.totalO += event.fees;
       }
     }
     if (this.couponApplied) {
@@ -226,6 +234,33 @@ export class AccountComponent implements OnInit {
     }
     if (this.totalC < 0) {
       this.remove();
+    }
+  }
+
+  addAmount(categoryId, event) {
+    let addedextraAmount = 0;
+    this.eventReg[categoryId].forEach((value, index) => {
+      if (value.split('_')[0] === event._id)
+      {
+        addedextraAmount = value.split('_')[1];
+        if (addedextraAmount === undefined)
+        {
+          addedextraAmount = 0;
+        }
+        if (event.extraAmount === null)
+        {
+          event.extraAmount = 0;
+        }
+        this.eventReg[categoryId][index] = event._id + '_' + event.extraAmount;
+      }
+    });
+    if (event.couponApplicable)
+    {
+      this.totalC += (event.extraAmount - addedextraAmount) * event.extraMoney;
+    }
+    else
+    {
+      this.totalO += (event.extraAmount - addedextraAmount) * event.extraMoney;
     }
   }
 
