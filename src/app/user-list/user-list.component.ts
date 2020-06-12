@@ -87,12 +87,12 @@ export class UserListComponent implements OnInit {
 
   verifyUser(user)
   {
+    let msg = '';
     if (user.verified === true)
     {
-      alert('User is already verified');
-      return;
+      msg = 'Un-';
     }
-    if (confirm('Sure to Verify User with Name: ' + user.name + '? This action can\'t be undone!!!'))
+    if (confirm('Sure to ' + msg + 'Verify User with Name: ' + user.name))
     {
       this.loading = true;
       this.adminS.verifyUser(user._id).subscribe(

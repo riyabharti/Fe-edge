@@ -90,9 +90,10 @@
         <td mat-cell *matCellDef="let user" class="fontS"> 
             <button mat-icon-button
              (click)="verifyUser(user)"
-             *ngIf = "!user.verified"
-            ><mat-icon color="accent">check_circle</mat-icon></button>
-            <mat-icon class="text-success" *ngIf="user.verified">verified_user</mat-icon>
+            ><mat-icon color="accent" *ngIf="!user.verified">check_circle</mat-icon>
+            <mat-icon color="primary" *ngIf="user.verified">not_interested</mat-icon>
+        </button>
+            <!-- <mat-icon class="text-success" *ngIf="user.verified">verified_user</mat-icon> -->
             <button mat-icon-button (click)="deleteUser(user)"><mat-icon color="warn">delete</mat-icon></button>
         </td>
     </ng-container>

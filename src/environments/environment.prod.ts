@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiURL: 'http://34.72.194.2'
+  apiURL: 'https://register.edg.co.in'
 };
