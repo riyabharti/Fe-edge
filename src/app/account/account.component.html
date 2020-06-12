@@ -63,22 +63,22 @@
             <mat-accordion class="example-headers-align mat-elevation-z8" multi>
             <mat-expansion-panel *ngFor="let categoryData of categoryDatas; let i=index">
                 <mat-expansion-panel-header>
-                    <mat-panel-title>
+                    <mat-panel-title class="header">
                         {{categoryData.category}}
                     </mat-panel-title>
-                    <mat-panel-description>
+                    <mat-panel-description class="fontS">
                         {{categoryData.description}}
                     </mat-panel-description>
                 </mat-expansion-panel-header>
               
                 <mat-card class="col-sm-4 example-card mat-elevation-z8" style="display: inline-block;" *ngFor="let event of categoryData.events; let i=index">
                     <mat-card-header>
-                        <mat-card-title><mat-checkbox color="warn" (click)="eventRegistration(categoryData._id,event)">
+                        <mat-card-title><mat-checkbox class="header" color="warn" (click)="eventRegistration(categoryData._id,event)">
                             {{event.name}} @ {{event.fees ? 'INR '+event.fees+'/-' : 'FREE'}} <mat-icon class="text-danger" *ngIf="event.couponApplicable">check_circle</mat-icon>
                         </mat-checkbox></mat-card-title>
                         <mat-card-subtitle></mat-card-subtitle>
                     </mat-card-header>
-                    <mat-card-content>
+                    <mat-card-content class="fontS">
                         <p style="color: rgba(255,255,255,.7);"> 
                             {{event.description}}
                         </p>
@@ -130,7 +130,7 @@
 <br><br>
 <!-- <div class="container" style="width: 100% !important;"> -->
     <div class="text-center fontS" style="position: fixed; width: 100% !important; bottom: 0; background: #202020; padding: 1% !important;">
-        <h5 *ngIf="coupon.couponCode && !eventRegistered">Total Amount (INR): {{totalO}} + <span *ngIf="temp == 0">{{totalC}}</span><span *ngIf="temp != 0"><s>{{totalC + temp}}</s> {{totalC}} </span> = {{totalC + totalO}}/- </h5>
+        <h5 *ngIf="coupon.couponCode && !eventRegistered">Total {{couponApplicable}} Amount (INR): {{totalO}} + <span *ngIf="temp == 0">{{totalC}}</span><span *ngIf="temp != 0"><s>{{totalC + temp}}</s> {{totalC}} </span> = {{totalC + totalO}}/- </h5>
         <h5 *ngIf="!coupon.couponCode && !loading && !eventRegistered">Total Amount (INR): {{totalO + totalC}}  </h5>
     </div>
 <!-- </div> -->

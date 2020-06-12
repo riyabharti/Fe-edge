@@ -15,8 +15,13 @@ body {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
 }
 
+@font-face {
+    font-family: 'custom';
+    src: url('../src/assets/HACKED.ttf');
+}
+
 .header {
-    font-family: '../src/assets/HACKED.ttf';
+    font-family: custom !important;
 }
 
 button {

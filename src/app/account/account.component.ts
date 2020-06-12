@@ -267,7 +267,7 @@ export class AccountComponent implements OnInit {
   workOnCoupon() {
     switch (this.temp) {
       case 0:
-        this.temp += this.couponApplicable * this.coupon.discountValue;
+        this.temp += (this.couponApplicable >= 2 ? 2 : this.couponApplicable ) * this.coupon.discountValue;
         this.totalC -= this.temp;
         break;
       case this.coupon.discountValue:
