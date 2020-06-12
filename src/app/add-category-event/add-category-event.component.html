@@ -134,10 +134,10 @@
                         </mat-form-field>
                     </p>
                     <p>
-                        <mat-checkbox name="newEventCoupon" [(ngModel)]="newEventCoupon">Coupon Applicable</mat-checkbox>
+                        <mat-slide-toggle name="newEventCoupon" [(ngModel)]="newEventCoupon">Coupon Applicable</mat-slide-toggle>
                     </p>
                     <p>
-                        <mat-checkbox name="newEventExtra" [(ngModel)]="newEventExtra">Extra money required</mat-checkbox>
+                        <mat-slide-toggle name="newEventExtra" [(ngModel)]="newEventExtra">Extra money required</mat-slide-toggle>
                     </p>
                     <p *ngIf="newEventExtra">
                         <mat-form-field appearance="outline" style="width: 100%;">
