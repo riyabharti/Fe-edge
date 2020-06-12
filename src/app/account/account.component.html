@@ -61,14 +61,20 @@
             <small class="text-secondary text-center">The events which are marked <mat-icon class="text-danger">check_circle</mat-icon> will be eligible for discount when a valid coupon code is applied.</small>
             <br><br>
             <mat-accordion class="example-headers-align mat-elevation-z8" multi>
-            <mat-expansion-panel *ngFor="let categoryData of categoryDatas; let i=index">
+            <ng-container *ngFor="let categoryData of categoryDatas; let i=index">
+            <mat-expansion-panel>
                 <mat-expansion-panel-header>
+                    <!-- <div class="row">
+                        <div class="col-sm-5">{{categoryData.category}} ({{categoryData.eventCount}} Events, {{categoryData.comboCount}} Combos)</div>
+                        <div class="col-sm-7">{{categoryData.description}}</div>
+                    </div> -->
                     <mat-panel-title class="header">
-                        {{categoryData.category}}
+                        {{categoryData.category}} ({{categoryData.eventCount}} Events, {{categoryData.comboCount}} Combos)
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="fontS" style="color: #B0B0B0;">
+                            {{categoryData.description}}
+                        </span>
                     </mat-panel-title>
-                    <mat-panel-description class="fontS">
-                        {{categoryData.description}}
-                    </mat-panel-description>
                 </mat-expansion-panel-header>
               
                 <ng-container *ngFor="let event of categoryData.events; let i=index">
@@ -98,6 +104,8 @@
                     <br *ngIf="i%2 == 1">
                 </ng-container>
             </mat-expansion-panel>
+            <br>
+            </ng-container>
             </mat-accordion>            
         </div>
     </div>
@@ -119,7 +127,7 @@
     </div>
     <div class="col-sm-3">
         <p>Upload Payment Receipt:</p>
-        <label class="btn btn-outline-danger" for="fileInput3" style="width: 100%">{{ paymentReceipt ? "Choose Other File" : "Choose File" }}
+        <label class="btn btn-outline-danger" for="fileInput3" style="width: 80%">{{ paymentReceipt ? "Choose Other File" : "Choose File" }}
             <input type="file" hidden id="fileInput3" accept="image/*, .pdf"
                 (change)="fileRead($event.target.files)" required>
         </label>

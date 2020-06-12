@@ -20,6 +20,8 @@ export class AccountComponent implements OnInit {
     '_id': '',
     'category': '',
     'description': '',
+    'eventCount': number,
+    'comboCount': number
     'events': [{
       '_id': '',
       'name': '',
@@ -73,6 +75,10 @@ export class AccountComponent implements OnInit {
           if (result.status)
           {
             this.categoryDatas = result.data;
+            this.categoryDatas.forEach(cat => {
+              cat.eventCount = cat.events.filter(e => !e.name.toLowerCase().includes('combo') && e.show).length;
+              cat.comboCount = cat.events.filter(e => e.name.toLowerCase().includes('combo') && e.show).length;
+            });
             // this.loading = false;
             this.commonS.getCoupon().subscribe(
               couponResult => {
