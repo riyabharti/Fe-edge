@@ -74,18 +74,19 @@
             <div class="row text-secondary">
                 <div class="col-sm-1"><h5>S.No</h5></div>
                 <div class="col-sm-2"><h5> Name </h5></div>
-                <div class="col-sm-4"><h5> Description </h5></div>
+                <div class="col-sm-3"><h5> Description </h5></div>
                 <div class="col-sm-1"><h5> Fees </h5></div>
                 <div class="col-sm-1"><h5> Coupon Applicable </h5></div>
                 <div class="col-sm-1"><h5> Extra Money Required </h5></div>
-                <div class="col-sm-2"><h5> Delete </h5></div>
+                <div class="col-sm-2"><h5> Hide/Show </h5></div>
+                <div class="col-sm-1"><h5> Delete </h5></div>
             </div>
             <div class="row" *ngFor="let event of categoryDatas[categoryId].events; let i=index">
                 <br>
                 <br>
                 <div class="col-sm-1"><h5>{{i+1}}:</h5></div>
                 <div class="col-sm-2"><h5> {{event.name}} </h5></div>
-                <div class="col-sm-4"><h5> {{event.description}} </h5></div>
+                <div class="col-sm-3"><h5> {{event.description}} </h5></div>
                 <div class="col-sm-1"><h5> {{event.fees}} </h5></div>
                 <div class="col-sm-1">
                     <mat-icon class="text-success" *ngIf="event.couponApplicable">check_circle</mat-icon>
@@ -98,6 +99,9 @@
                     </small>
                 </div>
                 <div class="col-sm-2">
+                    <button mat-raised-button color="accent" (click)="showHideEvent(event,i)">{{event.show ? 'Hide' : 'Show'}}</button>
+                </div>
+                <div class="col-sm-1">
                     <button mat-raised-button color="warn" (click)="deleteEvent(event,i)">Delete Event</button>
                 </div>
             </div>

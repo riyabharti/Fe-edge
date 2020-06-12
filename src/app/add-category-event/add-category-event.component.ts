@@ -22,7 +22,8 @@ export class AddCategoryEventComponent implements OnInit {
       'description': '',
       'couponApplicable': boolean,
       'extra': boolean,
-      'extraMoney': number
+      'extraMoney': number,
+      'show': boolean
     }]
   }];
   newEventName = '';
@@ -45,7 +46,7 @@ export class AddCategoryEventComponent implements OnInit {
     private sB: MatSnackBar,
     private adminS: AdminService,
     private title: Title
-  ) { title.setTitle('E-Edge | Add Events')}
+  ) { title.setTitle('E-Edge | Add Events'); }
 
   loading = true;
   eventLoading = true;
@@ -109,6 +110,41 @@ export class AddCategoryEventComponent implements OnInit {
     }
   }
 
+  deleteCategory(cIndex)
+  {
+    if (confirm('Sure For Deleting Category ' + this.categoryDatas[cIndex].category))
+    {
+      this.loading = true;
+      this.adminS.deleteCategory({category: this.categoryDatas[cIndex].category}).subscribe(
+        result => {
+          if (result.status)
+          {
+            this.loading = false;
+            this.sB.open(result.message);
+            this.ngOnInit();
+          }
+          else
+          {
+            this.loading = false;
+            this.sB.open(result.message);
+            this.categoryId = -1;
+          }
+        },
+        problem => {
+          this.loading = false;
+          if (problem.error.error && problem.error.error.message && problem.error.error.message === 'jwt expired') {
+            this.sB.open('Your session has expired !!! Please log in again :)');
+            this.commonS.doLogout();
+          }
+          else {
+            console.log(problem.error);
+            this.sB.open(problem.error instanceof ProgressEvent ? 'Failed Connecting the Server. Check your Internet Connection or Try again later' : problem.error.message);
+          }
+        }
+      );
+    }
+  }
+
   deleteEvent(event, eIndex)
   {
     if (confirm('Sure For Deleting Event ' + event.name))
@@ -144,12 +180,17 @@ export class AddCategoryEventComponent implements OnInit {
     }
   }
 
-  deleteCategory(cIndex)
+  showHideEvent(event, eIndex)
   {
-    if (confirm('Sure For Deleting Category ' + this.categoryDatas[cIndex].category))
+    let msg = 'show';
+    if (event.show === true)
+    {
+      msg = 'hide';
+    }
+    if (confirm('Are you sure to ' + msg + ' ' + event.name + ' to all users?'))
     {
       this.loading = true;
-      this.adminS.deleteCategory({category: this.categoryDatas[cIndex].category}).subscribe(
+      this.adminS.showHideEvent({category: this.categoryDatas[this.categoryId].category, eventName: event.name, index: eIndex}).subscribe(
         result => {
           if (result.status)
           {

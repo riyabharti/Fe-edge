@@ -73,7 +73,7 @@
               
                 <ng-container *ngFor="let event of categoryData.events; let i=index">
                     <br *ngIf="i%2 == 0">
-                    <mat-card class="col-sm-6 example-card mat-elevation-z8" style="display: inline-block; background: #303030;">
+                    <mat-card *ngIf="event.show" class="col-sm-6 example-card mat-elevation-z8" style="display: inline-block; background: #303030;">
                         <mat-card-header>
                             <mat-card-title><mat-checkbox class="header text-danger" color="warn" (click)="eventRegistration(categoryData._id,event)">
                                 {{event.name}} @ {{event.fees ? 'INR '+event.fees+'/-' : 'FREE'}} <mat-icon class="text-danger" *ngIf="event.couponApplicable">check_circle</mat-icon>
@@ -90,8 +90,7 @@
                                     <span matPrefix>INR &nbsp;&nbsp;</span>
                                     <input matInput type="number" min="0" placeholder="Extra Quantity" (input)="addAmount(categoryData._id,event)" name="extraAmount" [(ngModel)]="event.extraAmount" />
                                     <span matSuffix> &nbsp;&nbsp;&times; {{event.extraMoney}}/-</span>
-                                </mat-form-field>
-                                
+                                </mat-form-field> 
                             </ng-container>
                         </mat-card-content>
                     </mat-card>

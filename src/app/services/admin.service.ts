@@ -49,4 +49,9 @@ export class AdminService {
   {
     return this.http.get<any>(this.url + '/verifyUser/' + uid);
   }
+
+  showHideEvent(eventData: {category, eventName, index})
+  {
+    return this.http.post<any>(this.url + '/showHideEvent', eventData);
+  }
 }
