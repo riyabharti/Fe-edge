@@ -53,6 +53,7 @@ export class AccountComponent implements OnInit {
   newPassword: string;
   confirmNewPassword: string;
   cCode = '';
+  upiId: number;
   coupon = {
     couponCode: '',
     discountValue: 0,
@@ -277,12 +278,24 @@ export class AccountComponent implements OnInit {
     }
   }
 
+  checkAlphabet(e) {
+    if (isNaN(this.upiId))
+    {
+      alert('Enter the 12 digit UPI Transaction ID/UTR');
+      this.upiId = null;
+    }
+  }
+
   eventPayment() {
     console.log(this.eventReg);
     if (confirm('Sure For Payment?')) {
       this.loading = true;
-      this.userS.eventRegister(
-        {total: this.totalC + this.totalO, couponApplied: this.couponApplied, registerEvents: JSON.stringify(this.eventReg)},
+      this.userS.eventRegister({
+        total: this.totalC + this.totalO,
+        couponApplied: this.couponApplied,
+        registerEvents: JSON.stringify(this.eventReg),
+        upiId: this.upiId
+      },
       this.paymentReceipt).subscribe(
         result => {
           if (result.status)

@@ -105,7 +105,7 @@
 <br><br>
 <!-- <div class="container" style="width: 100% !important;"> -->
 <div class="row text-center fontS" *ngIf="!eventRegistered" style="background: #202020; padding: 1% 1% 0% 1% !important;">
-    <div class="col-sm-3 text-center">
+    <div class="col-sm-2 text-center">
         <mat-form-field appearance="legacy" style="width: 80%;" *ngIf="temp == 0">
             <mat-label>Enter Coupon Code here</mat-label>
             <input matInput type="text" placeholder="Coupon Code Please" name="cc" [(ngModel)]="cCode" />
@@ -125,8 +125,14 @@
         </label>
         <p>{{ paymentReceipt ? 'File Chosen: ' + paymentReceipt.name : "No File Chosen" }}</p>
     </div>
-    <div class="col-sm-3">
-        <button mat-raised-button (click)="eventPayment()" [disabled]="totalC + totalO == 0 || !paymentReceipt">Register for events</button>
+    <div class="col-sm-2 text-center">
+        <mat-form-field appearance="legacy" style="width: 80%;">
+            <mat-label>Enter UPI Transaction ID</mat-label>
+            <input matInput type="text" placeholder="UTR Please" name="upi" (input)="checkAlphabet($event)" [(ngModel)]="upiId" />
+        </mat-form-field>
+    </div>
+    <div class="col-sm-2">
+        <button mat-raised-button (click)="eventPayment()" [disabled]="totalC + totalO == 0 || !paymentReceipt || !upiId">Register for events</button>
     </div>
 </div>
 <br><br>
