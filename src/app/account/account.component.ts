@@ -29,7 +29,8 @@ export class AccountComponent implements OnInit {
       'extra': boolean,
       'extraMoney': number
       'extraAmount': number,
-      'show': boolean
+      'show': boolean,
+      'visible': boolean
     }]
   }];
 
@@ -149,11 +150,11 @@ export class AccountComponent implements OnInit {
   }
 
   eventRegistration(categoryId, event) {
-    if (event.show === true)
+    if (event.visible === true)
     {
       event.extraAmount = 0;
     }
-    event.show = !event.show;
+    event.visible = !event.visible;
     let addedextraAmount = 0;
     if (this.eventReg.hasOwnProperty(categoryId))
     {
