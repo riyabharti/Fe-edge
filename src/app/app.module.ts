@@ -39,6 +39,7 @@ import { UserListComponent } from './user-list/user-list.component';
 import { AddCategoryEventComponent } from './add-category-event/add-category-event.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { PaymentDialogComponent } from './payment-dialog/payment-dialog.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { PaymentDialogComponent } from './payment-dialog/payment-dialog.componen
     UserListComponent,
     AddCategoryEventComponent,
     ResetPasswordComponent,
-    PaymentDialogComponent
+    PaymentDialogComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

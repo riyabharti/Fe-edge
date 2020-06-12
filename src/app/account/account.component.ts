@@ -39,7 +39,6 @@ export class AccountComponent implements OnInit {
   temp = 0;
   totalC = 0;
   totalO = 0;
-  eventRegistered = false;
 
   constructor(
     private commonS: CommonService,
@@ -62,14 +61,10 @@ export class AccountComponent implements OnInit {
     email: ''
   };
   paymentReceipt: File = undefined;
-  photoUrl = environment.apiURL + '/common/getFile/';
-  receiptUrl = environment.apiURL + '/common/getFile/';
 
   ngOnInit(): void {
     this.userData = JSON.parse(localStorage.getItem('user'));
-    this.photoUrl = environment.apiURL + '/common/getFile/' + this.userData._id + '/photo.' + this.userData.photo;
-    this.receiptUrl = environment.apiURL + '/common/getFile/' + this.userData._id + '/receipt.' + this.userData.receipt;
-    if (!this.isEventRegister())
+    if (this.userData.total == 0)
     {
       this.commonS.fetchEvents().subscribe(
         result => {
@@ -332,20 +327,6 @@ export class AccountComponent implements OnInit {
           }
         }
       );
-    }
-  }
-
-  isEventRegister() {
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (user.total > 0)
-    {
-      this.eventRegistered = true;
-      return true;
-    }
-    else
-    {
-      this.eventRegistered = false;
-      return false;
     }
   }
 

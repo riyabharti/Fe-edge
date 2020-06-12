@@ -2,12 +2,12 @@
     <mat-toolbar-row>
         <button mat-icon-button style="outline: none !important" [matMenuTriggerFor]="menu"><mat-icon>menu</mat-icon></button>
         <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="navigator('account')">My Account</button>
+            <button mat-menu-item (click)="navigator('profile')">My Profile</button>
+            <button mat-menu-item (click)="navigator('account')">Event Registration</button>
             <button mat-menu-item (click)="navigator('userlist')" *ngIf="isAdmin()">User List</button>
             <button mat-menu-item (click)="navigator('addcategoryevent')" *ngIf="isAdmin()">Add Events</button>
             <button mat-menu-item (click)="navigator('resetpassword')" *ngIf="isAdmin()">Reset Password</button>
             <!-- <button mat-menu-item (click)="navigator('settings')" *ngIf="isAdmin()">Settings</button>
-            <button mat-menu-item (click)="navigator('resetpassword')" *ngIf="isAdmin()">Reset Password</button>
             <button mat-menu-item (click)="navigator('downloadsection')" *ngIf="isAdmin()">Download Section</button>
             <button mat-menu-item (click)="navigator('certificate')" *ngIf="isAdmin()">Upload Certificates</button> -->
         </mat-menu>

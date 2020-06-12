@@ -9,6 +9,7 @@ import { AdminGuard } from './guards/admin.guard';
 import { UserListComponent } from './user-list/user-list.component';
 import { AddCategoryEventComponent } from './add-category-event/add-category-event.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ProfileComponent } from './profile/profile.component';
 
 
 
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'register', component: RegistrationStudentComponent },
   { path: 'account', component: AccountComponent, canActivate: [UserGuard]},
+  { path: 'profile', component: ProfileComponent, canActivate: [UserGuard]},
   { path: 'userlist', component: UserListComponent, canActivate: [AdminGuard]},
   { path: 'addcategoryevent', component: AddCategoryEventComponent , canActivate: [AdminGuard]},
   { path: 'resetpassword', component: ResetPasswordComponent, canActivate: [AdminGuard]},

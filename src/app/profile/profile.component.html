@@ -1,0 +1,54 @@
+<br>
+<div class="container">
+    <br>
+    <h1 class="text-center text-danger header">My Registration Info</h1>
+    <br>
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <div class="row fontS">
+                <div class="col-sm-6 text-secondary"><h5>Name:</h5></div>
+                <div class="col-sm-6"><h5> {{userData.name}} </h5></div>
+            </div>
+            <br>
+            <div class="row fontS">
+                <div class="col-sm-6 text-secondary"><h5>Email ID:</h5></div>
+                <div class="col-sm-6"><h5> {{userData.email}} </h5></div>
+            </div>
+            <br>
+            <div class="row fontS">
+                <div class="col-sm-6 text-secondary"><h5>Stream:</h5></div>
+                <div class="col-sm-6"><h5> {{userData.stream}} </h5></div>
+            </div>
+            <br>
+            <div class="row fontS">
+                <div class="col-sm-6 text-secondary"><h5>Year:</h5></div>
+                <div class="col-sm-6"><h5> {{userData.year}} </h5></div>
+            </div>
+            <br>
+            <div class="row fontS">
+                <div class="col-sm-6 text-secondary"><h5>Contact Number:</h5></div>
+                <div class="col-sm-6"><h5> {{userData.contact}} </h5></div>
+            </div>
+            <br>
+            <div class="row fontS">
+                <div class="col-sm-6 text-secondary"><h5>College Name:</h5></div>
+                <div class="col-sm-6"><h5> {{userData.instituteName}} </h5></div>
+            </div>
+            <br>
+            <div class="row fontS">
+                <div class="col-sm-6 text-secondary"><h5>Event Registration:</h5></div>
+                <div class="col-sm-6" *ngIf="userData.total > 0"><h5>Complete, Paid INR {{userData.total}}/- <br><a [href]="receiptUrl">Download Receipt</a></h5></div>
+                <div class="col-sm-6 text-danger" *ngIf="userData.total == 0"><h5>Pending...</h5></div>
+            </div>
+            <br>
+            <div class="row fontS" *ngIf="userData.total > 0">
+                <div class="col-sm-6 text-secondary"><h5>Registration Verification:</h5></div>
+                <div class="col-sm-6" *ngIf="userData.verified "><h5>Complete</h5></div>
+                <div class="col-sm-6 text-danger" *ngIf="!userData.verified "><h5>Pending...</h5></div>
+            </div>
+            <br>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+</div>
