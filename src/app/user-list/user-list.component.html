@@ -30,9 +30,11 @@
         <mat-checkbox color="warn" (click)="toggle('i')" [(ngModel)]="show[8]" class="fontS">Payment Receipt</mat-checkbox>
     </div>
     <div class="col-md-2">
-        <mat-checkbox color="warn" (click)="toggle('j')" [(ngModel)]="show[10]" class="fontS">Action</mat-checkbox>
+        <mat-checkbox color="warn" (click)="toggle('j')" [(ngModel)]="show[9]" class="fontS">UPI ID</mat-checkbox>
     </div>
-    <div class="col-md-2"></div>
+    <div class="col-md-2">
+        <mat-checkbox color="warn" (click)="toggle('k')" [(ngModel)]="show[10]" class="fontS">Action</mat-checkbox>
+    </div>
     <div class="col-md-2"></div>
 </div>
 <br>
@@ -86,6 +88,13 @@
         </td>
     </ng-container>
     <ng-container matColumnDef="j">
+        <th mat-header-cell *matHeaderCellDef class="fontS"> UPI ID </th>
+        <td mat-cell *matCellDef="let user" class="fontS"> 
+            <span class="fontS" *ngIf="user.receipt==''">Event not registered</span>
+            <span class="fontS" *ngIf="user.receipt!=''">{{user.upiId}}</span>
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="k">
         <th mat-header-cell *matHeaderCellDef class="fontS"> Action </th>
         <td mat-cell *matCellDef="let user" class="fontS"> 
             <button mat-icon-button
