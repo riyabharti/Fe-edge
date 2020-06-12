@@ -71,31 +71,33 @@
                     </mat-panel-description>
                 </mat-expansion-panel-header>
               
-                <mat-card class="col-sm-4 example-card mat-elevation-z8" style="display: inline-block;" *ngFor="let event of categoryData.events; let i=index">
-                    <mat-card-header>
-                        <mat-card-title><mat-checkbox class="header" color="warn" (click)="eventRegistration(categoryData._id,event)">
-                            {{event.name}} @ {{event.fees ? 'INR '+event.fees+'/-' : 'FREE'}} <mat-icon class="text-danger" *ngIf="event.couponApplicable">check_circle</mat-icon>
-                        </mat-checkbox></mat-card-title>
-                        <mat-card-subtitle></mat-card-subtitle>
-                    </mat-card-header>
-                    <mat-card-content class="fontS">
-                        <p style="color: rgba(255,255,255,.7);"> 
-                            {{event.description}}
-                        </p>
-                        <ng-container *ngIf="event.extra && event.show">
-                            <mat-form-field style="width: 60%;">
-                                <mat-label>Extra Amount:</mat-label>
-                                <span matPrefix>INR &nbsp;&nbsp;</span>
-                                <input matInput type="number" min="0" placeholder="Extra Amount" (input)="addAmount(categoryData._id,event)" name="extraAmount" [(ngModel)]="event.extraAmount" />
-                                <span matSuffix> &nbsp;&nbsp;&times; {{event.extraMoney}}/-</span>
-                            </mat-form-field>
-                            
-                        </ng-container>
-                    </mat-card-content>
-                    <!-- <mat-card-actions>
-                    </mat-card-actions> -->
-                </mat-card>
-
+                <ng-container *ngFor="let event of categoryData.events; let i=index">
+                    <br *ngIf="i%2 == 0">
+                    <mat-card class="col-sm-6 example-card mat-elevation-z8" style="display: inline-block; background: #303030;">
+                        <mat-card-header>
+                            <mat-card-title><mat-checkbox class="header text-danger" color="warn" (click)="eventRegistration(categoryData._id,event)">
+                                {{event.name}} @ {{event.fees ? 'INR '+event.fees+'/-' : 'FREE'}} <mat-icon class="text-danger" *ngIf="event.couponApplicable">check_circle</mat-icon>
+                            </mat-checkbox></mat-card-title>
+                            <mat-card-subtitle></mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content class="fontS">
+                            <p style="color: rgba(255,255,255,.7);"> 
+                                {{event.description}}
+                            </p>
+                            <ng-container *ngIf="event.extra && event.show">
+                                <mat-form-field style="width: 60%;">
+                                    <mat-label>Extra Quantity:</mat-label>
+                                    <span matPrefix>INR &nbsp;&nbsp;</span>
+                                    <input matInput type="number" min="0" placeholder="Extra Quantity" (input)="addAmount(categoryData._id,event)" name="extraAmount" [(ngModel)]="event.extraAmount" />
+                                    <span matSuffix> &nbsp;&nbsp;&times; {{event.extraMoney}}/-</span>
+                                </mat-form-field>
+                                
+                            </ng-container>
+                        </mat-card-content>
+                    </mat-card>
+                    <span class="example-spacer" *ngIf="i%2 == 0"></span>
+                    <br *ngIf="i%2 == 1">
+                </ng-container>
             </mat-expansion-panel>
             </mat-accordion>            
         </div>
@@ -114,6 +116,7 @@
     <div class="col-sm-3">
         <button mat-raised-button (click)="apply()" *ngIf="temp == 0" [disabled]="totalC == 0 || cCode == ''">Apply Coupon</button>
         <button mat-raised-button color="warn" (click)="remove()" *ngIf="temp != 0">Remove Coupon</button>
+        <button mat-raised-button (click)="openDialog()">Payment Instructions</button>
     </div>
     <div class="col-sm-3">
         <p>Upload Payment Receipt:</p>
@@ -130,7 +133,7 @@
 <br><br>
 <!-- <div class="container" style="width: 100% !important;"> -->
     <div class="text-center fontS" style="position: fixed; width: 100% !important; bottom: 0; background: #202020; padding: 1% !important;">
-        <h5 *ngIf="coupon.couponCode && !eventRegistered">Total {{couponApplicable}} Amount (INR): {{totalO}} + <span *ngIf="temp == 0">{{totalC}}</span><span *ngIf="temp != 0"><s>{{totalC + temp}}</s> {{totalC}} </span> = {{totalC + totalO}}/- </h5>
+        <h5 *ngIf="coupon.couponCode && !eventRegistered">Total Amount (INR): {{totalO}} + <span *ngIf="temp == 0">{{totalC}}</span><span *ngIf="temp != 0"><s>{{totalC + temp}}</s> {{totalC}} </span> = {{totalC + totalO}}/- </h5>
         <h5 *ngIf="!coupon.couponCode && !loading && !eventRegistered">Total Amount (INR): {{totalO + totalC}}  </h5>
     </div>
 <!-- </div> -->

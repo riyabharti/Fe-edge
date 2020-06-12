@@ -4,6 +4,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserService } from '../services/user.service';
 import { environment } from '../../environments/environment';
 import { Title } from '@angular/platform-browser';
+import { PaymentDialogComponent } from '../payment-dialog/payment-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-account',
@@ -40,7 +42,8 @@ export class AccountComponent implements OnInit {
     private commonS: CommonService,
     private sB: MatSnackBar,
     private userS: UserService,
-    private title: Title
+    private title: Title,
+    public dialog: MatDialog
   ) { title.setTitle('E-Edge | Account'); }
 
   loading = true;
@@ -156,20 +159,10 @@ export class AccountComponent implements OnInit {
     {
       if ( this.eventReg[categoryId].find(e => e.split('_')[0] === event._id) === undefined)
       {
-        if (event.fees >= this.coupon.discountValue) {
+        if (event.fees >= this.coupon.discountValue && event.couponApplicable) {
           this.couponApplicable++;
         }
         this.eventReg[categoryId] = [...this.eventReg[categoryId], event._id];
-        // console.log(event.extraAmount);
-        // if (event.extraAmount === undefined)
-        // {
-        //   event.extraAmount = 0;
-        //   this.eventReg[categoryId] = [...this.eventReg[categoryId], event._id];
-        // }
-        // else
-        // {
-        //   this.eventReg[categoryId] = [...this.eventReg[categoryId], event._id + '_' + event.extraAmount];
-        // }
         if (event.couponApplicable) {
           this.totalC += event.fees;
         }
@@ -179,8 +172,10 @@ export class AccountComponent implements OnInit {
       }
       else
       {
-        if (event.fees >= this.coupon.discountValue) {
+        if (event.fees >= this.coupon.discountValue && event.couponApplicable) {
           this.couponApplicable--;
+          if(this.couponApplied)
+            this.remove();
         }
         this.eventReg[categoryId] = this.eventReg[categoryId].filter(
           (value, index, arr) =>
@@ -209,19 +204,10 @@ export class AccountComponent implements OnInit {
     }
     else
     {
-      if (event.fees >= this.coupon.discountValue) {
+      if (event.fees >= this.coupon.discountValue && event.couponApplicable) {
         this.couponApplicable++;
       }
       this.eventReg[categoryId] = [event._id];
-      // if (event.extraAmount === undefined )
-      // {
-      //   event.extraAmount = 0;
-      //   this.eventReg[categoryId] = [event._id];
-      // }
-      // else
-      // {
-      //   this.eventReg[categoryId] = [event._id + '_' + event.extraAmount];
-      // }
       if (event.couponApplicable) {
         this.totalC += event.fees;
       }
@@ -231,9 +217,6 @@ export class AccountComponent implements OnInit {
     }
     if (this.couponApplied) {
       this.workOnCoupon();
-    }
-    if (this.totalC < 0) {
-      this.remove();
     }
   }
 
@@ -364,6 +347,12 @@ export class AccountComponent implements OnInit {
     {
       this.paymentReceipt = temp;
     }
+  }
+
+  openDialog() {
+    this.dialog.open(PaymentDialogComponent, {
+      width: '500px',
+    });
   }
 
 }

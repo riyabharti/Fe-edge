@@ -26,6 +26,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { HomeComponent } from './home/home.component';
 import { AccountComponent } from './account/account.component';
@@ -37,6 +38,7 @@ import { AdminService } from './services/admin.service';
 import { UserListComponent } from './user-list/user-list.component';
 import { AddCategoryEventComponent } from './add-category-event/add-category-event.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { PaymentDialogComponent } from './payment-dialog/payment-dialog.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     ErrorPageComponent,
     UserListComponent,
     AddCategoryEventComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    PaymentDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -72,11 +75,14 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     MatRadioModule,
     MatCardModule,
     MatExpansionModule,
-    MatChipsModule
+    MatChipsModule,
+    MatDialogModule
   ],
+  entryComponents: [PaymentDialogComponent],
   providers: [
     UserService, CommonService, AdminService, AccountComponent, {provide: HTTP_INTERCEPTORS, useClass: TokenizeService, multi: true},
-    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000, panelClass: ['blackySnack'] } }],
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000, panelClass: ['blackySnack'] } }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

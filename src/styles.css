@@ -52,6 +52,16 @@ button {
     flex: 1 1 auto;
 }
 
+.mat-dialog-container {
+    background: #151515;
+}
+
+.cdk-global-scrollblock {
+    position: static;
+    width: 100%;
+    overflow-y: auto;
+}
+
 .blackySnack {
     background: black;
     color: white;
