@@ -20,7 +20,7 @@
     <ng-container *ngFor="let categoryData of categoryDatas; let i=index">
         <div class="row">
             <div class="col-sm-3">
-                <h5>{{categoryData.category}} </h5>
+                <h5 class="header text-danger">{{categoryData.category}} </h5>
             </div>
             <br>
             <div class="col-sm-6">
@@ -72,21 +72,19 @@
         <div class="col-sm-12">
             <div class="text-secondary"><h5>Events in this category:</h5></div>
             <div class="row text-secondary">
-                <div class="col-sm-1"><h5>S.No</h5></div>
                 <div class="col-sm-2"><h5> Name </h5></div>
-                <div class="col-sm-3"><h5> Description </h5></div>
+                <div class="col-sm-5"><h5> Description </h5></div>
                 <div class="col-sm-1"><h5> Fees </h5></div>
                 <div class="col-sm-1"><h5> Coupon Applicable </h5></div>
                 <div class="col-sm-1"><h5> Extra Money Required </h5></div>
-                <div class="col-sm-2"><h5> Hide/Show </h5></div>
+                <div class="col-sm-1"><h5> Hide/Show </h5></div>
                 <div class="col-sm-1"><h5> Delete </h5></div>
             </div>
             <div class="row" *ngFor="let event of categoryDatas[categoryId].events; let i=index">
                 <br>
                 <br>
-                <div class="col-sm-1"><h5>{{i+1}}:</h5></div>
-                <div class="col-sm-2"><h5> {{event.name}} </h5></div>
-                <div class="col-sm-3"><h5> {{event.description}} </h5></div>
+                <div class="col-sm-2"><h5 class="header text-danger"> {{event.name}} </h5></div>
+                <div class="col-sm-5"><h5> {{event.description}} </h5></div>
                 <div class="col-sm-1"><h5> {{event.fees}} </h5></div>
                 <div class="col-sm-1">
                     <mat-icon class="text-success" *ngIf="event.couponApplicable">check_circle</mat-icon>
@@ -98,8 +96,8 @@
                         <mat-icon class="text-success">check_circle</mat-icon> {{event.extraMoney}}
                     </small>
                 </div>
-                <div class="col-sm-2">
-                    <button mat-raised-button color="accent" (click)="showHideEvent(event,i)">{{event.show ? 'Hide' : 'Show'}}</button>
+                <div class="col-sm-1">
+                    <button mat-raised-button (click)="showHideEvent(event,i)">{{event.show ? 'Hide' : 'Show'}}</button>
                 </div>
                 <div class="col-sm-1">
                     <button mat-raised-button color="warn" (click)="deleteEvent(event,i)">Delete Event</button>
@@ -138,10 +136,10 @@
                         </mat-form-field>
                     </p>
                     <p>
-                        <mat-slide-toggle name="newEventCoupon" [(ngModel)]="newEventCoupon">Coupon Applicable</mat-slide-toggle>
+                        <mat-slide-toggle name="newEventCoupon" color="warn" [(ngModel)]="newEventCoupon">Coupon Applicable</mat-slide-toggle>
                     </p>
                     <p>
-                        <mat-slide-toggle name="newEventExtra" [(ngModel)]="newEventExtra">Extra money required</mat-slide-toggle>
+                        <mat-slide-toggle name="newEventExtra" color="warn" [(ngModel)]="newEventExtra">Extra money required</mat-slide-toggle>
                     </p>
                     <p *ngIf="newEventExtra">
                         <mat-form-field appearance="outline" style="width: 100%;">
