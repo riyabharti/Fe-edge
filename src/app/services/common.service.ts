@@ -40,5 +40,7 @@ export class CommonService {
     return this.http.get<any>(this.url + '/getCoupon');
   }
 
-
+  getEvent(id: string) {
+    return this.http.get<any>(this.url + '/getCategory/' + id);
+  }
 }

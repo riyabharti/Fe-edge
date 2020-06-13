@@ -48,7 +48,15 @@
                 <div class="col-sm-6 text-danger" *ngIf="!userData.verified "><h5>Pending...</h5></div>
             </div>
             <br>
+            <div class="row fontS" *ngIf="userData.total > 0">
+                <div class="col-sm-6 text-secondary"><h5>Registered Events:</h5></div>
+                <div class="col-sm-6"><h5 *ngFor="let re of registeredEvents"> {{re.name}} <span class="header text-danger">({{re.category}})</span></h5></div>
+            </div>
+            <br>
         </div>
         <div class="col-sm-2"></div>
     </div>
+</div>
+<div class="loader-holder" *ngIf="loading">
+    <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
 </div>

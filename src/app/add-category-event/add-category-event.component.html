@@ -1,5 +1,6 @@
 <br>
 <div class="container"> 
+    <h1 class="header text-danger text-center">All Categories</h1>
     <br>
     <div class="row">
         <div class="col-sm-3 text-secondary">
@@ -23,7 +24,7 @@
                 <h5 class="header text-danger">{{categoryData.category}} </h5>
             </div>
             <br>
-            <div class="col-sm-6">
+            <div class="col-sm-6 text-justify">
                 <h5>{{categoryData.description}} </h5>
             </div>
             <div class="col-sm-2">
@@ -69,8 +70,9 @@
     </form>
     <hr>
     <div *ngIf="categoryId != -1">
+        <br>
         <div class="col-sm-12">
-            <div class="text-secondary"><h5>Events in this category:</h5></div>
+            <h1 class="header text-danger text-center">{{categoryDatas[categoryId].category}}</h1>
             <div class="row text-secondary">
                 <div class="col-sm-2"><h5> Name </h5></div>
                 <div class="col-sm-5"><h5> Description </h5></div>
@@ -84,7 +86,7 @@
                 <br>
                 <br>
                 <div class="col-sm-2"><h5 class="header text-danger"> {{event.name}} </h5></div>
-                <div class="col-sm-5"><h5> {{event.description}} </h5></div>
+                <div class="col-sm-5 text-justify"><h5> {{event.description}} </h5></div>
                 <div class="col-sm-1"><h5> {{event.fees}} </h5></div>
                 <div class="col-sm-1">
                     <mat-icon class="text-success" *ngIf="event.couponApplicable">check_circle</mat-icon>
@@ -92,9 +94,8 @@
                 </div>
                 <div class="col-sm-1">
                     <mat-icon class="text-danger" *ngIf="!event.extra">not_interested</mat-icon>
-                    <small class="text-secondary text-center" *ngIf="event.extra">
-                        <mat-icon class="text-success">check_circle</mat-icon> {{event.extraMoney}}
-                    </small>
+                    <mat-icon class="text-success" *ngIf="event.extra">check_circle</mat-icon>
+                    <h6 class="text-center" style="display: inline-block;" *ngIf="event.extra"> {{event.extraMoney}}</h6>
                 </div>
                 <div class="col-sm-1">
                     <button mat-raised-button (click)="showHideEvent(event,i)">{{event.show ? 'Hide' : 'Show'}}</button>
