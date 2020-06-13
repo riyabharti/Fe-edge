@@ -24,9 +24,14 @@ export class UserService {
     return this.http.get<any>(this.url + '/fetchEmailsContacts');
   }
 
-  eventRegister(event: {total: number, couponApplied: boolean, registerEvents: string, upiId: number} , paymentReceipt: File) {
+  eventRegister(event: {total: number, couponApplied: boolean, registerEvents: string, upiId: number} ,
+                paymentReceipt: File , couponPhoto: File) {
     const formData = new FormData();
-    formData.append('file', paymentReceipt, paymentReceipt.name);
+    formData.append('files[]', paymentReceipt, paymentReceipt.name);
+    if (couponPhoto !== undefined)
+    {
+      formData.append('files[]', couponPhoto, couponPhoto.name);
+    }
     const keys = Object.keys(event);
     keys.forEach(key => {
       formData.append(key, event[key]);

@@ -12,8 +12,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class ProfileComponent implements OnInit {
 
   constructor(private commonS: CommonService,
-    private sB: MatSnackBar,
-    private title: Title,
+              private sB: MatSnackBar,
+              private title: Title,
   ) { title.setTitle('E-Edge | Profile'); }
 
   loading = true;
@@ -25,11 +25,18 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.userData = JSON.parse(localStorage.getItem('user'));
     this.receiptUrl = environment.apiURL + '/common/getFile/' + this.userData._id + '/receipt.' + this.userData.receipt;
-    this.categories = Object.keys( this.userData.events);
+    if (this.userData.events) {
+      this.categories = Object.keys(this.userData.events);
+    }
     console.log(this.categories);
-    
-    if(this.categories.length)
+
+    if (this.categories.length) {
       this.getCategory(0);
+    }
+    else
+    {
+      this.loading = false;
+    }
   }
 
   getCategory(id: number) {
@@ -38,25 +45,29 @@ export class ProfileComponent implements OnInit {
         if (result.status)
         {
           let eventIds = this.userData.events[this.categories[id]];
+          eventIds.forEach((e, i) => {
+            eventIds[i] = eventIds[i].split('_')[0];
+          });
           console.log(eventIds);
-          let regEventIds = result.data.events.filter(e => {
-            delete e['couponApplicable'];
-            if(!e.name.toLowerCase().includes('combo'))
-              delete e['description'];
-            delete e['extra'];
-            delete e['extraMoney'];
-            delete e['fees'];
-            delete e['show'];
-            return eventIds.indexOf(e._id) != -1
+          const regEventIds = result.data.events.filter(e => {
+            delete e.couponApplicable;
+            if (!e.name.toLowerCase().includes('combo')) {
+              delete e.description;
+            }
+            delete e.extra;
+            delete e.extraMoney;
+            delete e.fees;
+            delete e.show;
+            return eventIds.indexOf(e._id) != -1;
           });
           regEventIds.forEach(rei => {
-            this.registeredEvents = [...this.registeredEvents,{
+            this.registeredEvents = [...this.registeredEvents, {
               category: result.data.category,
-              name: rei.name + (rei.description ? ' ('+rei.description+')' : '')
-            }]
+              name: rei.name + (rei.description ? ' (' + rei.description + ')' : '')
+            }];
           });
-          if(id < this.categories.length-1) {
-            this.getCategory(id+1);
+          if (id < this.categories.length - 1) {
+            this.getCategory(id + 1);
           }
           else {
             this.loading = false;
@@ -69,7 +80,7 @@ export class ProfileComponent implements OnInit {
           this.loading = false;
           this.sB.open(result.message);
           console.log(this.registeredEvents);
-          
+
         }
       },
       problem => {

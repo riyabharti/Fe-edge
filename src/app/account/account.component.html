@@ -42,7 +42,12 @@
                                 <mat-form-field style="width: 60%;">
                                     <mat-label>Extra Quantity:</mat-label>
                                     <span matPrefix>INR &nbsp;&nbsp;</span>
-                                    <input matInput type="number" min="0" placeholder="Extra Quantity" (input)="addAmount(categoryData._id,event)" name="extraAmount" [(ngModel)]="event.extraAmount" />
+                                    <mat-select [(ngModel)]="event.extraAmount" name="extraAmount" (selectionChange)="addAmount(categoryData._id,event)" required>
+                                        <mat-option value="0">0</mat-option>
+                                        <mat-option value="1"> 1 </mat-option>
+                                        <mat-option value="2"> 2 </mat-option>
+                                    </mat-select>
+                                    <!-- <input matInput type="number" min="0" max="2" placeholder="Extra Quantity" (input)="addAmount(categoryData._id,event)" name="extraAmount" [(ngModel)]="event.extraAmount" /> -->
                                     <span matSuffix> &nbsp;&nbsp;&times; {{event.extraMoney}}/-</span>
                                 </mat-form-field> 
                             </ng-container>
@@ -61,34 +66,45 @@
 <br><br>
 <!-- <div class="container" style="width: 100% !important;"> -->
 <div class="row text-center fontS" *ngIf="userData.total == 0" style="background: #202020; padding: 1% 1% 0% 1% !important;">
-    <div class="col-sm-2 text-center">
+    <div class="col-sm-4 text-center">
         <mat-form-field appearance="legacy" style="width: 80%;" *ngIf="temp == 0">
             <mat-label>Enter Coupon Code here</mat-label>
             <input matInput type="text" placeholder="Coupon Code Please" name="cc" [(ngModel)]="cCode" />
         </mat-form-field>
         <mat-chip-list class="text-center" *ngIf="temp != 0">Coupon Applied:<mat-chip style="background: #dc3545; color: white; font-weight: bold;">{{cCode}}</mat-chip><br><br></mat-chip-list>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-4">
         <button mat-raised-button (click)="apply()" *ngIf="temp == 0" [disabled]="totalC == 0 || cCode == ''">Apply Coupon</button>
         <button mat-raised-button color="warn" (click)="remove()" *ngIf="temp != 0">Remove Coupon</button>
         <button mat-raised-button (click)="openDialog()">Payment Instructions</button>
     </div>
-    <div class="col-sm-3">
-        <p>Upload Payment Receipt:</p>
-        <label class="btn btn-outline-danger" for="fileInput3" style="width: 80%">{{ paymentReceipt ? "Choose Other File" : "Choose File" }}
-            <input type="file" hidden id="fileInput3" accept="image/*, .pdf"
-                (change)="fileRead($event.target.files)" required>
-        </label>
-        <p>{{ paymentReceipt ? 'File Chosen: ' + paymentReceipt.name : "No File Chosen" }}</p>
-    </div>
-    <div class="col-sm-2 text-center">
+    <div class="col-sm-4 text-center">
         <mat-form-field appearance="legacy" style="width: 80%;">
             <mat-label>Enter UPI Transaction ID</mat-label>
             <input matInput type="text" placeholder="UTR Please" name="upi" (input)="checkAlphabet($event)" [(ngModel)]="upiId" />
         </mat-form-field>
     </div>
-    <div class="col-sm-2">
-        <button mat-raised-button (click)="eventPayment()" [disabled]="totalC + totalO == 0 || !paymentReceipt || !upiId">Register for events</button>
+    <div class="col-sm-4" *ngIf="temp != 0">
+        <p>Coupon Photo:</p>
+        <label class="btn btn-outline-danger" for="fileInput2" style="width: 80%">{{ couponPhoto ? "Choose Other File" : "Choose File" }}
+            <input type="file" hidden id="fileInput2" accept="image/*, .pdf"
+                (change)="fileRead($event.target.files, false)" required>
+        </label>
+        <p>{{ couponPhoto ? 'File Chosen: ' + couponPhoto.name : "No File Chosen" }}</p>
+    </div>
+    <div class="col-sm-4" *ngIf="temp == 0">
+        <br><br>
+    </div>
+    <div class="col-sm-4">
+        <p>Upload Payment Receipt:<span class="text-danger">*</span></p>
+        <label class="btn btn-outline-danger" for="fileInput3" style="width: 80%">{{ paymentReceipt ? "Choose Other File" : "Choose File" }}
+            <input type="file" hidden id="fileInput3" accept="image/*, .pdf"
+                (change)="fileRead($event.target.files, true)" required>
+        </label>
+        <p>{{ paymentReceipt ? 'File Chosen: ' + paymentReceipt.name : "No File Chosen" }}</p>
+    </div>
+    <div class="col-sm-4">
+        <button mat-raised-button (click)="eventPayment()" [disabled]="totalC + totalO == 0 || !paymentReceipt || !upiId ">Register for events</button>
     </div>
 </div>
 <br><br>

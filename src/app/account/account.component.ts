@@ -61,6 +61,7 @@ export class AccountComponent implements OnInit {
     email: ''
   };
   paymentReceipt: File = undefined;
+  couponPhoto: File = undefined;
 
   ngOnInit(): void {
     this.userData = JSON.parse(localStorage.getItem('user'));
@@ -139,7 +140,7 @@ export class AccountComponent implements OnInit {
       this.cCode = this.coupon.couponCode;
       this.workOnCoupon();
     } else {
-      this.sB.open('Invalid Coupon Code!');
+      this.sB.open('Invalid Coupon Code! For coupons please register with your coupons email ID');
     }
     this.couponApplied = true;
   }
@@ -297,10 +298,11 @@ export class AccountComponent implements OnInit {
         registerEvents: JSON.stringify(this.eventReg),
         upiId: this.upiId
       },
-      this.paymentReceipt).subscribe(
+      this.paymentReceipt, this.couponPhoto).subscribe(
         result => {
           if (result.status)
           {
+            console.log(result);
             this.loading = false;
             this.sB.open(result.message);
             delete result.user.admin;
@@ -310,6 +312,7 @@ export class AccountComponent implements OnInit {
           }
           else
           {
+            console.log(result);
             this.loading = false;
             this.sB.open(result.message);
             console.log(result.error);
@@ -330,23 +333,43 @@ export class AccountComponent implements OnInit {
     }
   }
 
-  fileRead(e: FileList)
+  fileRead(e: FileList, value: boolean)
   {
     const temp: File = e.item(0);
-    if (
-      temp &&
-      temp.type.split('/')[1] !== 'jpg' &&
-      temp.type.split('/')[1] !== 'jpeg' &&
-      temp.type.split('/')[1] !== 'png' &&
-      (temp.type.split('/')[1] !== 'pdf'
-    ))
+    if (value)
     {
-      this.sB.open('Sorry, only image .jpg, .jpeg ,.png and .pdf extension is allowed');
-      this.paymentReceipt = null;
+      if (
+        temp &&
+        temp.type.split('/')[1] !== 'jpg' &&
+        temp.type.split('/')[1] !== 'jpeg' &&
+        temp.type.split('/')[1] !== 'png' &&
+        (temp.type.split('/')[1] !== 'pdf'
+      ))
+      {
+        this.sB.open('Sorry, only image .jpg, .jpeg ,.png and .pdf extension is allowed');
+        this.paymentReceipt = null;
+      }
+      else
+      {
+        this.paymentReceipt = temp;
+      }
     }
     else
     {
-      this.paymentReceipt = temp;
+      if (
+        temp &&
+        temp.type.split('/')[1] !== 'jpg' &&
+        temp.type.split('/')[1] !== 'jpeg' &&
+        temp.type.split('/')[1] !== 'png'
+      )
+      {
+        this.sB.open('Sorry, only image .jpg, .jpeg and .png extension is allowed');
+        this.couponPhoto = null;
+      }
+      else
+      {
+        this.couponPhoto = temp;
+      }
     }
   }
 

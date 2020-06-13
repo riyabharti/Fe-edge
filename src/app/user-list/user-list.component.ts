@@ -25,7 +25,7 @@ export class UserListComponent implements OnInit {
   displayedColumns: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'i'];
   dataSource: MatTableDataSource<User>;
   usersData = [];
-  show = [true, true, true, true, true, true, true, false, true, false, false];
+  show = [true, true, true, true, true, true, true, false, true, false, false, false];
   userData;
 
   url = environment.apiURL + '/common/getFile/';
