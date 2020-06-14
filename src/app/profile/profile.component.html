@@ -38,17 +38,17 @@
             <br>
             <div class="row fontS">
                 <div class="col-sm-6 text-secondary"><h5>Event Registration:</h5></div>
-                <div class="col-sm-6" *ngIf="userData.total > 0"><h5>Complete, Paid INR {{userData.total}}/- <br><a [href]="receiptUrl">Download Receipt</a></h5></div>
-                <div class="col-sm-6 text-danger" *ngIf="userData.total == 0"><h5>Pending...</h5></div>
+                <div class="col-sm-6" *ngIf="userData.eventRegDetails.total.length > 0"><h5>Complete, Paid INR {{userData.eventRegDetails.total}}/- <br><a [href]="receiptUrl">Download Receipt</a></h5></div>
+                <div class="col-sm-6 text-danger" *ngIf="userData.eventRegDetails.total.length == 0"><h5>Pending...</h5></div>
             </div>
             <br>
-            <div class="row fontS" *ngIf="userData.total > 0">
+            <div class="row fontS" *ngIf="userData.eventRegDetails.total.length > 0">
                 <div class="col-sm-6 text-secondary"><h5>Registration Verification:</h5></div>
                 <div class="col-sm-6" *ngIf="userData.verified "><h5>Complete</h5></div>
                 <div class="col-sm-6 text-danger" *ngIf="!userData.verified "><h5>Pending...</h5></div>
             </div>
             <br>
-            <div class="row fontS" *ngIf="userData.total > 0">
+            <div class="row fontS" *ngIf="userData.eventRegDetails.total.length > 0">
                 <div class="col-sm-6 text-secondary"><h5>Registered Events:</h5></div>
                 <div class="col-sm-6"><h5 *ngFor="let re of registeredEvents"> {{re.name}} <span class="header text-danger">({{re.category}})</span></h5></div>
             </div>

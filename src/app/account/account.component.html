@@ -83,16 +83,19 @@
 <br><br>
 <!-- <div class="container" style="width: 100% !important;"> -->
 <div class="row text-center fontS" style="background: #202020; padding: 1% 1% 0% 1% !important;">
-    <div class="col-sm-4 text-center">
+    <div class="col-sm-4 text-center" *ngIf="couponAppliedBefore < 2">
         <mat-form-field appearance="legacy" style="width: 80%;" *ngIf="temp == 0">
             <mat-label>Enter Coupon Code here</mat-label>
             <input matInput type="text" placeholder="Coupon Code Please" name="cc" [(ngModel)]="cCode" />
         </mat-form-field>
         <mat-chip-list class="text-center" *ngIf="temp != 0">Coupon Applied:<mat-chip style="background: #dc3545; color: white; font-weight: bold;">{{cCode}}</mat-chip><br><br></mat-chip-list>
     </div>
+    <div class="col-sm-4 text-center" *ngIf="couponAppliedBefore == 2">
+        <h5>Maximum coupon limit Reached</h5>
+    </div>
     <div class="col-sm-4">
-        <button mat-raised-button (click)="apply()" *ngIf="temp == 0" [disabled]="totalC == 0 || cCode == ''">Apply Coupon</button>
-        <button mat-raised-button color="warn" (click)="remove()" *ngIf="temp != 0">Remove Coupon</button>
+        <button mat-raised-button (click)="apply()" *ngIf="temp == 0 && couponAppliedBefore < 2" [disabled]="totalC == 0 || cCode == ''">Apply Coupon</button>
+        <button mat-raised-button color="warn" (click)="remove()" *ngIf="temp != 0 && couponAppliedBefore < 2">Remove Coupon</button>
         <button mat-raised-button (click)="openDialog()">Payment Instructions</button>
     </div>
     <div class="col-sm-4 text-center">
@@ -127,8 +130,8 @@
 <br><br>
 <!-- <div class="container" style="width: 100% !important;"> -->
     <div class="text-center fontS" style="position: fixed; width: 100% !important; bottom: 0; background: #202020; padding: 1% !important;">
-        <h5 *ngIf="coupon.couponCode">Total Amount (INR): {{totalO}} + <span *ngIf="temp == 0">{{totalC}}</span><span *ngIf="temp != 0"><s>{{totalC + temp}}</s> {{totalC}} </span> = {{totalC + totalO}}/- </h5>
-        <h5 *ngIf="!coupon.couponCode && !loading">Total Amount (INR): {{totalO + totalC}}  </h5>
+        <h5 *ngIf="coupon.couponCode && couponAppliedBefore < 2">Total Amount (INR): {{totalO}} + <span *ngIf="temp == 0">{{totalC}}</span><span *ngIf="temp != 0"><s>{{totalC + temp}}</s> {{totalC}} </span> = {{totalC + totalO}}/- </h5>
+        <h5 *ngIf="(!coupon.couponCode && !loading) || couponAppliedBefore == 2">Total Amount (INR): {{totalO + totalC}}  </h5>
     </div>
 <!-- </div> -->
 <div class="loader-holder" *ngIf="loading">

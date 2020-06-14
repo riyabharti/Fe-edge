@@ -52,7 +52,9 @@ export class AccountComponent implements OnInit {
 
   loading = true;
   couponApplied = false;
+  couponAppliedBefore = 0;
   couponApplicable = 0;
+  remainingCoupon;
   newPassword: string;
   confirmNewPassword: string;
   cCode = '';
@@ -67,6 +69,8 @@ export class AccountComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = JSON.parse(localStorage.getItem('user'));
+    this.couponAppliedBefore = this.userData.couponApplied;
+    this.remainingCoupon = 2 - this.couponAppliedBefore;
     this.registeredEvents = this.userData.events;
     this.commonS.fetchEvents().subscribe(
       result => {
@@ -76,7 +80,7 @@ export class AccountComponent implements OnInit {
           this.categoryDatas.forEach(cat => {
             cat.eventCount = cat.events.filter(e => !e.name.toLowerCase().includes('combo') && e.show).length;
             cat.comboCount = cat.events.filter(e => e.name.toLowerCase().includes('combo') && e.show).length;
-            if (this.registeredEvents.hasOwnProperty(cat._id))
+            if (this.registeredEvents && this.registeredEvents.hasOwnProperty(cat._id))
             {
               const eventIds = this.registeredEvents[cat._id];
               eventIds.forEach((e, i) => {
@@ -265,11 +269,12 @@ export class AccountComponent implements OnInit {
   workOnCoupon() {
     switch (this.temp) {
       case 0:
-        this.temp += (this.couponApplicable >= 2 ? 2 : this.couponApplicable ) * this.coupon.discountValue;
+        this.temp +=
+        (this.couponApplicable >= this.remainingCoupon ? this.remainingCoupon : this.couponApplicable ) * this.coupon.discountValue;
         this.totalC -= this.temp;
         break;
       case this.coupon.discountValue:
-        if (this.couponApplicable >= 2) {
+        if (this.couponApplicable >= this.remainingCoupon) {
           this.temp += this.coupon.discountValue;
           this.totalC -= this.coupon.discountValue;
         }
@@ -278,7 +283,7 @@ export class AccountComponent implements OnInit {
           this.temp = 0;
         }
         break;
-      case this.coupon.discountValue * 2:
+      case this.coupon.discountValue * this.remainingCoupon:
         if (this.couponApplicable === 0) {
           this.totalC += this.temp;
           this.temp = 0;
@@ -305,7 +310,7 @@ export class AccountComponent implements OnInit {
       this.loading = true;
       this.userS.eventRegister({
         total: this.totalC + this.totalO,
-        couponApplied: this.couponApplied,
+        couponApplied: (this.temp / 20),
         registerEvents: JSON.stringify(this.eventReg),
         upiId: this.upiId
       },

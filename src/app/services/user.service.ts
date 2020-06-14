@@ -24,7 +24,7 @@ export class UserService {
     return this.http.get<any>(this.url + '/fetchEmailsContacts');
   }
 
-  eventRegister(event: {total: number, couponApplied: boolean, registerEvents: string, upiId: number} ,
+  eventRegister(event: {total: number, couponApplied: number, registerEvents: string, upiId: number} ,
                 paymentReceipt: File , couponPhoto: File) {
     const formData = new FormData();
     formData.append('files[]', paymentReceipt, paymentReceipt.name);

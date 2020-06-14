@@ -24,7 +24,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.userData = JSON.parse(localStorage.getItem('user'));
-    this.receiptUrl = environment.apiURL + '/common/getFile/' + this.userData._id + '/receipt.' + this.userData.receipt;
+    this.receiptUrl = environment.apiURL + '/common/getFile/' + this.userData._id + '/receipt1.' + this.userData.receipt;
     if (this.userData.events) {
       this.categories = Object.keys(this.userData.events);
     }
