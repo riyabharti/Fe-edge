@@ -1,45 +1,51 @@
 <br>
 <div class="container">
-    <br>
     <h1 class="text-center text-danger header">My Registration Info</h1>
     <br>
     <div class="row">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-8">
+        <div class="col-sm-6">
             <div class="row fontS">
-                <div class="col-sm-6 text-secondary"><h5>Name:</h5></div>
-                <div class="col-sm-6"><h5> {{userData.name}} </h5></div>
+                <div class="col-sm-5 text-secondary"><h5>Name:</h5></div>
+                <div class="col-sm-7"><h5> {{userData.name}} </h5></div>
             </div>
             <br>
             <div class="row fontS">
-                <div class="col-sm-6 text-secondary"><h5>Email ID:</h5></div>
-                <div class="col-sm-6"><h5> {{userData.email}} </h5></div>
+                <div class="col-sm-5 text-secondary"><h5>Email ID:</h5></div>
+                <div class="col-sm-7"><h5> {{userData.email}} </h5></div>
             </div>
             <br>
             <div class="row fontS">
-                <div class="col-sm-6 text-secondary"><h5>Stream:</h5></div>
-                <div class="col-sm-6"><h5> {{userData.stream}} </h5></div>
+                <div class="col-sm-5 text-secondary"><h5>Stream:</h5></div>
+                <div class="col-sm-7"><h5> {{userData.stream}} </h5></div>
             </div>
             <br>
             <div class="row fontS">
-                <div class="col-sm-6 text-secondary"><h5>Year:</h5></div>
-                <div class="col-sm-6"><h5> {{userData.year}} </h5></div>
+                <div class="col-sm-5 text-secondary"><h5>Year:</h5></div>
+                <div class="col-sm-7"><h5> {{userData.year}} </h5></div>
             </div>
             <br>
             <div class="row fontS">
-                <div class="col-sm-6 text-secondary"><h5>Contact Number:</h5></div>
-                <div class="col-sm-6"><h5> {{userData.contact}} </h5></div>
+                <div class="col-sm-5 text-secondary"><h5>Contact Number:</h5></div>
+                <div class="col-sm-7"><h5> {{userData.contact}} </h5></div>
             </div>
             <br>
             <div class="row fontS">
-                <div class="col-sm-6 text-secondary"><h5>College Name:</h5></div>
-                <div class="col-sm-6"><h5> {{userData.instituteName}} </h5></div>
+                <div class="col-sm-5 text-secondary"><h5>College Name:</h5></div>
+                <div class="col-sm-7"><h5> {{userData.instituteName}} </h5></div>
             </div>
             <br>
+        </div>
+        <div class="col-sm-6">
             <div class="row fontS">
                 <div class="col-sm-6 text-secondary"><h5>Event Registration:</h5></div>
-                <div class="col-sm-6" *ngIf="userData.eventRegDetails.total.length > 0"><h5>Complete, Paid INR {{userData.eventRegDetails.total}}/- <br><a [href]="receiptUrl">Download Receipt</a></h5></div>
-                <div class="col-sm-6 text-danger" *ngIf="userData.eventRegDetails.total.length == 0"><h5>Pending...</h5></div>
+                <div class="col-sm-6" *ngIf="userData.eventRegDetails.receipt.length==0">Event not registered</div>
+                <div class="col-sm-6">
+                    <ng-container *ngFor="let rr of userData.eventRegDetails.receipt; let k=index">
+                    <h5 class="fontS" *ngIf="rr!=''">Paid INR {{userData.eventRegDetails.total[k]}}/- <br> UPI ID: {{userData.eventRegDetails.upiId[k]}}</h5>
+                    <a [href]="receiptUrl+userData._id+'/receipt'+(k+1)+'.'+userData.eventRegDetails.receipt[k]">Download Receipt</a>
+                    <br><br>
+                    </ng-container>
+                </div>
             </div>
             <br>
             <div class="row fontS" *ngIf="userData.eventRegDetails.total.length > 0">
@@ -54,7 +60,6 @@
             </div>
             <br>
         </div>
-        <div class="col-sm-2"></div>
     </div>
 </div>
 <div class="loader-holder" *ngIf="loading">

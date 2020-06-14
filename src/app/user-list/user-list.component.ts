@@ -27,6 +27,7 @@ export class UserListComponent implements OnInit {
   usersData = [];
   show = [true, true, true, true, true, true, true, false, true, false, false, false];
   userData;
+  categoryData;
 
   url = environment.apiURL + '/common/getFile/';
 
@@ -51,6 +52,56 @@ export class UserListComponent implements OnInit {
           });
           this.dataSource = new MatTableDataSource<User>(this.usersData);
           setTimeout(() => this.dataSource.paginator = this.paginator);
+          this.commonS.fetchEvents().subscribe(
+            result => {
+              if (result.status)
+              {
+                this.categoryData = result.data;
+                /**
+                 * Do the impossible task
+                 */
+                this.usersData.forEach(user => {
+                  let regEvents = [];
+                  let eventIds = Object.keys(user.events);
+                  eventIds.forEach((e,i) => {
+                    eventIds[i] = e.split("_")[0];
+                  })
+                  this.categoryData.forEach(cat => {
+                    if(eventIds.indexOf(cat._id) != -1) {
+                      let t = cat.category, ei = user.events[cat._id];
+                      cat.events.forEach(ee => {
+                        if(ei.indexOf(ee._id) != -1)
+                          regEvents.push({
+                            cn: t,
+                            en: ee.name
+                          })
+                      })
+                    }
+                  })
+                  user.regEvents = regEvents;
+                })
+                
+                this.loading = false;
+              }
+              else
+              {
+                this.sB.open(result.message);
+                this.loading = false;
+              }
+            },
+            problem => {
+              this.loading = false;
+              if (problem.error.error && problem.error.error.message && problem.error.error.message === 'jwt expired')
+              {
+                this.sB.open('Your session has expired !!! Please log in again :)');
+                this.commonS.doLogout();
+              }
+              else {
+                console.log(problem.error);
+                this.sB.open(problem.error instanceof ProgressEvent ? 'Failed Connecting the Server. Check your Internet Connection or Try again later' : problem.error.message);
+              }
+            }
+          );
         }
         else {
           this.sB.open(result.message);
