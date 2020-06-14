@@ -145,6 +145,16 @@ export class AccountComponent implements OnInit {
     );
   }
 
+  setDefaultValue(){
+    this.cCode = '';
+    this.upiId = null;
+    this.temp = 0;
+    this.totalC = 0;
+    this.totalO = 0;
+    this.paymentReceipt = undefined;
+    this.couponPhoto = undefined;
+  }
+
   isAdmin(): boolean {
     return this.commonS.isLoggedIn();
   }
@@ -325,6 +335,7 @@ export class AccountComponent implements OnInit {
             delete result.user.password;
             localStorage.setItem('user', JSON.stringify(result.user));
             this.ngOnInit();
+            this.setDefaultValue();
           }
           else
           {
