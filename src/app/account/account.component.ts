@@ -15,6 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class AccountComponent implements OnInit {
 
   userData;
+  registeredEvents;
   eventReg: object = {};
   categoryDatas: [{
     '_id': '',
@@ -32,7 +33,8 @@ export class AccountComponent implements OnInit {
       'extraMoney': number
       'extraAmount': number,
       'show': boolean,
-      'visible': boolean
+      'visible': boolean,
+      'registered': boolean
     }]
   }];
 
@@ -65,70 +67,78 @@ export class AccountComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = JSON.parse(localStorage.getItem('user'));
-    if (this.userData.total == 0)
-    {
-      this.commonS.fetchEvents().subscribe(
-        result => {
-          if (result.status)
-          {
-            this.categoryDatas = result.data;
-            this.categoryDatas.forEach(cat => {
-              cat.eventCount = cat.events.filter(e => !e.name.toLowerCase().includes('combo') && e.show).length;
-              cat.comboCount = cat.events.filter(e => e.name.toLowerCase().includes('combo') && e.show).length;
-            });
-            // this.loading = false;
-            this.commonS.getCoupon().subscribe(
-              couponResult => {
-                if (couponResult.status)
+    this.registeredEvents = this.userData.events;
+    this.commonS.fetchEvents().subscribe(
+      result => {
+        if (result.status)
+        {
+          this.categoryDatas = result.data;
+          this.categoryDatas.forEach(cat => {
+            cat.eventCount = cat.events.filter(e => !e.name.toLowerCase().includes('combo') && e.show).length;
+            cat.comboCount = cat.events.filter(e => e.name.toLowerCase().includes('combo') && e.show).length;
+            if (this.registeredEvents.hasOwnProperty(cat._id))
+            {
+              const eventIds = this.registeredEvents[cat._id];
+              eventIds.forEach((e, i) => {
+                eventIds[i] = eventIds[i].split('_')[0];
+              });
+              cat.events.filter((e, i) => {
+                if (eventIds.indexOf(e._id) !== -1)
                 {
-                  if (couponResult.coupon != null) {
-                    this.coupon = couponResult.coupon;
-                  }
-                  console.log(this.coupon);
-                  this.loading = false;
+                  cat.events[i].registered = true;
+                  console.log(e.name, cat.category);
                 }
-                else
-                {
-                  this.sB.open(result.message);
-                  this.loading = false;
+              });
+            }
+          });
+          // this.loading = false;
+          this.commonS.getCoupon().subscribe(
+            couponResult => {
+              if (couponResult.status)
+              {
+                if (couponResult.coupon != null) {
+                  this.coupon = couponResult.coupon;
                 }
-              },
-              couponProblem => {
+                console.log(this.coupon);
                 this.loading = false;
-                if (couponProblem.error.error && couponProblem.error.error.message && couponProblem.error.error.message === 'jwt expired') {
-                  this.sB.open('Your session has expired !!! Please log in again :)');
-                  this.commonS.doLogout();
-                }
-                else {
-                  console.log(couponProblem.error);
-                  this.sB.open(couponProblem.error instanceof ProgressEvent ? 'Failed Connecting the Server. Check your Internet Connection or Try again later' : couponProblem.error.message);
-                }
               }
-            );
-          }
-          else
-          {
-            this.loading = false;
-            this.sB.open(result.message);
-          }
-        },
-        problem => {
-          this.loading = false;
-          if (problem.error.error && problem.error.error.message && problem.error.error.message === 'jwt expired') {
-            this.sB.open('Your session has expired !!! Please log in again :)');
-            this.commonS.doLogout();
-          }
-          else {
-            console.log(problem.error);
-            this.sB.open(problem.error instanceof ProgressEvent ? 'Failed Connecting the Server. Check your Internet Connection or Try again later' : problem.error.message);
-          }
+              else
+              {
+                this.sB.open(result.message);
+                this.loading = false;
+              }
+            },
+            couponProblem => {
+              this.loading = false;
+              if (couponProblem.error.error && couponProblem.error.error.message && couponProblem.error.error.message === 'jwt expired') {
+                this.sB.open('Your session has expired !!! Please log in again :)');
+                this.commonS.doLogout();
+              }
+              else {
+                console.log(couponProblem.error);
+                this.sB.open(couponProblem.error instanceof ProgressEvent ? 'Failed Connecting the Server. Check your Internet Connection or Try again later' : couponProblem.error.message);
+              }
+            }
+          );
         }
-      );
-    }
-    else
-    {
-      this.loading = false;
-    }
+        else
+        {
+          this.loading = false;
+          this.sB.open(result.message);
+        }
+      },
+      problem => {
+        this.loading = false;
+        if (problem.error.error && problem.error.error.message && problem.error.error.message === 'jwt expired') {
+          this.sB.open('Your session has expired !!! Please log in again :)');
+          this.commonS.doLogout();
+        }
+        else {
+          console.log(problem.error);
+          this.sB.open(problem.error instanceof ProgressEvent ? 'Failed Connecting the Server. Check your Internet Connection or Try again later' : problem.error.message);
+        }
+      }
+    );
   }
 
   isAdmin(): boolean {
@@ -178,8 +188,9 @@ export class AccountComponent implements OnInit {
       {
         if (event.fees >= this.coupon.discountValue && event.couponApplicable) {
           this.couponApplicable--;
-          if(this.couponApplied)
+          if (this.couponApplied) {
             this.remove();
+          }
         }
         this.eventReg[categoryId] = this.eventReg[categoryId].filter(
           (value, index, arr) =>
