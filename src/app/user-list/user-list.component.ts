@@ -83,11 +83,13 @@ export class UserListComponent implements OnInit {
                       eventIds[i] = e.split('_')[0];
                     });
                     this.categoryData.forEach((cat) => {
-                      if (eventIds.indexOf(cat._id) != -1) {
-                        let t = cat.category,
-                          ei = user.events[cat._id];
+                      if (eventIds.indexOf(cat._id) >= 0) {
+                        let t = cat.category;
+                        let ei = user.events[cat._id].map((eid) => {
+                          return eid.split('_')[0];
+                        });
                         cat.events.forEach((ee) => {
-                          if (ei.indexOf(ee._id) != -1)
+                          if (ei.indexOf(ee._id) >= 0)
                             regEvents.push({
                               cn: t,
                               en: ee.name,
