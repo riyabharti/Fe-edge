@@ -11,7 +11,8 @@ export class TokenizeService implements HttpInterceptor {
       'getAllEvents', 'getAllCoupons',
       'getCoupon', 'addCoupon', 'getCoupon',
       'fetchUsers', 'admin', 'getFile',
-      'resetPassword', 'getCategory'
+      'resetPassword', 'getCategory',
+      'changePassword'
     ];
     const parts = req.url.split('/');
     if (

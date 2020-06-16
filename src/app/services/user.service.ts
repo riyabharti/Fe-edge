@@ -38,4 +38,8 @@ export class UserService {
     });
     return this.http.post<any>(this.url + '/eventRegister', formData);
   }
+
+  changePassword(user: {id, oldPassword, newPassword}) {
+    return this.http.post<any>(this.url + '/changePassword', user);
+  }
 }
