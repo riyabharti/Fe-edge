@@ -61,26 +61,29 @@ export class UserListComponent implements OnInit {
                  * Do the impossible task
                  */
                 this.usersData.forEach(user => {
-                  let regEvents = [];
-                  let eventIds = Object.keys(user.events);
-                  eventIds.forEach((e,i) => {
-                    eventIds[i] = e.split("_")[0];
-                  })
-                  this.categoryData.forEach(cat => {
-                    if(eventIds.indexOf(cat._id) != -1) {
-                      let t = cat.category, ei = user.events[cat._id];
+                  const regEvents = [];
+                  if (user.events != undefined)
+                  {
+                    const eventIds = Object.keys(user.events);
+                    eventIds.forEach((e, i) => {
+                    eventIds[i] = e.split('_')[0];
+                  });
+                    this.categoryData.forEach(cat => {
+                    if (eventIds.indexOf(cat._id) != -1) {
+                      const t = cat.category, ei = user.events[cat._id];
                       cat.events.forEach(ee => {
-                        if(ei.indexOf(ee._id) != -1)
+                        if (ei.indexOf(ee._id) != -1) {
                           regEvents.push({
                             cn: t,
                             en: ee.name
-                          })
-                      })
+                          });
+                        }
+                      });
                     }
-                  })
+                  });
+                  }
                   user.regEvents = regEvents;
-                })
-                
+                });
                 this.loading = false;
               }
               else

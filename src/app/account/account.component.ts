@@ -153,6 +153,10 @@ export class AccountComponent implements OnInit {
     this.totalO = 0;
     this.paymentReceipt = undefined;
     this.couponPhoto = undefined;
+    this.couponAppliedBefore = 0;
+    this.couponApplicable = 0;
+    this.remainingCoupon = undefined;
+    this.couponApplied = false;
   }
 
   isAdmin(): boolean {
@@ -329,13 +333,12 @@ export class AccountComponent implements OnInit {
           if (result.status)
           {
             console.log(result);
-            this.loading = false;
             this.sB.open(result.message);
             delete result.user.admin;
             delete result.user.password;
             localStorage.setItem('user', JSON.stringify(result.user));
-            this.ngOnInit();
             this.setDefaultValue();
+            this.ngOnInit();
           }
           else
           {
