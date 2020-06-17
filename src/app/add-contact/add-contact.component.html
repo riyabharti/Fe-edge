@@ -1,0 +1,28 @@
+<!-- <h1 mat-dialog-title>Hi {{data.name}}</h1>
+<div mat-dialog-content>
+  <p>What's your favorite animal?</p>
+  <mat-form-field>
+    <mat-label>Favorite Animal</mat-label>
+    <input matInput [(ngModel)]="data.animal">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>
+</div> -->
+
+<h2 mat-dialog-title>Add Contact for {{data.category}}</h2>
+<mat-dialog-content>
+    <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput [(ngModel)]="data.contact.name">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Phone No</mat-label>
+        <input matInput [(ngModel)]="data.contact.phone">
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-raised-button color="primary" [disabled]="data.contact.name == '' || data.contact.phone == ''" (click)="saveContact()">Save</button>
+  <button mat-button color="warn" (click)="cancel()">Cancel</button>
+</mat-dialog-actions>

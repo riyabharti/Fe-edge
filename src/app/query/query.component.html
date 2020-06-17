@@ -1,0 +1,92 @@
+<div class="container"> 
+    <h1 class="header text-danger text-center">All Categories</h1>
+    <br>
+    <div class="row">
+        <div class="col-sm-3 text-secondary">
+            <h5>Category</h5>
+        </div>
+        <div class="col-sm-3 text-secondary">
+            <h5>Contacts</h5>
+        </div>
+        <br>
+        <div class="col-sm-2 text-secondary">
+            <h5>Select / Deselect</h5>
+        </div>
+        <div class="col-sm-4 text-secondary" *ngIf="isAdmin()">
+            <h5>Add Contacts</h5>
+        </div>
+        <div class="col-sm-4" *ngIf="!isAdmin()"></div>
+    </div>
+    <br>
+    <ng-container *ngFor="let queryData of queriesData; let i=index">
+        <div class="row">
+            <div class="col-sm-3">
+                <h5 class="header text-danger">{{queryData.categoryName}} </h5>
+            </div>
+            <div class="col-sm-3">
+                <span class="fontS" *ngIf="queryData.contacts.length==0">No Added Contacts</span>
+                <span class="fontS" *ngFor="let contact of queryData.contacts">{{contact.name}} <span class="header text-danger">({{contact.phone}})</span><br></span>
+            </div>
+            <br>
+            <div class="col-sm-2">
+                <button mat-raised-button *ngIf="queryId != i" (click)="selectQuery(i)">See Discussion</button>
+                <button mat-raised-button *ngIf="queryId == i" (click)="selectQuery(i)">Hide Discussion</button>
+            </div>
+            <div class="col-sm-4" *ngIf="isAdmin()">
+                <button mat-icon-button (click)="openAddContact(i)" title="Add Contact"><mat-icon>add_circle_outline</mat-icon></button>
+            </div>
+            <div class="col-sm-4" *ngIf="!isAdmin()"></div>
+        </div>
+        <br>
+    </ng-container>
+    <!-- <form #categoryForm="ngForm" novalidate>
+        <h3 class="text-secondary fontS">Add Event Category:</h3>
+        <div class="row">
+            <div class="col-sm-6">
+                <p>
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Category Name:</mat-label>
+                        <input matInput type="text" 
+                            placeholder="Category Name" 
+                            name="categoryName" 
+                            [(ngModel)]="categoryName"
+                            (input) = "isCategoryRedundant()"
+                            required />
+                        <mat-hint class="text-danger" *ngIf="errors.category"> This Category is taken </mat-hint>
+                    </mat-form-field>
+                </p>
+            </div>
+            <div class="col-sm-6">
+                <p>
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Category Description:</mat-label>
+                        <input matInput type="text" placeholder="Category Description" name="categoryDescription" [(ngModel)]="categoryDescription" required />
+                    </mat-form-field>
+                </p>
+                <div>
+                    <button mat-raised-button color="primary" type="submit"
+                        [disabled]="categoryForm.form.invalid">Add Category</button>
+                </div>
+            </div>
+        </div>
+    </form> -->
+    <hr>
+    <div *ngIf="queryId != -1"> 
+        <br>
+        <div class="col-sm-12">
+            <h1 class="header text-danger text-center">{{queriesData[queryId].categoryName}}</h1>
+            <div class="row text-secondary">
+                <div class="row" *ngFor="let message of queriesData[queryId].messages; let i=index">
+                    <br>
+                    <br>
+                    <div class="col-sm-6"><h5 class="header text-danger"> {{message.msg}} </h5></div>
+                    <div class="col-sm-4 text-justify"><h5> {{message.name}} </h5></div>
+                    <div class="col-sm-2"><h5> {{message.email}} </h5></div>
+                </div>
+                <br>
+            </div>
+        </div>
+    </div>
+<div class="loader-holder" *ngIf="loading">
+    <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+</div>

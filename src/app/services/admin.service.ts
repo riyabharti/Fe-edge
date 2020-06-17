@@ -54,4 +54,9 @@ export class AdminService {
   {
     return this.http.post<any>(this.url + '/showHideEvent', eventData);
   }
+
+  addContact(contactData: {categoryName, contact})
+  {
+    return this.http.post<any>(this.url + '/addContact',contactData);
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -7,6 +7,8 @@ import { AdminService } from '../services/admin.service';
 import { CommonService } from '../services/common.service';
 import { Title } from '@angular/platform-browser';
 import { environment } from 'src/environments/environment';
+import * as XLSX from 'xlsx';
+import { ExportToCsv } from 'export-to-csv';
 
 @Component({
   selector: 'app-user-list',
@@ -46,6 +48,7 @@ export class UserListComponent implements OnInit {
   url = environment.apiURL + '/common/getFile/';
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild('allData', {static: true}) table: ElementRef;
   loading = true;
 
   ngOnInit(): void {
@@ -258,5 +261,28 @@ export class UserListComponent implements OnInit {
       this.sB.open('Some problem occurred :/ Please log in again');
       this.commonS.doLogout();
     }
+  }
+
+  exportToExcel()
+  {
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "All_Data");
+    XLSX.writeFile(wb, 'UserList.xlsx');
+
+    // const options = {
+    //   fieldSeparator: ',',
+    //   quoteStrings: '"',
+    //   decimalSeparator: '.',
+    //   showLabels: true,
+    //   showTitle: true,
+    //   title: 'My Awesome CSV',
+    //   useTextFile: false,
+    //   useBom: true,
+    //   useKeysAsHeaders: true,
+    //   // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
+    // };
+    // const csvExporter = new ExportToCsv(options);
+    // csvExporter.generateCsv(this.table.nativeElement);
   }
 }

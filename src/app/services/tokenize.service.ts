@@ -12,7 +12,7 @@ export class TokenizeService implements HttpInterceptor {
       'getCoupon', 'addCoupon', 'getCoupon',
       'fetchUsers', 'admin', 'getFile',
       'resetPassword', 'getCategory',
-      'changePassword'
+      'changePassword', 'getAllQueries'
     ];
     const parts = req.url.split('/');
     if (

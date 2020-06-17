@@ -40,6 +40,8 @@ import { AddCategoryEventComponent } from './add-category-event/add-category-eve
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { PaymentDialogComponent } from './payment-dialog/payment-dialog.component';
 import { ProfileComponent } from './profile/profile.component';
+import { QueryComponent } from './query/query.component';
+import { AddContactComponent } from './add-contact/add-contact.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,9 @@ import { ProfileComponent } from './profile/profile.component';
     AddCategoryEventComponent,
     ResetPasswordComponent,
     PaymentDialogComponent,
-    ProfileComponent
+    ProfileComponent,
+    QueryComponent,
+    AddContactComponent
   ],
   imports: [
     BrowserModule,

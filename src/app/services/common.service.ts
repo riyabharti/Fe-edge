@@ -43,4 +43,8 @@ export class CommonService {
   getEvent(id: string) {
     return this.http.get<any>(this.url + '/getCategory/' + id);
   }
+
+  getAllQueries() {
+    return this.http.get<any>(this.url + '/getAllQueries');
+  }
 }

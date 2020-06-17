@@ -10,6 +10,7 @@ import { UserListComponent } from './user-list/user-list.component';
 import { AddCategoryEventComponent } from './add-category-event/add-category-event.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ProfileComponent } from './profile/profile.component';
+import { QueryComponent } from './query/query.component';
 
 
 
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'userlist', component: UserListComponent, canActivate: [AdminGuard]},
   { path: 'addcategoryevent', component: AddCategoryEventComponent , canActivate: [AdminGuard]},
   { path: 'resetpassword', component: ResetPasswordComponent, canActivate: [AdminGuard]},
+  {path: 'queries', component: QueryComponent, canActivate: [UserGuard]},
   {path: '**', component: ErrorPageComponent}
 ];
 
