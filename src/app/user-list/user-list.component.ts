@@ -61,7 +61,6 @@ export class UserListComponent implements OnInit {
     this.usersData = undefined;
     this.adminS.fetchUsers().subscribe(
       (result) => {
-        this.loading = false;
         if (result.status) {
           this.usersData = result.users;
           this.usersData.forEach((userr) => {
@@ -69,6 +68,17 @@ export class UserListComponent implements OnInit {
               .toString()
               .replace('GMT+0530 (India Standard Time)', 'Hrs IST');
           });
+          this.usersData.sort((user1, user2) => {
+            if (user1.verified === false && user1.eventRegDetails.receipt.length > 0)
+            {
+              return -1;
+            }
+            else
+            {
+              return 1;
+            }
+          });
+          this.loading = false;
           this.dataSource = new MatTableDataSource<User>(this.usersData);
           setTimeout(() => (this.dataSource.paginator = this.paginator));
           this.commonS.fetchEvents().subscribe(

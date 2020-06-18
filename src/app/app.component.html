@@ -4,7 +4,7 @@
         <mat-menu #menu="matMenu">
             <button mat-menu-item (click)="navigator('profile')">My Profile</button>
             <button mat-menu-item (click)="navigator('account')">Event Registration</button>
-            <button mat-menu-item (click)="navigator('queries')">Queries</button>
+            <button mat-menu-item (click)="navigator('queries')" *ngIf="isAdmin()">Queries</button>
             <button mat-menu-item (click)="navigator('userlist')" *ngIf="isAdmin()">User List</button>
             <button mat-menu-item (click)="navigator('addcategoryevent')" *ngIf="isAdmin()">Add Events</button>
             <button mat-menu-item (click)="navigator('resetpassword')" *ngIf="isAdmin()">Reset Password</button>

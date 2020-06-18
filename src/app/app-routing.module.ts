@@ -23,7 +23,7 @@ const routes: Routes = [
   { path: 'userlist', component: UserListComponent, canActivate: [AdminGuard]},
   { path: 'addcategoryevent', component: AddCategoryEventComponent , canActivate: [AdminGuard]},
   { path: 'resetpassword', component: ResetPasswordComponent, canActivate: [AdminGuard]},
-  {path: 'queries', component: QueryComponent, canActivate: [UserGuard]},
+  {path: 'queries', component: QueryComponent, canActivate: [AdminGuard]},
   {path: '**', component: ErrorPageComponent}
 ];
 
