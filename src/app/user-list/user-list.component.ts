@@ -44,6 +44,7 @@ export class UserListComponent implements OnInit {
   ];
   userData;
   categoryData;
+  number = 0;
 
   url = environment.apiURL + '/common/getFile/';
 
@@ -53,13 +54,14 @@ export class UserListComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = JSON.parse(localStorage.getItem('user'));
-    this.getUsers();
+    this.getUsers(0);
+    this.number = 0;
   }
 
-  getUsers() {
+  getUsers(num) {
     this.dataSource = undefined;
     this.usersData = undefined;
-    this.adminS.fetchUsers().subscribe(
+    this.adminS.fetchUsers(num).subscribe(
       (result) => {
         if (result.status) {
           this.usersData = result.users;
@@ -67,16 +69,6 @@ export class UserListComponent implements OnInit {
             userr.createdAt = new Date(userr.createdAt)
               .toString()
               .replace('GMT+0530 (India Standard Time)', 'Hrs IST');
-          });
-          this.usersData.sort((user1, user2) => {
-            if (user1.verified === false && user1.eventRegDetails.receipt.length > 0)
-            {
-              return -1;
-            }
-            else
-            {
-              return 1;
-            }
           });
           this.loading = false;
           this.dataSource = new MatTableDataSource<User>(this.usersData);
@@ -89,24 +81,25 @@ export class UserListComponent implements OnInit {
                  * Do the impossible task
                  */
                 this.usersData.forEach((user) => {
-                  let regEvents = [];
+                  const regEvents = [];
                   if (user.events) {
-                    let eventIds = Object.keys(user.events);
+                    const eventIds = Object.keys(user.events);
                     eventIds.forEach((e, i) => {
                       eventIds[i] = e.split('_')[0];
                     });
                     this.categoryData.forEach((cat) => {
                       if (eventIds.indexOf(cat._id) >= 0) {
-                        let t = cat.category;
-                        let ei = user.events[cat._id].map((eid) => {
+                        const t = cat.category;
+                        const ei = user.events[cat._id].map((eid) => {
                           return eid.split('_')[0];
                         });
                         cat.events.forEach((ee) => {
-                          if (ei.indexOf(ee._id) >= 0)
+                          if (ei.indexOf(ee._id) >= 0) {
                             regEvents.push({
                               cn: t,
                               en: ee.name,
                             });
+                          }
                         });
                       }
                     });
@@ -166,6 +159,13 @@ export class UserListComponent implements OnInit {
     );
   }
 
+  sortUsers()
+  {
+    this.loading = true;
+    this.getUsers(1);
+    this.number = 1;
+  }
+
   toggle(id: string) {
     const index = this.displayedColumns.indexOf(id);
     if (index === -1) {
@@ -192,7 +192,7 @@ export class UserListComponent implements OnInit {
           if (result.status) {
             this.loading = false;
             this.sB.open(result.message);
-            this.getUsers();
+            this.getUsers(this.number);
           } else {
             this.loading = false;
             this.sB.open(result.message);
@@ -230,7 +230,7 @@ export class UserListComponent implements OnInit {
         confirm(
           'Sure to Delete User with email ' +
             user.email +
-            "? This action can't be undone!!!"
+            '? This action can\'t be undone!!!'
         )
       ) {
         this.loading = true;
@@ -239,7 +239,7 @@ export class UserListComponent implements OnInit {
             if (result.status) {
               this.loading = false;
               this.sB.open(result.message);
-              this.getUsers();
+              this.getUsers(this.number);
             } else {
               this.loading = false;
               this.sB.open(result.message);
@@ -277,7 +277,7 @@ export class UserListComponent implements OnInit {
   {
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.table.nativeElement);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "All_Data");
+    XLSX.utils.book_append_sheet(wb, ws, 'All_Data');
     XLSX.writeFile(wb, 'UserList.xlsx');
 
     // const options = {

@@ -32,7 +32,7 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   getUsers() {
-    this.adminS.fetchUsers().subscribe(
+    this.adminS.fetchUsers(0).subscribe(
       result => {
         if (result.status) {
           this.usersData = result.users;

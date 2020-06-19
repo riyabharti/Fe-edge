@@ -11,9 +11,9 @@ export class AdminService {
 
   url = environment.apiURL + '/admin';
 
-  fetchUsers()
+  fetchUsers(num)
   {
-    return this.http.get<any>(this.url + '/fetchUsers');
+    return this.http.get<any>(this.url + '/fetchUsers/' + num);
   }
 
   addCategory(categoryData: {category, description})
@@ -57,6 +57,6 @@ export class AdminService {
 
   addContact(contactData: {categoryName, contact})
   {
-    return this.http.post<any>(this.url + '/addContact',contactData);
+    return this.http.post<any>(this.url + '/addContact', contactData);
   }
 }

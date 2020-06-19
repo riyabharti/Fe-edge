@@ -39,49 +39,50 @@
         </div>
         <br>
     </ng-container>
-    <!-- <form #categoryForm="ngForm" novalidate>
-        <h3 class="text-secondary fontS">Add Event Category:</h3>
-        <div class="row">
-            <div class="col-sm-6">
-                <p>
-                    <mat-form-field appearance="outline" style="width: 100%;">
-                        <mat-label>Category Name:</mat-label>
-                        <input matInput type="text" 
-                            placeholder="Category Name" 
-                            name="categoryName" 
-                            [(ngModel)]="categoryName"
-                            (input) = "isCategoryRedundant()"
-                            required />
-                        <mat-hint class="text-danger" *ngIf="errors.category"> This Category is taken </mat-hint>
-                    </mat-form-field>
-                </p>
-            </div>
-            <div class="col-sm-6">
-                <p>
-                    <mat-form-field appearance="outline" style="width: 100%;">
-                        <mat-label>Category Description:</mat-label>
-                        <input matInput type="text" placeholder="Category Description" name="categoryDescription" [(ngModel)]="categoryDescription" required />
-                    </mat-form-field>
-                </p>
-                <div>
-                    <button mat-raised-button color="primary" type="submit"
-                        [disabled]="categoryForm.form.invalid">Add Category</button>
-                </div>
-            </div>
-        </div>
-    </form> -->
     <hr>
     <div *ngIf="queryId != -1"> 
         <br>
         <div class="col-sm-12">
-            <h1 class="header text-danger text-center">{{queriesData[queryId].categoryName}}</h1>
-            <div class="row text-secondary">
-                <div class="row" *ngFor="let message of queriesData[queryId].messages; let i=index">
+            <h2 class="header text-danger text-center">{{queriesData[queryId].categoryName}}</h2>
+            <form #queryForm="ngForm" novalidate>
+        <!-- <h3 class="text-secondary fontS">Add Event Category:</h3> -->
+                <div class="row">
+                    <div class="col-sm-10">
+                        <p>
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Add Message:</mat-label>
+                                <input matInput type="text" 
+                                    placeholder="Add Message" 
+                                    name="messageQuery" 
+                                    [(ngModel)]="message"
+                                    required />
+                            </mat-form-field>
+                        </p>
+                    </div>
+                    <div class="col-sm-2">
+                        <div>
+                            <button mat-raised-button color="primary" (click)="addMessage()"
+                                [disabled]="queryForm.form.invalid">Add Query</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="text-secondary">
+                <div *ngFor="let message of queriesData[queryId].messages; let i=index">
                     <br>
                     <br>
-                    <div class="col-sm-6"><h5 class="header text-danger"> {{message.msg}} </h5></div>
-                    <div class="col-sm-4 text-justify"><h5> {{message.name}} </h5></div>
-                    <div class="col-sm-2"><h5> {{message.email}} </h5></div>
+                    <div class="row">
+                        <div class="col-sm-6"><h5 class="header text-danger"> {{message.msg}} </h5></div>
+                        <div class="col-sm-3"><h5> {{message.name}} ({{message.email}}) </h5></div>
+                        <div class="col-sm-2">
+                            {{message.createdAt |date: 'HH:mm'}}
+                        </div>
+                        <div class="col-sm-1">
+                            <button mat-icon-button (click)="deleteMessage(i)" *ngIf="isAdmin() || message.email == userData.email">
+                                <mat-icon color="warn">delete</mat-icon>
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <br>
             </div>

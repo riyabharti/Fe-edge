@@ -43,9 +43,18 @@
 </div>
 <br>
 <div class="mat-elevation-z8" style="margin: 0 5%;" *ngIf="!loading">
-    <mat-form-field style="width: 100%;">
-    <input matInput (input)="applyFilter($event.target.value)" placeholder="Filter">
-    </mat-form-field>
+    <div class="row">
+        <div class="col-sm-10">
+            <mat-form-field style="width: 100%;">
+                <input matInput (input)="applyFilter($event.target.value)" placeholder="Filter">
+            </mat-form-field>
+        </div>
+        <div class="col-sm-2">
+            <button mat-icon-button (click)="sortUsers()" color="primary">
+                <mat-icon color="accent" title="Sort User List">sort</mat-icon>
+            </button>
+        </div>
+    </div>
     <table mat-table [dataSource]="dataSource" style="width: 100%;">
     <ng-container matColumnDef="a">
         <th mat-header-cell *matHeaderCellDef class="fontS"> # </th>

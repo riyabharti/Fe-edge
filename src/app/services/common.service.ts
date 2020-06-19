@@ -47,4 +47,14 @@ export class CommonService {
   getAllQueries() {
     return this.http.get<any>(this.url + '/getAllQueries');
   }
+
+  addMessageQuery(messageData: {categoryName, message})
+  {
+    return this.http.post<any>(this.url + '/addMessage', messageData);
+  }
+
+  deleteMessageQuery(messageData: {categoryName, index, msg})
+  {
+    return this.http.post<any>(this.url + '/deleteMessage', messageData);
+  }
 }
