@@ -1,4 +1,89 @@
-<div class="container"> 
+<div class="container-fluid px-4" style="width: 90vw; height: 90vh;">
+    <br><br>
+      <div class="row rounded-lg overflow-hidden shadow mat-elevation-z8" *ngIf="!loading">
+        <!-- Users box-->
+        <div class="col-sm-4 px-0">
+          <div class="bg-white">
+    
+            <div class="bg-gray px-4 py-2" style="background: #545454;">
+              <p class="h5 mb-0 py-1">Categories</p>
+            </div>
+    
+            <div class="messages-box">
+              <div class="list-group rounded-0 bg-dark">
+
+            <ng-container *ngFor="let category of queriesData; let i=index">
+                <a class="list-group-item list-group-item-action rounded-0 myclass" (click)="selectQuery(i)" [class.selected]="queryId == i">
+                  <div class="media">
+                      <img [src]="category.imageUrl" alt="user" width="50" class="rounded-circle bg-dark">
+                    <div class="media-body ml-4">
+                      <div class="d-flex align-items-center justify-content-between mb-1">
+                        <h6 class="mb-0">{{category.categoryName}}</h6>
+                        <small class="small font-weight-bold" *ngIf="category.messages.length">{{category.messages[category.messages.length-1].createdAt | date: "short":"Asia/Kolkata"}}</small>
+                      </div>
+                      <p class="font-italic mb-0 text-small" style="text-overflow: ellipsis; display: block; white-space: nowrap; overflow: hidden; width: 200px;" *ngIf="category.messages[0]">{{category.messages[category.messages.length-1].name}}: {{category.messages[category.messages.length-1].msg}}</p>
+                    </div>
+                  </div><ng-container *ngIf="queryId == i">
+                  <span class="fontS" *ngFor="let contact of category.contacts">{{contact.name}} <span class="header text-danger">({{contact.phone}})</span><br></span>
+                  <button mat-icon-button *ngIf="isAdmin()" (click)="openAddContact(i)" title="Add Contact"><mat-icon>add_circle_outline</mat-icon></button>
+                </ng-container></a>
+                </ng-container>
+    
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Chat Box-->
+        <div class="col-sm-8 px-0">
+          <div class="px-4 chat-box bg-dark" #chatArena>
+            <br>
+            <ng-container *ngIf="queryId != -1">
+            <div class="text-center">
+                <span class="text-danger" style="cursor: pointer;" hidden><u>Load more messages...</u></span>
+            </div>
+            <br>
+                <ng-container *ngFor="let msg of queriesData[queryId].messages; let j=index">
+                <div class="media mb-3" style="width: max-content; max-width: 70%;" *ngIf="userData.email != msg.email">
+                <div class="media-body ml-3">
+                    <div class="container text-white"> {{msg.name}} </div>
+                    <div class="bg-light rounded py-2 px-3 mb-2">
+                    <p class="text-small mb-0 text-dark">{{msg.msg}}</p>
+                    </div>
+                    <p class="small text-white">{{msg.createdAt | date: "short":"Asia/Kolkata"}}
+                        <span class="text-danger" style="cursor: pointer;" (click)="deleteMessage(j)" *ngIf="isAdmin()"><u>Delete</u></span>
+                    </p>
+                </div>
+                </div>
+                <div class="media ml-auto mb-3" style="width: max-content; max-width: 70%;" *ngIf="userData.email == msg.email">
+                <div class="media-body">
+                    <div class="container text-white"> {{msg.name}} </div>
+    
+                    <div class="rounded py-2 px-3 mb-2" style="background: #545454 !important">
+                    <p class="text-small mb-0 text-white">{{msg.msg}}</p>
+                    </div>
+                    <p class="small text-white">{{msg.createdAt | date: "short":"Asia/Kolkata"}}
+                        <span class="text-danger" style="cursor: pointer;" (click)="deleteMessage(j)"><u>Delete</u></span>
+                    </p>
+                </div>
+                </div>
+                </ng-container>
+            </ng-container>
+          </div>
+          <form style="background: #545454 !important" name="sendMsgForm" #reply="ngForm" novalidate (ngSubmit)="addMessage()">
+            <div class="input-group">
+              <input type="text" name="rmsg" placeholder="{{queryId == -1 ? 'Click on a Category from Left' : 'Type your message...'}}" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4" style="background: #545454 !important; color: white !important;" [(ngModel)]="message">
+              <div class="input-group-append">
+                <button id="button-addon2" type="submit" [disabled]="reply.form.invalid || queryId == -1" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>
+              </div>
+            </div>
+          </form>
+    
+        </div>
+      </div>
+    </div>
+  
+  
+<!-- <div class="container"> 
     <h1 class="header text-danger text-center">All Categories</h1>
     <br>
     <div class="row">
@@ -45,7 +130,7 @@
         <div class="col-sm-12">
             <h2 class="header text-danger text-center">{{queriesData[queryId].categoryName}}</h2>
             <form #queryForm="ngForm" novalidate>
-        <!-- <h3 class="text-secondary fontS">Add Event Category:</h3> -->
+        <h3 class="text-secondary fontS">Add Event Category:</h3>
                 <div class="row">
                     <div class="col-sm-10">
                         <p>
@@ -90,7 +175,7 @@
                 <br>
             </div>
         </div>
-    </div>
+    </div> -->
 <div class="loader-holder" *ngIf="loading">
     <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
 </div>

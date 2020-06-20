@@ -1,11 +1,10 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonService } from '../services/common.service';
 import { Title } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AddContactComponent } from '../add-contact/add-contact.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AdminService } from '../services/admin.service';
-
 
 @Component({
   selector: 'app-query',
@@ -21,6 +20,7 @@ export class QueryComponent implements OnInit {
     private dialog: MatDialog,
     private adminS: AdminService
   ) { title.setTitle('E-Edge | Queries'); }
+  @ViewChild('chatArena') private chatArena: ElementRef;
 
   queriesData;
   loading = true;
@@ -36,7 +36,39 @@ export class QueryComponent implements OnInit {
         {
           this.queriesData = result.data;
           this.queriesData.forEach(queryData => {
-            queryData.messages.reverse();
+            // queryData.messages.reverse();
+            switch(queryData._id) {
+              case "5eeb94397c2c0d13713afc94":
+                queryData.imageUrl = "https://edg.co.in/assets/events/infocus.svg";
+                break;
+              case "5eeb94397c2c0d13713afc95":
+                queryData.imageUrl = "https://edg.co.in/assets/events/compute-aid.svg";
+                break;
+              case "5eeb94397c2c0d13713afc96":
+                queryData.imageUrl = "https://edg.co.in/assets/events/newron.svg";
+                break;
+              case "5eeb94397c2c0d13713afc97":
+                queryData.imageUrl = "https://edg.co.in/assets/events/design-event.svg";
+                break;
+              case "5eeb94397c2c0d13713afc98":
+                queryData.imageUrl = "https://edg.co.in/assets/events/elevation.svg";
+                break;
+              case "5eeb94397c2c0d13713afc99":
+                queryData.imageUrl = "https://edg.co.in/assets/events/cyber-crusade.svg";
+                break;
+              case "5eeb94397c2c0d13713afc9a":
+                queryData.imageUrl = "https://edg.co.in/assets/events/food-for-fun.svg";
+                break;
+              case "5eeb94397c2c0d13713afc9b":
+                queryData.imageUrl = "https://edg.co.in/assets/events/money-matters.svg";
+                break;
+              case "5eeb94397c2c0d13713afc9c":
+                queryData.imageUrl = "https://edg.co.in/assets/events/create-it.svg";
+                break;
+              case "5eeb94397c2c0d13713afc9d":
+                queryData.imageUrl = "https://edg.co.in/assets/events/robotics.svg";
+                break;
+            }
           });
           this.loading = false;
           this.sB.open(result.message);
@@ -70,6 +102,13 @@ export class QueryComponent implements OnInit {
     );
   }
 
+  scrollToBottom(): void {
+      try {
+          this.chatArena.nativeElement.scrollTop = this.chatArena.nativeElement.scrollHeight;
+      } catch(err) { console.log(err);
+       }                 
+  }
+
   setDefault()
   {
     this.queryId = -1;
@@ -79,14 +118,10 @@ export class QueryComponent implements OnInit {
 
   selectQuery(i)
   {
-    if (this.queryId === i)
-    {
-      this.queryId = -1;
-    }
-    else
-    {
-      this.queryId = i;
-    }
+    if(this.queryId != i)
+      setTimeout(() => this.scrollToBottom());
+    this.queryId = i;
+    
   }
 
   isAdmin()
@@ -137,10 +172,11 @@ export class QueryComponent implements OnInit {
   deleteMessage(msgIndex)
   {
     const queryIndex = this.queryId;
-    const newMsgIndex = this.queriesData[this.queryId].messages.length - msgIndex - 1;
+    const newMsgIndex = msgIndex;
     // console.log(this.queriesData[this.queryId])
     if (confirm('Are you sure to delete ' + this.queriesData[this.queryId].messages[msgIndex].msg))
     {
+      this.loading = true;
       this.commonS.deleteMessageQuery({
         categoryName: this.queriesData[this.queryId].categoryName,
         index: newMsgIndex,
@@ -150,7 +186,7 @@ export class QueryComponent implements OnInit {
           if (result.status)
           {
             this.sB.open('Message deleted');
-            this.loading = true;
+            this.loading = false;
             this.setDefault();
             this.selectQuery(queryIndex);
           }
