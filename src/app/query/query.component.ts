@@ -24,9 +24,11 @@ export class QueryComponent implements OnInit {
 
   queriesData;
   loading = true;
+  loadingMessages = false;
   queryId = -1;
   message = '';
   userData;
+  LOT_SIZE: number = 1;
 
   ngOnInit(): void {
     this.userData = JSON.parse(localStorage.getItem('user'));
@@ -35,6 +37,7 @@ export class QueryComponent implements OnInit {
         if (result.status)
         {
           this.queriesData = result.data;
+          this.LOT_SIZE = result.lotSize;
           this.queriesData.forEach(queryData => {
             // queryData.messages.reverse();
             switch(queryData._id) {
@@ -129,20 +132,61 @@ export class QueryComponent implements OnInit {
     return this.commonS.isAdmin();
   }
 
+  loadMessages()
+  {    
+    this.loadingMessages = true;
+    this.commonS.loadMoreMessages(this.queriesData[this.queryId]._id, this.queriesData[this.queryId].messages.length/this.LOT_SIZE).subscribe(
+      result => {
+        if (result.status)
+        {
+          this.sB.open('Message loaded');
+          this.queriesData[this.queryId].last = result.data.last;
+          this.queriesData[this.queryId].messages = [...result.data.messages,...this.queriesData[this.queryId].messages];
+          this.loadingMessages = false;
+        }
+        else
+        {
+          this.sB.open(result.message);
+        }
+      },
+      problem => {
+        this.loadingMessages = false;
+        if (
+          problem.error.error &&
+          problem.error.error.message &&
+          problem.error.error.message === 'jwt expired'
+        ) {
+          this.sB.open(
+            'Your session has expired !!! Please log in again :)'
+          );
+          this.commonS.doLogout();
+        } else {
+          console.log(problem.error);
+          this.sB.open(
+            problem.error instanceof ProgressEvent
+              ? 'Failed Connecting the Server. Check your Internet Connection or Try again later'
+              : problem.error.message
+          );
+        }
+      }
+    );
+  }
+
   addMessage()
   {
+    this.loading = true;
     const queryIndex = this.queryId;
     this.commonS.addMessageQuery({categoryName: this.queriesData[this.queryId].categoryName, message: this.message}).subscribe(
       result => {
         if (result.status)
         {
           this.sB.open('Message added');
-          this.loading = true;
           this.setDefault();
           this.selectQuery(queryIndex);
         }
         else
         {
+          this.loading = false;
           this.sB.open(result.message);
         }
       },
@@ -192,6 +236,7 @@ export class QueryComponent implements OnInit {
           }
           else
           {
+            this.loading = false;
             this.sB.open(result.message);
           }
         },

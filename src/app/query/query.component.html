@@ -39,7 +39,9 @@
             <br>
             <ng-container *ngIf="queryId != -1">
             <div class="text-center">
-                <span class="text-danger" style="cursor: pointer;" hidden><u>Load more messages...</u></span>
+                <mat-spinner class="example-margin" [diameter]="40" color="warn" *ngIf="loadingMessages"></mat-spinner>
+                <span class="text-primary" style="cursor: pointer;" *ngIf="!loadingMessages && !queriesData[queryId].last" (click)="loadMessages()">
+                    Load more messages...</span>
             </div>
             <br>
                 <ng-container *ngFor="let msg of queriesData[queryId].messages; let j=index">
@@ -71,7 +73,7 @@
           </div>
           <form style="background: #545454 !important" name="sendMsgForm" #reply="ngForm" novalidate (ngSubmit)="addMessage()">
             <div class="input-group">
-              <input type="text" name="rmsg" placeholder="{{queryId == -1 ? 'Click on a Category from Left' : 'Type your message...'}}" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4" style="background: #545454 !important; color: white !important;" [(ngModel)]="message">
+              <input type="text" name="rmsg" placeholder="{{queryId == -1 ? 'Click on a Category from Left' : 'Type your message...'}}" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4" style="background: #545454 !important; color: white !important;" [(ngModel)]="message" required>
               <div class="input-group-append">
                 <button id="button-addon2" type="submit" [disabled]="reply.form.invalid || queryId == -1" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>
               </div>

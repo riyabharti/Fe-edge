@@ -51,3 +51,7 @@ input::placeholder {
     background: #343a40;
     cursor: default;
 }
+
+.example-margin {
+    margin: 0 auto;
+}

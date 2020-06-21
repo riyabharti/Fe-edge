@@ -57,4 +57,8 @@ export class CommonService {
   {
     return this.http.post<any>(this.url + '/deleteMessage', messageData);
   }
+
+  loadMoreMessages(id: string, lotNumber: number) {
+    return this.http.get<any>(this.url + '/getQuery/' + id + '/' + lotNumber);
+  }
 }
