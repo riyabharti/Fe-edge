@@ -1,0 +1,48 @@
+<br>
+<h1 class="text-center text-danger header">Registration Logs</h1>
+<br>
+<h3 class="header text-center"><span class="text-danger"> Total Participants:  </span>{{totalCount}}</h3>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <mat-accordion class="example-headers-align mat-elevation-z8" multi *ngIf="!loading">
+            <ng-container *ngFor="let cat of categoryData; let i=index">
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title class="header">
+                        {{cat.category}}
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="fontS" style="color: #B0B0B0;">
+                            {{cat.rCount}} Registrations
+                        </span>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+              
+                <ng-container *ngFor="let event of cat.events; let j=index">
+                    <br *ngIf="j%4 == 0">
+                    <mat-card class="col-sm-3 example-card mat-elevation-z8 text-center" style="display: inline-block; background: #303030; text-align: center !important;">
+                        <mat-card-header>
+                            <mat-card-title class="header text-danger">{{event.name}}</mat-card-title>
+                            <mat-card-subtitle class="fontS"*ngIf="event.name.toLowerCase().includes('combo')">{{ event.description}}</mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content class="fontS">
+                            <p style="color: white; font-size: 40px;">{{event.rCount}}</p>
+                        </mat-card-content>
+                    </mat-card>
+                    <span class="example-spacer" *ngIf="j%4 == 0"></span>
+                    <br *ngIf="j%4 == 3">
+                </ng-container>
+            </mat-expansion-panel>
+            <br>
+            </ng-container>
+            </mat-accordion>            
+        </div>
+    </div>
+</div>
+
+
+<br>
+<div class="loader-holder" *ngIf="loading">
+<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+</div>

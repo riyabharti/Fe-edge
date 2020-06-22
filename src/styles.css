@@ -59,6 +59,10 @@ button {
     flex: 1 1 auto;
 }
 
+.mat-menu-item:focus {
+    outline: none !important;
+}
+
 .mat-dialog-container {
     background: #151515;
 }

@@ -8,7 +8,6 @@ import { CommonService } from '../services/common.service';
 import { Title } from '@angular/platform-browser';
 import { environment } from 'src/environments/environment';
 import * as XLSX from 'xlsx';
-import { ExportToCsv } from 'export-to-csv';
 
 @Component({
   selector: 'app-user-list',
@@ -16,6 +15,7 @@ import { ExportToCsv } from 'export-to-csv';
   styleUrls: ['./user-list.component.css'],
 })
 export class UserListComponent implements OnInit {
+
   constructor(
     private sB: MatSnackBar,
     private adminS: AdminService,
@@ -25,8 +25,9 @@ export class UserListComponent implements OnInit {
     title.setTitle('E-Edge | UserList');
   }
 
-  displayedColumns: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'i'];
-  dataSource: MatTableDataSource<User>;
+  displayedColumns: string[] = ['`', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'i'];
+  
+  dataSource: MatTableDataSource<User[]>;
   usersData = [];
   show = [
     true,
@@ -45,6 +46,7 @@ export class UserListComponent implements OnInit {
   userData;
   categoryData;
   number = 0;
+  options = ['Default', 'Event Registration', 'RC ID', 'Recent Registration'];
 
   url = environment.apiURL + '/common/getFile/';
 
@@ -54,8 +56,7 @@ export class UserListComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData = JSON.parse(localStorage.getItem('user'));
-    this.getUsers(0);
-    this.number = 0;
+    this.sortUsers(0);
   }
 
   getUsers(num) {
@@ -71,8 +72,8 @@ export class UserListComponent implements OnInit {
               .replace('GMT+0530 (India Standard Time)', 'Hrs IST');
           });
           this.loading = false;
-          this.dataSource = new MatTableDataSource<User>(this.usersData);
-          setTimeout(() => (this.dataSource.paginator = this.paginator));
+          this.dataSource = new MatTableDataSource<User[]>(this.usersData);
+          setTimeout(() => this.dataSource.paginator = this.paginator);
           this.commonS.fetchEvents().subscribe(
             (result) => {
               if (result.status) {
@@ -159,11 +160,12 @@ export class UserListComponent implements OnInit {
     );
   }
 
-  sortUsers()
+  sortUsers(i: number)
   {
     this.loading = true;
-    this.getUsers(1);
-    this.number = 1;
+    this.number = i;
+    this.getUsers(i);
+    // this.number = 1;
   }
 
   toggle(id: string) {

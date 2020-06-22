@@ -42,6 +42,7 @@ import { PaymentDialogComponent } from './payment-dialog/payment-dialog.componen
 import { ProfileComponent } from './profile/profile.component';
 import { QueryComponent } from './query/query.component';
 import { AddContactComponent } from './add-contact/add-contact.component';
+import { RegistrationLogsComponent } from './registration-logs/registration-logs.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { AddContactComponent } from './add-contact/add-contact.component';
     PaymentDialogComponent,
     ProfileComponent,
     QueryComponent,
-    AddContactComponent
+    AddContactComponent,
+    RegistrationLogsComponent
   ],
   imports: [
     BrowserModule,

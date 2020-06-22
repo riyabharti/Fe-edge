@@ -223,16 +223,15 @@ export class QueryComponent implements OnInit {
       this.loading = true;
       this.commonS.deleteMessageQuery({
         categoryName: this.queriesData[this.queryId].categoryName,
-        index: newMsgIndex,
-        msg: this.queriesData[this.queryId].messages[msgIndex].msg
+        msgId: this.queriesData[this.queryId].messages[msgIndex]._id
       }).subscribe(
         result => {
           if (result.status)
           {
             this.sB.open('Message deleted');
+            this.queriesData[this.queryId].messages = [];
             this.loading = false;
-            this.setDefault();
-            this.selectQuery(queryIndex);
+            this.loadMessages();
           }
           else
           {

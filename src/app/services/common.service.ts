@@ -53,7 +53,7 @@ export class CommonService {
     return this.http.post<any>(this.url + '/addMessage', messageData);
   }
 
-  deleteMessageQuery(messageData: {categoryName, index, msg})
+  deleteMessageQuery(messageData: {categoryName, msgId})
   {
     return this.http.post<any>(this.url + '/deleteMessage', messageData);
   }

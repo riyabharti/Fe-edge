@@ -44,21 +44,30 @@
 <br>
 <div class="mat-elevation-z8" style="margin: 0 5%;" *ngIf="!loading">
     <div class="row">
-        <div class="col-sm-10">
+        <div class="col-sm-11">
             <mat-form-field style="width: 100%;">
                 <input matInput (input)="applyFilter($event.target.value)" placeholder="Filter">
             </mat-form-field>
         </div>
-        <div class="col-sm-2">
-            <button mat-icon-button (click)="sortUsers()" color="primary">
+        <div class="col-sm-1">
+            <button mat-icon-button style="outline: none !important" [matMenuTriggerFor]="menu2">
                 <mat-icon color="accent" title="Sort User List">sort</mat-icon>
             </button>
+            <mat-menu #menu2="matMenu">
+                <button mat-menu-item *ngFor="let opt of options; let k=index" (click)="sortUsers(k)"> {{opt}}
+                    <ng-container *ngIf="k == number"><mat-icon color="warn">check_circle</mat-icon></ng-container>
+                </button>
+            </mat-menu>
         </div>
     </div>
     <table mat-table [dataSource]="dataSource" style="width: 100%;">
-    <ng-container matColumnDef="a">
+    <ng-container matColumnDef="`">
         <th mat-header-cell *matHeaderCellDef class="fontS"> # </th>
         <td mat-cell *matCellDef="let user; let i=index" class="fontS"> {{i+1}} </td>
+    </ng-container>
+    <ng-container matColumnDef="a">
+        <th mat-header-cell *matHeaderCellDef class="fontS"> RC ID </th>
+        <td mat-cell *matCellDef="let user" class="fontS"> {{user.rcid}} </td>
     </ng-container>
     <ng-container matColumnDef="b">
         <th mat-header-cell *matHeaderCellDef class="fontS"> Name </th>

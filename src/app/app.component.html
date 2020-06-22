@@ -6,6 +6,7 @@
             <button mat-menu-item (click)="navigator('account')">Event Registration</button>
             <button mat-menu-item (click)="navigator('queries')">Queries</button>
             <button mat-menu-item (click)="navigator('userlist')" *ngIf="isAdmin()">User List</button>
+            <button mat-menu-item (click)="navigator('registrationlogs')" *ngIf="isAdmin()">Registration Logs</button>
             <button mat-menu-item (click)="navigator('addcategoryevent')" *ngIf="isAdmin()">Add Events</button>
             <button mat-menu-item (click)="navigator('resetpassword')" *ngIf="isAdmin()">Reset Password</button>
             <!-- <button mat-menu-item (click)="navigator('settings')" *ngIf="isAdmin()">Settings</button>
