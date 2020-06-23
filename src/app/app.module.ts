@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 
@@ -27,6 +27,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
+import {MatStepperModule} from '@angular/material/stepper';
 import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { HomeComponent } from './home/home.component';
 import { AccountComponent } from './account/account.component';
@@ -43,6 +44,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { QueryComponent } from './query/query.component';
 import { AddContactComponent } from './add-contact/add-contact.component';
 import { RegistrationLogsComponent } from './registration-logs/registration-logs.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 @NgModule({
   declarations: [
@@ -58,13 +60,15 @@ import { RegistrationLogsComponent } from './registration-logs/registration-logs
     ProfileComponent,
     QueryComponent,
     AddContactComponent,
-    RegistrationLogsComponent
+    RegistrationLogsComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     AngularEditorModule,
     MatButtonModule,
@@ -84,7 +88,8 @@ import { RegistrationLogsComponent } from './registration-logs/registration-logs
     MatCardModule,
     MatExpansionModule,
     MatChipsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatStepperModule
   ],
   entryComponents: [PaymentDialogComponent],
   providers: [

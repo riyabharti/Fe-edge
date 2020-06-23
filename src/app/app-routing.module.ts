@@ -12,6 +12,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { ProfileComponent } from './profile/profile.component';
 import { QueryComponent } from './query/query.component';
 import { RegistrationLogsComponent } from './registration-logs/registration-logs.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 
 
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'register', component: RegistrationStudentComponent },
+  {path: 'forgotpassword', component: ForgotPasswordComponent},
   { path: 'account', component: AccountComponent, canActivate: [UserGuard]},
   { path: 'profile', component: ProfileComponent, canActivate: [UserGuard]},
   { path: 'userlist', component: UserListComponent, canActivate: [AdminGuard]},
