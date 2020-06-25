@@ -42,4 +42,14 @@ export class UserService {
   changePassword(user: {id, oldPassword, newPassword}) {
     return this.http.post<any>(this.url + '/changePassword', user);
   }
+
+  sendOTP(email: string)
+  {
+    return this.http.get<any>(this.url + '/forgotPassword/' + email);
+  }
+
+  resetPassword(user:{email,otp,password})
+  {
+    return this.http.post<any>(this.url + '/resetPassword', user);
+  }
 }
