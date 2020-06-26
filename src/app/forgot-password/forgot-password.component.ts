@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { CommonService } from '../services/common.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserService } from '../services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatStepper } from '@angular/material/stepper';
@@ -13,6 +12,8 @@ import { MatStepper } from '@angular/material/stepper';
   styleUrls: ['./forgot-password.component.css']
 })
 export class ForgotPasswordComponent implements OnInit {
+
+  @ViewChild('stepper') stepper: MatStepper;
   email = '';
   password1 = '';
   password2 = '';
@@ -21,12 +22,12 @@ export class ForgotPasswordComponent implements OnInit {
   loading = false;
   otpSent = false;
   validOTP = false;
+  resett = false;
 
   constructor(
     private router: Router,
     private ts: Title,
     private commonS: CommonService,
-    private formBuilder: FormBuilder,
     private userS: UserService,
     private sB: MatSnackBar
   )
@@ -55,10 +56,8 @@ export class ForgotPasswordComponent implements OnInit {
     this.loading = false;
   }
 
-  sendOTP(stepper: MatStepper)
+  sendOTP()
   {
-    console.log(stepper);
-    // stepper.steps._results[0].completed =true
     if ( this.email !== '')
     {
       this.loading = true;
@@ -67,7 +66,7 @@ export class ForgotPasswordComponent implements OnInit {
           if (result.status)
           {
             this.otpSent = true;
-            stepper.next(); // Not Working
+            setTimeout(() => this.stepper.next());
             this.loading = false;
             this.otpGenerated = result.secret;
             this.sB.open(result.message);
@@ -99,6 +98,7 @@ export class ForgotPasswordComponent implements OnInit {
     if (this.otpEntered === this.otpGenerated)
     {
       this.validOTP = true;
+      setTimeout(() => this.stepper.next());
       this.sB.open('OTP validated!');
       return;
     }
@@ -119,7 +119,8 @@ export class ForgotPasswordComponent implements OnInit {
         {
           this.loading = false;
           this.sB.open(result.message);
-          this.router.navigateByUrl('home');
+          this.resett = true;
+          setTimeout(() => this.stepper.next());
         }
         else
         {
