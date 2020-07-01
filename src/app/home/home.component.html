@@ -48,17 +48,20 @@
             </p> -->
         </form>
         <br>
-        <p *ngIf=false class="fontS text-center">Not Registered Yet!
+        <p class="fontS text-center">Not Registered Yet!
             <button mat-raised-button color="warn" routerLink="/register">Register</button>
         </p>
-        <p *ngIf=true class="header text-danger text-center">
+        <!-- <p *ngIf=false class="header text-danger text-center">
             Registration Closed!!
-        </p>
+        </p> -->
         <hr>
         <br>
-        <h4 *ngIf="registration && !loading" class="fontS text-secondary text-center">Registration Ends:<br><span class="text-danger">{{settings.registration_ends}}</span></h4>
+        <h4 class="fontS text-danger text-center">
+            Hurry up!! Register as soon as possible :) Server may close any time :(
+        </h4>
+        <!-- <h4 *ngIf="registration && !loading" class="fontS text-secondary text-center">Registration Ends:<br><span class="text-danger">{{settings.registration_ends}}</span></h4>
         <h4 *ngIf="!registration && !loading" class="fontS text-secondary text-center">Competition Starts:<br><span class="text-danger">{{settings.startTime}}</span></h4>
-        <h4 *ngIf="!registration && !loading" class="fontS text-secondary text-center">Competition Ends:<br><span class="text-danger">{{settings.endTime}}</span></h4>
+        <h4 *ngIf="!registration && !loading" class="fontS text-secondary text-center">Competition Ends:<br><span class="text-danger">{{settings.endTime}}</span></h4> -->
     </div>
 </div>
 
