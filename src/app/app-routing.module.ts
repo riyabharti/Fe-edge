@@ -19,7 +19,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
-  { path: 'register', component: RegistrationStudentComponent },
+  // { path: 'register', component: RegistrationStudentComponent },
   { path: 'account', component: AccountComponent, canActivate: [UserGuard]},
   { path: 'profile', component: ProfileComponent, canActivate: [UserGuard]},
   { path: 'userlist', component: UserListComponent, canActivate: [AdminGuard]},

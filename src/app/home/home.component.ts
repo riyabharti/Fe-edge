@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit {
         result => {
           this.loading = false;
           if (!result.status) {
-            this.sB.open('Strokes details could not be fetched.. Try reloading the page :/');
+            this.sB.open('Edge 2020 details could not be fetched.. Try reloading the page :/');
             return;
           }
           this.settings.title = result.data.title;

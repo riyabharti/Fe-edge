@@ -64,6 +64,7 @@ export class AccountComponent implements OnInit {
     discountValue: 0,
     email: ''
   };
+  eventRegistrationOpen = true;
   paymentReceipt: File = undefined;
   couponPhoto: File = undefined;
 
