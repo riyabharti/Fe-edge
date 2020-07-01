@@ -48,10 +48,10 @@
             </p> -->
         </form>
         <br>
-        <p *ngIf="registration" class="fontS text-center">Not Registered Yet!
+        <p *ngIf=false class="fontS text-center">Not Registered Yet!
             <button mat-raised-button color="warn" routerLink="/register">Register</button>
         </p>
-        <p *ngIf="!registration" class="header text-danger text-center">
+        <p *ngIf=true class="header text-danger text-center">
             Registration Closed!!
         </p>
         <hr>
