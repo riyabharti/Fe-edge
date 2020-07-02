@@ -64,7 +64,7 @@ export class AccountComponent implements OnInit {
     discountValue: 0,
     email: ''
   };
-  eventRegistrationOpen = true;
+  eventRegistrationOpen = false;
   paymentReceipt: File = undefined;
   couponPhoto: File = undefined;
 
@@ -158,10 +158,6 @@ export class AccountComponent implements OnInit {
     this.couponApplicable = 0;
     this.remainingCoupon = undefined;
     this.couponApplied = false;
-  }
-
-  isAdmin(): boolean {
-    return this.commonS.isLoggedIn();
   }
 
   apply() {

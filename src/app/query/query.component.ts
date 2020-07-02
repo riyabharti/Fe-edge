@@ -223,6 +223,7 @@ export class QueryComponent implements OnInit {
       this.loading = true;
       this.commonS.deleteMessageQuery({
         categoryName: this.queriesData[this.queryId].categoryName,
+        msgName:this.queriesData[this.queryId].messages[msgIndex].name,
         msgId: this.queriesData[this.queryId].messages[msgIndex]._id
       }).subscribe(
         result => {
